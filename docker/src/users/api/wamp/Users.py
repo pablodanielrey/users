@@ -9,12 +9,11 @@ from wamp_utils import WampComponent
 from issues.model import Issues, UserIssueData, IssuesModel
 
 
-
 class Users(WampComponent):
     pass
     """
-    @autobahn.wamp.register('issues.get_my_issues')
-    async def getMyIssues(self, statuses, froms, tos, details):
+    @autobahn.wamp.register('project.example')
+    async def example(self, statuses, froms, tos, details):
         con = api.wamp.getConnection(readonly=True)
         try:
             userId = wamp.getWampUser(con, details)
