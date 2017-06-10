@@ -17,8 +17,8 @@ class User(Base):
     country = Column(String)
     address = Column(String)
     residence_city = Column(String)
-    created = Column(DateTime, server_default=func.now())
-    updated = Column(DateTime, onupdate=func.now())
+    #created = Column(DateTime, server_default=func.now())
+    #updated = Column(DateTime, onupdate=func.now())
 
 
 
