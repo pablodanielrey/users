@@ -1,19 +1,24 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy.orm import relationship
 
-from users.model.entities import generate_id, Base
-
+from users.model.entities import Base
 
 class Telephone(Base):
 
     __tablename__ = 'telephones'
+    __table_args__ = {'extend_existing': True} 
 
-    id = Column(String, primary_key=True, default=generate_id)
     number = Column(String)
     type = Column(String)
+
+    user_id = Column(String, ForeignKey('users.id'))
+    user = relationship('User', back_populates='telephones')
 
     @classmethod
     def findAll(cls, s):
         return s.query(cls).all()
+
+
 
 
 if __name__ == '__main__':
