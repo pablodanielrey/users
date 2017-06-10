@@ -1,27 +1,25 @@
-import datetime
-from model import Ids
-from model.entity import Entity
-
-from sqlalchemy.ext.declarative import delcarative_base
+import uuid
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
-Base = declarative_base()
+from sqlalchemy.orm import sessionmaker
+
+from flask_jsontools import JsonSerializableBase
+
+Base = declarative_base(cls=(JsonSerializableBase,))
 
 
-class Telephone(Base):
+class User(Base):
 
-    __tablename__ = 'telephones'
+    __tablename__ = 'users'
 
-    id = Column(String, primary_key=True)
+    id = Column(String, primary_key=True, default=generate_uuid)
+    number = Column(String)
+    type = Column(String)
 
-    def __init__(self):
-        self.id = None
-        self.userId = None
-        self.number = None
-        self.type = None
+    @classmethod
+    def findAll(cls, s):
+        return s.query(cls).all()
 
-
-class User(Entity):
-    ''' usuario básico del sistema '''
 
     def __init__(self):
         self.id = None

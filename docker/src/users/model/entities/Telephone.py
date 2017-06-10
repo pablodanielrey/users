@@ -1,21 +1,13 @@
-import uuid
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import sessionmaker
 
-from flask_jsontools import JsonSerializableBase
-
-Base = declarative_base(cls=(JsonSerializableBase,))
-
-def generate_uuid():
-    return str(uuid.uuid4())
+from users.model.entities import generate_id, Base
 
 
 class Telephone(Base):
 
     __tablename__ = 'telephones'
 
-    id = Column(String, primary_key=True, default=generate_uuid)
+    id = Column(String, primary_key=True, default=generate_id)
     number = Column(String)
     type = Column(String)
 
@@ -27,6 +19,7 @@ class Telephone(Base):
 if __name__ == '__main__':
     import logging
     from sqlalchemy import create_engine
+    from sqlalchemy.orm import sessionmaker
 
     engine = create_engine('postgresql://postgres:clavesecreta@localhost:5432/testing')
     Base.metadata.create_all(engine)
