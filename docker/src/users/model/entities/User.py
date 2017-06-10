@@ -1,10 +1,18 @@
 import datetime
 from model import Ids
 from model.entity import Entity
-from model.serializer import JSONSerializable
+
+from sqlalchemy.ext.declarative import delcarative_base
+from sqlalchemy import Column, Integer, String
+Base = declarative_base()
 
 
-class Telephone(JSONSerializable):
+class Telephone(Base):
+
+    __tablename__ = 'telephones'
+
+    id = Column(String, primary_key=True)
+
     def __init__(self):
         self.id = None
         self.userId = None

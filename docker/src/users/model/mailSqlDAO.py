@@ -1,8 +1,7 @@
 import uuid
-from model.dao import SqlDAO
-from model.users.entities.mail import Mail
+from users.model.entities import Mail
 
-class MailSqlDAO(SqlDAO):
+class MailSqlDAO:
 
     _schema = "profile."
     _table = "mails"
