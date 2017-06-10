@@ -2,12 +2,13 @@ import datetime
 from sqlalchemy import Column, Integer, String, Date, DateTime, func, or_
 from sqlalchemy.orm import relationship
 
-from users.model.entities import Base
+from model_utils import Base
 
 class User(Base):
 
     __tablename__ = 'users'
-    __table_args__ = {'extend_existing': True}
+    __table_args__ = ({'schema': 'users'})
+
 
     dni = Column(String)
     name = Column(String)
@@ -20,6 +21,7 @@ class User(Base):
     residence_city = Column(String)
 
     telephones = relationship('Telephone', back_populates='user')
+    mails = relationship('Mail', back_populates='user')
 
     @property
     def age(self):
@@ -28,7 +30,6 @@ class User(Base):
         today = datetime.datetime.now()
         born = self.birthdate
         return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
-
 
     @classmethod
     def search(cls, s, regex):

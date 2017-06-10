@@ -1,5 +1,6 @@
 import datetime
-from users.model.entities import Base, User, Telephone
+from model_utils import Base
+from users.model.entities import User, Telephone, Mail
 
 if __name__ == '__main__':
     import logging
@@ -28,7 +29,6 @@ if __name__ == '__main__':
     for t in s.query(Telephone).all():
         print(t.__json__())
         print(t.user.__json__())
-    """
 
     try:
         for t in User.search(s, 'alg'):
@@ -41,4 +41,13 @@ if __name__ == '__main__':
     except Exception as e:
         print(e)
 
-    #logging.info(Telephone.findAll(s))
+    """
+    """
+    u = s.query(User).first()
+    #print(u.__json__())
+    u.mails.append(Mail(email='pablo@econo.unlp.edu.ar', internal=True))
+    s.commit()
+    """
+    for m in Mail.findAll(s):
+        #print(m.__json__())
+        print(m.user.__json__())
