@@ -1,3 +1,4 @@
+import datetime
 from users.model.entities import Base, User, Telephone
 
 if __name__ == '__main__':
@@ -10,6 +11,7 @@ if __name__ == '__main__':
 
     Sm = sessionmaker(bind=engine)
     s = Sm()
+    """
     s.add_all([
         User(dni='27294557', name='Pablo Daniel', lastname='Rey', telephones=[Telephone(number='1212',type='cel')]),
         User(dni='27294558', name='Pablo Daniel1', lastname='Rey'),
@@ -26,6 +28,17 @@ if __name__ == '__main__':
     for t in s.query(Telephone).all():
         print(t.__json__())
         print(t.user.__json__())
+    """
 
+    try:
+        for t in User.search(s, 'alg'):
+            print(t.__json__())
+            print(t.age)
+            t.birthdate = datetime.date(year=1979,day=2,month=12)
+            #s.add(t)
+            s.commit()
+            print(t.age)
+    except Exception as e:
+        print(e)
 
     #logging.info(Telephone.findAll(s))

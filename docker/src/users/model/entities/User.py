@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, Date, DateTime, func
+import datetime
+from sqlalchemy import Column, Integer, String, Date, DateTime, func, or_
 from sqlalchemy.orm import relationship
 
 from users.model.entities import Base
@@ -20,28 +21,27 @@ class User(Base):
 
     telephones = relationship('Telephone', back_populates='user')
 
-    """
-    def getAge(self):
+    @property
+    def age(self):
+        if not self.birthdate:
+            return 0
         today = datetime.datetime.now()
         born = self.birthdate
         return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
 
-    def updateType(self, ctx):
-        ctx.dao(self).updateType(ctx, self.id, self.type)
-        return self
 
     @classmethod
-    def search(cls, ctx, regex):
-        return Ids(cls, ctx.dao(cls).search(ctx, regex))
+    def search(cls, s, regex):
+        """ busca por nombre, apellido o dni personas """
+        regs = regex.split(' ')
+        terms = []
+        for r in regs:
+            terms.append(cls.name.ilike('{}{}{}'.format('%',r,'%')))
+            terms.append(cls.lastname.ilike('{}{}{}'.format('%',r,'%')))
+            terms.append(cls.dni.ilike('{}{}{}'.format('%',r,'%')))
+        re = s.query(cls).filter(or_(*terms))
+        return re
 
-    @classmethod
-    def findPhoto(cls, ctx, pId):
-        return ctx.dao(cls).findPhoto(ctx, pId)
-
-    @classmethod
-    def findPhotos(cls, ctx, userIds):
-        return ctx.dao(cls).findPhotos(ctx, userIds)
-    """
 
 """
 class Student(User, Entity):
