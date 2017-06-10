@@ -21,4 +21,11 @@ if __name__ == '__main__':
         print(t.__json__())
         for t2 in t.telephones:
             print(t2.__json__())
+
+
+    for t in s.query(Telephone).all():
+        print(t.__json__())
+        print(t.user.__json__())
+
+
     #logging.info(Telephone.findAll(s))
