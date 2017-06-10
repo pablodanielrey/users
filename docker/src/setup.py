@@ -30,7 +30,8 @@ setup(name='users',
                             'dateutils>=0.6.6',
                             'requests',
                             'Flask',
-                            'flask_jsontools'],
+                            'flask_jsontools',
+                            'SQLAlchemy'],
           entry_points={
             'console_scripts': [
                 'wamp=project.api.wamp.main:main',
