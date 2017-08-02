@@ -10,6 +10,13 @@ from rest_utils import register_encoder
 app = Flask(__name__)
 register_encoder(app)
 
+@app.route('/users/api/v1.0/claves/', methods=['GET'], defaults={'clave':None})
+@app.route('/users/api/v1.0/claves/<clave>', methods=['GET'])
+@jsonapi
+def claves(clave):
+    return UsersModel.claves(clave)
+
+
 @app.route('/users/api/v1.0/usuarios/', methods=['GET', 'POST'], defaults={'usuario':None})
 @app.route('/users/api/v1.0/usuarios/<usuario>', methods=['GET', 'POST'])
 @jsonapi

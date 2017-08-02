@@ -13,6 +13,15 @@ class UsersModel:
         return q
 
     @classmethod
+    def claves(cls, clave=None):
+        session = Session()
+        q = session.query(UsuarioClave)
+        q = q.filter(UsuarioClave.id == clave) if clave else q
+        q.order_by(UsuarioClave.actualizado.desc())
+        return q.all()
+
+
+    @classmethod
     def usuarios(cls, usuario=None, dni=None, c=False, offset=None, limit=None):
         session = Session()
         q = session.query(Usuario)
