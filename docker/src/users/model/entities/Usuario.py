@@ -20,9 +20,12 @@ class Usuario(Base):
     tipo = Column('type', String)
     google = Column('google', Boolean)
 
+    mails = relationship('Mail', back_populates='usuario')
+    telefonos = relationship('Telefono', back_populates='usuario')
+    claves = relationship('UsuarioClave', back_populates='usuario')
+
     """
-    telephones = relationship('Telephone', back_populates='user')
-    mails = relationship('Mail', back_populates='user')
+
 
     @property
     def age(self):

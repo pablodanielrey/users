@@ -3,15 +3,15 @@ from sqlalchemy.orm import relationship
 
 from model_utils import Base
 
+
 class Mail(Base):
 
-    __tablename__ = 'emails'
-    __table_args__ = ({'schema': 'users'})
+    __tablename__ = 'mails'
+    __table_args__ = ({'schema': 'profile'})
 
-    email = Column(String)
-    confirmed = Column(Boolean, default=False)
+    email = Column('email', String)
+    confirmado = Column('confirmed', Boolean, default=False)
     hash = Column(String)
-    internal = Column(Boolean, default=False)
 
-    user_id = Column(String, ForeignKey('users.users.id'))
-    user = relationship('User', back_populates='mails')
+    usuario_id = Column('user_id', String, ForeignKey('profile.users.id'))
+    usuario = relationship('Usuario', back_populates='mails')
