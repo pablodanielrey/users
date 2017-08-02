@@ -13,7 +13,7 @@ from setuptools import setup, find_packages
 
 setup(name='users',
           version='0.1.0.dev0',
-          description='algo',
+          description='Proyecto que maneja el equema de usuarios de los sistemas',
           url='https://github.com/pablodanielrey/users',
           author='Desarrollo DiTeSi, FCE',
           author_email='ditesi@econo.unlp.edu.ar',
@@ -29,14 +29,15 @@ setup(name='users',
           install_requires=['psycopg2>=2.7.1',
                             'dateutils>=0.6.6',
                             'requests',
+                            'redis',
                             'Flask',
                             'flask_jsontools',
                             'SQLAlchemy'],
           entry_points={
             'console_scripts': [
-                'wamp=project.api.wamp.main:main',
-                'rest=project.api.rest.main:main',
-                'flask=login.web.main:main'
+                'wamp=users.api.wamp.main:main',
+                'rest=users.api.rest.main:main',
+                'flask=users.web.main:main'
             ]
           }
 

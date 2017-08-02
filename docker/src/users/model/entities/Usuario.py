@@ -1,25 +1,26 @@
 import datetime
-from sqlalchemy import Column, Integer, String, Date, DateTime, func, or_
+from sqlalchemy import Column, Integer, String, Date, DateTime, Boolean, func, or_
 from sqlalchemy.orm import relationship
 
 from model_utils import Base
 
-class User(Base):
+class Usuario(Base):
 
     __tablename__ = 'users'
-    __table_args__ = ({'schema': 'users'})
+    __table_args__ = ({'schema': 'profile'})
 
+    dni = Column('dni', String)
+    nombre = Column('name', String)
+    apellido = Column('lastname', String)
+    genero = Column('gender', String)
+    nacimiento = Column('birthdate', Date)
+    ciudad = Column('city', String)
+    pais = Column('country', String)
+    direccion = Column('address', String)
+    tipo = Column('type', String)
+    google = Column('google', Boolean)
 
-    dni = Column(String)
-    name = Column(String)
-    lastname = Column(String)
-    gender = Column(String)
-    birthdate = Column(Date)
-    city = Column(String)
-    country = Column(String)
-    address = Column(String)
-    residence_city = Column(String)
-
+    """
     telephones = relationship('Telephone', back_populates='user')
     mails = relationship('Mail', back_populates='user')
 
@@ -33,16 +34,16 @@ class User(Base):
 
     @classmethod
     def search(cls, s, regex):
-        """ busca por nombre, apellido o dni personas """
+        ''' busca por nombre, apellido o dni personas '''
         regs = regex.split(' ')
         terms = []
         for r in regs:
             terms.append(cls.name.ilike('{}{}{}'.format('%',r,'%')))
             terms.append(cls.lastname.ilike('{}{}{}'.format('%',r,'%')))
             terms.append(cls.dni.ilike('{}{}{}'.format('%',r,'%')))
-        re = s.query(cls).filter(or_(*terms))
-        return re
-
+        q = s.query(cls).filter(or_(*terms))
+        return q
+    """
 
 """
 class Student(User, Entity):

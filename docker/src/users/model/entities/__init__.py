@@ -1,10 +1,6 @@
 
-from .Telephone import Telephone
-from .User import User
-from .Mail import Mail
+from .Usuario import Usuario
 
 __all__ = [
-    'Telephone',
-    'User',
-    'Mail'
+    'Usuario'
 ]
