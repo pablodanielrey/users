@@ -15,22 +15,28 @@ class UsersModel:
     @classmethod
     def claves(cls, clave=None):
         session = Session()
-        q = session.query(UsuarioClave)
-        q = q.filter(UsuarioClave.id == clave) if clave else q
-        q.order_by(UsuarioClave.actualizado.desc())
-        return q.all()
+        try:
+            q = session.query(UsuarioClave)
+            q = q.filter(UsuarioClave.id == clave) if clave else q
+            q.order_by(UsuarioClave.actualizado.desc())
+            return q.all()
+        finally:
+            session.close()
 
 
     @classmethod
     def usuarios(cls, usuario=None, dni=None, c=False, offset=None, limit=None):
         session = Session()
-        q = session.query(Usuario)
+        try:
+            q = session.query(Usuario)
 
-        q = q.filter(Usuario.id == usuario) if usuario else q
-        q = q.filter(Usuario.dni == dni) if dni else q
+            q = q.filter(Usuario.id == usuario) if usuario else q
+            q = q.filter(Usuario.dni == dni) if dni else q
 
-        q = q.options(joinedload('mails'), joinedload('telefonos'))
-        q = q.options(joinedload('claves')) if c else q
+            q = q.options(joinedload('mails'), joinedload('telefonos'))
+            q = q.options(joinedload('claves')) if c else q
 
-        q = cls._aplicar_filtros_comunes(q, offset, limit)
-        return q.all()
+            q = cls._aplicar_filtros_comunes(q, offset, limit)
+            return q.all()
+        finally:
+            session.close()
