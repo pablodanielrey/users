@@ -3,7 +3,8 @@ app = angular.module('MainApp', ['ngRoute', 'ngResource'])
 app.config(['$routeProvider', function($routeProvider) {
 
   $routeProvider
-    .when('/perfil/:usuario', {templateUrl: '/componentes/perfil/index.html', controller:'PerfilCtrl'})
+    .when('/perfil/:dni', {templateUrl: '/componentes/perfil/index.html', controller:'PerfilCtrl'})
+    .when('/perfil', {templateUrl: '/componentes/perfil/index.html', controller:'PerfilCtrl'})
     .otherwise({ redirectTo: '/perfil/' });
 
 }]);

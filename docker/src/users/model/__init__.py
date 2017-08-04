@@ -11,7 +11,8 @@ engine = create_engine('postgresql://{}:{}@{}:5432/{}'.format(
     os.environ['USERS_DB_HOST'],
     os.environ['USERS_DB_NAME']
 ), echo=True)
-Session = sessionmaker(bind=engine)
+
+Session = sessionmaker(bind=engine, autoflush=False, autocommit=False)
 
 from .UsersModel import UsersModel
 

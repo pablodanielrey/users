@@ -7,6 +7,12 @@ from .entities import *
 class UsersModel:
 
     @staticmethod
+    def normalize(resp):
+        if len(resp) == 1:
+            return resp[0]
+        return resp
+
+    @staticmethod
     def _aplicar_filtros_comunes(q, offset, limit):
         q = q.offset(offset) if offset else q
         q = q.limit(limit) if limit else q
@@ -37,6 +43,6 @@ class UsersModel:
             q = q.options(joinedload('claves')) if c else q
 
             q = cls._aplicar_filtros_comunes(q, offset, limit)
-            return q.all()
+            return cls.normalize(q.all())
         finally:
             session.close()

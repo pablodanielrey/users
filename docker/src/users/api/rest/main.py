@@ -16,17 +16,24 @@ register_encoder(app)
 def claves(clave):
     return UsersModel.claves(clave)
 
-
-@app.route('/users/api/v1.0/usuarios/', methods=['GET', 'POST'], defaults={'usuario':None})
-@app.route('/users/api/v1.0/usuarios/<usuario>', methods=['GET', 'POST'])
+@app.route('/users/api/v1.0/usuarios', methods=['GET'])
 @jsonapi
-def usuarios(usuario):
+def usuarios():
+    usuario = request.args.get('id',None)
     dni = request.args.get('d',None)
     mostrarClave = request.args.get('c',False,bool)
 
     offset = request.args.get('offset',None,int)
     limit = request.args.get('limit',None,int)
     return UsersModel.usuarios(usuario=usuario, dni=dni, c=mostrarClave, offset=offset, limit=limit)
+
+@app.route('/users/api/v1.0/usuarios/<usuario>', methods=['GET', 'POST'])
+@jsonapi
+def usuario(usuario):
+    if not usuario:
+        return None
+    mostrarClave = request.args.get('c',False,bool)
+    return UsersModel.usuarios(usuario=usuario, c=mostrarClave)
 
 @app.after_request
 def add_header(r):

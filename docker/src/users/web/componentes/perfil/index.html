@@ -1,25 +1,25 @@
-
+<div>
+    {{mensaje}}
+</div>
 <div>
   <div>Nombre</div>
-  <input ng-model='nombre' readonly=true></input>
+  <input ng-model='usuario.nombre'></input>
 </div>
 <div>
   <div>Apellido</div>
-  <input ng-model='apellido' readonly=true></input>
+  <input ng-model='usuario.apellido'></input>
 </div>
 <div>
   <div>Dni</div>
-  <input ng-model='dni'></input>
+  <input ng-model='usuario.dni'></input>
 </div>
 <div>
-  <div>Correo de contacto</div>
-  <input ng-model='correo'></input>
-</div>
-<div>
-<div>Teléfono de contacto</div>
-<input ng-model='telefono'></input>
-</div>
-<div>
-  <div>Describa su problema</div>
-  <input ng-model='problema'></input>
+  <div>Correos de contacto</div>
+  <ol ng-repeat='m in usuario.mails'>
+    <li>
+      <span>{{m.email}}</span>
+      <span>{{m.confirmado}}</span>
+      <span>{{m.hash}}</span>
+    </li>
+  </ol>
 </div>
