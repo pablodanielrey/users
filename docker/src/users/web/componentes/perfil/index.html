@@ -1,5 +1,6 @@
 <div>
     {{mensaje}}
+    {{parm}}
 </div>
 <div>
   <div>Nombre</div>
@@ -14,12 +15,23 @@
   <input ng-model='usuario.dni'></input>
 </div>
 <div>
+    <button ng-click='actualizarUsuario(usuario)'>Actualizar</button>
+</div>
+<div>
   <div>Correos de contacto</div>
   <ol ng-repeat='m in usuario.mails'>
     <li>
       <span>{{m.email}}</span>
       <span>{{m.confirmado}}</span>
       <span>{{m.hash}}</span>
+      <span><button ng-click='eliminarCorreo(m)'>Eliminar</button></span>
+      <span><button ng-click='confirmarCorreo(m)'>Confirmar</button></span>
     </li>
   </ol>
+  <div>
+    Agregar:<input type='email' ng-model='emailAAgregar'></input>
+    <button ng-click='agregarCorreo()'>Agregar</button>
+  </div>
+
+
 </div>
