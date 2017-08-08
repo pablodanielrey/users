@@ -1,5 +1,6 @@
 import uuid
 import datetime
+import base64
 
 from sqlalchemy import or_
 from sqlalchemy.orm import joinedload
@@ -126,5 +127,40 @@ class UsersModel:
 
     @classmethod
     def confirmar_correo(cls, cid, datos):
-        print(cid)
-        print(datos)
+        session = Session()
+        try:
+            correo = session.query(Mail).filter(Mail.id == cid).one()
+            mail = correo.email.lower().strip()
+            cuerpo = cls.obtener_template()
+            cls.enviar_correo(mail, 'pablo.rey@econo.unlp.edu.ar', 'Confirmación de cuenta alternativa de contacto', cuerpo)
+
+        finally:
+            session.close()
+
+
+    @staticmethod
+    def obtener_template():
+        with open('users/model/templates/confirmar_correo.html','r') as f:
+            template = f.read()
+            texto = template.replace('$USUARIO','Pablo Daniel Rey')\
+                    .replace('$CODIGO_CONFIRMACION','absd')\
+                    .replace('$URL_DE_INFORME','http://incidentes.econo.unlp.edu.ar/0293094-df2323-r4354-f34543')
+            return texto
+
+    @staticmethod
+    def enviar_correo(_to, _from, subject, body):
+        ''' https://developers.google.com/gmail/api/guides/sending '''
+
+        from email.mime.text import MIMEText
+        from email.header import Header
+
+        correo = MIMEText(body.encode('utf-8'), 'plain', 'utf-8')
+        correo['to'] = _to
+        correo['from'] = _from
+        correo['subject'] = Header(subject, 'utf-8')
+        urlsafe = base64.urlsafe_b64encode(correo.as_string().encode()).decode()
+
+        from .accessApi import GAuthApis
+        service = GAuthApis.getService('gmail', 'v1', '27294557@econo.unlp.edu.ar')
+        m = service.users().messages().send(userId='27294557@econo.unlp.edu.ar', body={'raw':urlsafe}).execute()
+        print(m)

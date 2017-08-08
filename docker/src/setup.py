@@ -32,7 +32,9 @@ setup(name='users',
                             'redis',
                             'Flask',
                             'flask_jsontools',
-                            'SQLAlchemy'],
+                            'SQLAlchemy',
+                            'google-api-python-client',
+                            'httplib2'],
           entry_points={
             'console_scripts': [
                 'wamp=users.api.wamp.main:main',
