@@ -19,8 +19,9 @@
 </div>
 <div>
   <div>Correos de contacto</div>
-  <ol ng-repeat='m in usuario.mails'>
+  <ol ng-repeat='m in correos'>
     <li>
+      <span>{{m.id}}</span>
       <span>{{m.email}}</span>
       <span>{{m.confirmado}}</span>
       <span>{{m.hash}}</span>

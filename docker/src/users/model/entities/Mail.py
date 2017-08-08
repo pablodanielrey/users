@@ -12,6 +12,7 @@ class Mail(Base):
     email = Column('email', String)
     confirmado = Column('confirmed', Boolean, default=False)
     hash = Column(String)
+    eliminado = Column('eliminado', DateTime)
 
     usuario_id = Column('user_id', String, ForeignKey('profile.users.id'))
     usuario = relationship('Usuario', back_populates='mails')
