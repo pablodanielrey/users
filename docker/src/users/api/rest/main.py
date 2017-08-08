@@ -26,6 +26,7 @@ def claves(clave):
 @app.route('/users/api/v1.0/usuarios/<uid>', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/correos/', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/correos/<uid>', methods=['OPTIONS'])
+@app.route('/users/api/v1.0/confirmar_correo/<uid>', methods=['OPTIONS'])
 def options(uid=None):
     '''
         para autorizar el CORS
@@ -95,6 +96,12 @@ def actualizar_correo(cid):
 @jsonapi
 def eliminar_correo(cid):
     UsersModel.eliminar_correo(cid)
+
+@app.route('/users/api/v1.0/confirmar_correo/<cid>', methods=['PUT','POST'])
+@jsonapi
+def confirmar_correo(cid):
+    datos = json.loads(request.data)
+    UsersModel.confirmar_correo(cid, datos)
 
 
 @app.after_request

@@ -113,7 +113,6 @@ class UsersModel:
         finally:
             session.close()
 
-
     @classmethod
     def eliminar_correo(cls, cid):
         session = Session()
@@ -124,3 +123,8 @@ class UsersModel:
 
         finally:
             session.close()
+
+    @classmethod
+    def confirmar_correo(cls, cid, datos):
+        print(cid)
+        print(datos)
