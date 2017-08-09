@@ -1,6 +1,7 @@
 import uuid
 import datetime
 import base64
+import requests
 
 from sqlalchemy import or_
 from sqlalchemy.orm import joinedload
@@ -9,14 +10,6 @@ from . import Session
 from .entities import *
 
 class UsersModel:
-
-    """
-    @staticmethod
-    def normalize(resp):
-        if len(resp) == 1:
-            return resp[0]
-        return resp
-    """
 
     @staticmethod
     def _aplicar_filtros_comunes(q, offset, limit):
@@ -91,10 +84,7 @@ class UsersModel:
         session = Session()
         try:
             usuario = session.query(Usuario).filter(Usuario.id == uid).one()
-            mail = Mail(
-                email=datos['email'].lower(),
-                confirmado=datos['confirmado'] if 'confirmado' in datos else False,
-                hash=str(uuid.uuid4())[:5])
+            mail = Mail(email=datos['email'].lower())
             usuario.mails.append(mail)
             session.commit()
 
@@ -108,7 +98,6 @@ class UsersModel:
         try:
             mail = session.query(Mail).filter(Mail.id == cid).one()
             mail.email=datos['email'].lower()
-            mail.confirmado=datos['confirmado'] if 'confirmado' in datos else False
             session.commit()
 
         finally:
@@ -126,41 +115,51 @@ class UsersModel:
             session.close()
 
     @classmethod
-    def confirmar_correo(cls, cid, datos):
+    def confirmar_correo(cls, cid, code):
         session = Session()
         try:
-            correo = session.query(Mail).filter(Mail.id == cid).one()
+            correo = session.query(Mail).filter(Mail.id == cid, Mail.hash == code).first()
+            if not correo:
+                return ''
+
+            correo.confirmado = True
+            correo.fecha_confirmado = datetime.datetime.now()
+            session.commit()
+            return correo.id
+
+        finally:
+            session.close()
+
+    @classmethod
+    def enviar_confirmar_correo(cls, cid, datos):
+        session = Session()
+        try:
+            correo = session.query(Mail).filter(Mail.id == cid).join(Usuario).one()
+            correo.hash=str(uuid.uuid4())[:5]
+            session.commit()
+
             mail = correo.email.lower().strip()
-            cuerpo = cls.obtener_template()
-            cls.enviar_correo(mail, 'pablo.rey@econo.unlp.edu.ar', 'Confirmación de cuenta alternativa de contacto', cuerpo)
+            codigo = correo.hash
+            nombre = correo.usuario.nombre + ' ' + correo.usuario.apellido
+            cuerpo = cls.obtener_template(nombre, correo.hash)
+            cls.enviar_correo('pablo.rey@econo.unlp.edu.ar', mail, 'Confirmación de cuenta alternativa de contacto', cuerpo)
 
         finally:
             session.close()
 
 
     @staticmethod
-    def obtener_template():
+    def obtener_template(nombre, codigo):
         with open('users/model/templates/confirmar_correo.html','r') as f:
             template = f.read()
-            texto = template.replace('$USUARIO','Pablo Daniel Rey')\
-                    .replace('$CODIGO_CONFIRMACION','absd')\
+            texto = template.replace('$USUARIO',nombre)\
+                    .replace('$CODIGO_CONFIRMACION',codigo)\
                     .replace('$URL_DE_INFORME','http://incidentes.econo.unlp.edu.ar/0293094-df2323-r4354-f34543')
             return texto
 
     @staticmethod
-    def enviar_correo(_to, _from, subject, body):
+    def enviar_correo(de, para, asunto, cuerpo):
         ''' https://developers.google.com/gmail/api/guides/sending '''
-
-        from email.mime.text import MIMEText
-        from email.header import Header
-
-        correo = MIMEText(body.encode('utf-8'), 'plain', 'utf-8')
-        correo['to'] = _to
-        correo['from'] = _from
-        correo['subject'] = Header(subject, 'utf-8')
-        urlsafe = base64.urlsafe_b64encode(correo.as_string().encode()).decode()
-
-        from .accessApi import GAuthApis
-        service = GAuthApis.getService('gmail', 'v1', '27294557@econo.unlp.edu.ar')
-        m = service.users().messages().send(userId='27294557@econo.unlp.edu.ar', body={'raw':urlsafe}).execute()
-        print(m)
+        bcuerpo = base64.urlsafe_b64encode(cuerpo.encode('utf-8')).decode()
+        r = requests.post('http://163.10.56.57:8001/emails/api/v1.0/enviar_correo', json={'de':de, 'para':para, 'asunto':asunto, 'cuerpo':bcuerpo})
+        print(str(r))

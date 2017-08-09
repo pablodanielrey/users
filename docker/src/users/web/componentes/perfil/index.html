@@ -2,6 +2,15 @@
     {{mensaje}}
     {{parm}}
 </div>
+
+<div style='{{estilo}}'>
+  aca va el codigo que se va a mostrar cuando esta cargando datos
+</div>
+
+<div>
+  <div>ID</div>
+  <div>{{usuario.id}}</input>
+</div>
 <div>
   <div>Nombre</div>
   <input ng-model='usuario.nombre'></input>
@@ -12,8 +21,13 @@
 </div>
 <div>
   <div>Dni</div>
-  <input ng-model='usuario.dni'></input>
+  <input ng-model='usuario.dni' readonly=true></input>
 </div>
+<div>
+  <div>Legajo</div>
+  <input value='2806/4' readonly=true></input>
+</div>
+
 <div>
     <button ng-click='actualizarUsuario(usuario)'>Actualizar</button>
 </div>
@@ -21,12 +35,32 @@
   <div>Correos de contacto</div>
   <ol ng-repeat='m in correos'>
     <li>
-      <span>{{m.id}}</span>
+      <div ng-if='m.fecha_confirmado != null'>
+        CONFIRMADO
+      </div>
+
+      <!-- <span>{{m.id}}</span> -->
       <span>{{m.email}}</span>
-      <span>{{m.confirmado}}</span>
-      <span>{{m.hash}}</span>
-      <span><button ng-click='eliminarCorreo(m)'>Eliminar</button></span>
-      <span><button ng-click='confirmarCorreo(m)'>Confirmar</button></span>
+      <!-- <span>{{m.fecha_confirmado}}</span> -->
+      <!-- <span>{{m.hash}}</span> -->
+
+      <div ng-if='!esInstitucional(m)'>
+        <span><button ng-click='eliminarCorreo(m)'>Eliminar</button></span>
+      </div>
+
+      <div ng-if='m.hash != null && m.fecha_confirmado == null'>
+        <span>
+          se ha enviado un correo por favor chequee su casilla e ingrese el codigo de verificacion
+          <input type=text ng-model='m.codigo'></input>
+          <button ng-click='confirmarCorreo(m)'>Confirmar</button>
+          <button ng-click='enviarConfirmarCorreo(m)'>Reenviar</button>
+        </span>
+      </div>
+
+      <div ng-if='m.hash == null'>
+        <span><button ng-click='enviarConfirmarCorreo(m)'>Requiere Confirmación</button></span>
+      </div>
+
     </li>
   </ol>
   <div>
@@ -34,5 +68,7 @@
     <button ng-click='agregarCorreo()'>Agregar</button>
   </div>
 
+
+  <!-- pantallas intermedias -->
 
 </div>

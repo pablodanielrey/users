@@ -26,8 +26,9 @@ def claves(clave):
 @app.route('/users/api/v1.0/usuarios/<uid>', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/correos/', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/correos/<uid>', methods=['OPTIONS'])
-@app.route('/users/api/v1.0/confirmar_correo/<uid>', methods=['OPTIONS'])
-def options(uid=None):
+@app.route('/users/api/v1.0/enviar_confirmar_correo/<cid>', methods=['OPTIONS'])
+@app.route('/users/api/v1.0/confirmar_correo/<uid>/<code>', methods=['OPTIONS'])
+def options(*args, **kargs):
     '''
         para autorizar el CORS
         https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
@@ -89,19 +90,28 @@ def agregar_correo():
 @app.route('/users/api/v1.0/correos/<cid>', methods=['PUT','POST'])
 @jsonapi
 def actualizar_correo(cid):
-    datos = json.loads(request.data)
-    UserModel.actualizar_correo(cid, datos)
+    #datos = json.loads(request.data)
+    #UserModel.actualizar_correo(cid, datos)
+    return {}
+
 
 @app.route('/users/api/v1.0/correos/<cid>', methods=['DELETE'])
 @jsonapi
 def eliminar_correo(cid):
     UsersModel.eliminar_correo(cid)
 
-@app.route('/users/api/v1.0/confirmar_correo/<cid>', methods=['PUT','POST'])
+@app.route('/users/api/v1.0/enviar_confirmar_correo/<cid>', methods=['PUT','POST'])
 @jsonapi
-def confirmar_correo(cid):
+def enviar_confirmar_correo(cid):
     datos = json.loads(request.data)
-    UsersModel.confirmar_correo(cid, datos)
+    UsersModel.enviar_confirmar_correo(cid, datos)
+
+@app.route('/users/api/v1.0/confirmar_correo/<cid>/<code>', methods=['PUT','POST'])
+@jsonapi
+def confirmar_correo(cid, code):
+    assert cid is not None
+    assert code is not None
+    UsersModel.confirmar_correo(cid, code)
 
 
 @app.after_request

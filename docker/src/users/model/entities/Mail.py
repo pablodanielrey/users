@@ -11,6 +11,7 @@ class Mail(Base):
 
     email = Column('email', String)
     confirmado = Column('confirmed', Boolean, default=False)
+    fecha_confirmado = Column(DateTime)
     hash = Column(String)
     eliminado = Column('eliminado', DateTime)
 
