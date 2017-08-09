@@ -39,7 +39,6 @@ def options(*args, **kargs):
     rh = request.headers.get('Access-Control-Request-Headers')
 
     r = make_response()
-    r.headers[''] = 'PUT,POST,GET,HEAD,DELETE'
     r.headers['Access-Control-Allow-Methods'] = 'PUT,POST,GET,HEAD,DELETE'
     r.headers['Access-Control-Allow-Origin'] = '*'
     r.headers['Access-Control-Allow-Headers'] = rh
@@ -67,7 +66,6 @@ def usuarios(uid):
 def actualizar_usuario(uid):
     datos = json.loads(request.data)
     UsersModel.actualizar_usuario(uid, datos)
-
 
 @app.route('/users/api/v1.0/correos/', methods=['GET'], defaults={'cid':None})
 @app.route('/users/api/v1.0/correos/<cid>', methods=['GET'])

@@ -45,7 +45,7 @@ class UsersModel:
 
 
     @classmethod
-    def usuarios(cls, usuario=None, dni=None, retornarClave=False, offset=None, limit=None):
+    def usuarios(cls, usuario=None, dni=None, retornarClave=False, fecha_actualizado=None, offset=None, limit=None):
         session = Session()
         try:
             q = session.query(Usuario)
@@ -53,8 +53,10 @@ class UsersModel:
             q = q.filter(Usuario.id == usuario) if usuario else q
             q = q.filter(Usuario.dni == dni) if dni else q
 
-            q = q.options(joinedload('mails'), joinedload('telefonos'))
             q = q.options(joinedload('claves')) if retornarClave else q
+    
+
+            q = q.options(joinedload('mails'), joinedload('telefonos'))
 
             q = cls._aplicar_filtros_comunes(q, offset, limit)
 
