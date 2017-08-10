@@ -15,15 +15,10 @@ def send(path):
     return send_from_directory(app.static_url_path, path)
 
 
-@app.route('/users/api/v1.0/claves/', methods=['GET'], defaults={'clave':None})
-@app.route('/users/api/v1.0/claves/<clave>', methods=['GET'])
-@jsonapi
-def claves(clave):
-    return UsersModel.claves(clave)
-
 
 @app.route('/users/api/v1.0/usuarios/', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/usuarios/<uid>', methods=['OPTIONS'])
+@app.route('/users/api/v1.0/usuarios/<uid>/claves/', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/correos/', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/correos/<uid>', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/enviar_confirmar_correo/<cid>', methods=['OPTIONS'])
@@ -60,12 +55,32 @@ def usuarios(uid):
         us = UsersModel.usuarios(usuario=uid, retornarClave=mostrarClave)
         return None if len(us) == 0 else us[0]
 
-@app.route('/users/api/v1.0/usuarios/<uid>', methods=['PUT'])
-@app.route('/users/api/v1.0/usuarios/<uid>', methods=['POST'])
+@app.route('/users/api/v1.0/usuarios/<uid>', methods=['PUT','POST'])
 @jsonapi
 def actualizar_usuario(uid):
     datos = json.loads(request.data)
     UsersModel.actualizar_usuario(uid, datos)
+
+@app.route('/users/api/v1.0/usuarios/<uid>/claves/', methods=['PUT','POST'])
+@jsonapi
+def crear_clave(uid):
+    data = json.loads(request.data)
+    if 'clave' in data:
+        return UsersModel.crear_clave(uid, data['clave'])
+    else:
+        abort(400)
+
+@app.route('/users/api/v1.0/usuarios/<uid>/claves/', methods=['GET'])
+@jsonapi
+def obtener_claves(uid):
+    return UsersModel.claves(uid=uid)
+
+@app.route('/users/api/v1.0/claves/', methods=['GET'], defaults={'cid':None})
+@app.route('/users/api/v1.0/claves/<cid>', methods=['GET'])
+@jsonapi
+def claves(cid):
+    return UsersModel.claves(cid=cid)
+
 
 @app.route('/users/api/v1.0/correos/', methods=['GET'], defaults={'cid':None})
 @app.route('/users/api/v1.0/correos/<cid>', methods=['GET'])
@@ -84,14 +99,6 @@ def agregar_correo():
     assert uid != None
     datos = json.loads(request.data)
     UsersModel.agregar_correo(uid, datos)
-
-@app.route('/users/api/v1.0/correos/<cid>', methods=['PUT','POST'])
-@jsonapi
-def actualizar_correo(cid):
-    #datos = json.loads(request.data)
-    #UserModel.actualizar_correo(cid, datos)
-    return {}
-
 
 @app.route('/users/api/v1.0/correos/<cid>', methods=['DELETE'])
 @jsonapi

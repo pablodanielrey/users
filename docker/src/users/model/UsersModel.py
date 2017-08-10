@@ -18,13 +18,35 @@ class UsersModel:
         return q
 
     @classmethod
-    def claves(cls, cid=None):
+    def claves(cls, uid=None, cid=None, limit=None, offset=None):
         session = Session()
         try:
             q = session.query(UsuarioClave)
             q = q.filter(UsuarioClave.id == cid) if cid else q
+            q = q.filter(UsuarioClave.usuario_id == uid) if uid else q
+            cls._aplicar_filtros_comunes(q, offset, limit)
             q.order_by(UsuarioClave.actualizado.desc(), UsuarioClave.creado.desc())
             return q.all()
+        finally:
+            session.close()
+
+    @classmethod
+    def crear_clave(cls, uid, clave):
+        assert uid is not None
+        assert clave is not None
+
+        session = Session()
+        try:
+            dni = session.query(Usuario.dni).filter(Usuario.id == uid).one()
+            uclave = session.query(UsuarioClave).filter(UsuarioClave.usuario_id == uid, UsuarioClave.eliminada == None).one_or_none()
+            if uuclave:
+                uclave.eliminada = datetime.datetime.now()
+
+            uuclave = UsuarioClave(nombre_de_usuario=dni, clave=clave)
+            session.add(uuclave)
+
+            session.commit()
+
         finally:
             session.close()
 
@@ -87,18 +109,6 @@ class UsersModel:
             usuario = session.query(Usuario).filter(Usuario.id == uid).one()
             mail = Mail(email=datos['email'].lower())
             usuario.mails.append(mail)
-            session.commit()
-
-        finally:
-            session.close()
-
-    @classmethod
-    def actualizar_correo(cls, cid, datos):
-        assert 'email' in datos
-        session = Session()
-        try:
-            mail = session.query(Mail).filter(Mail.id == cid).one()
-            mail.email=datos['email'].lower()
             session.commit()
 
         finally:
