@@ -40,6 +40,7 @@ class UsersModel:
         '''
         assert uid is not None
         assert clave is not None
+        assert len(clave) >= 8
 
         session = Session()
         try:

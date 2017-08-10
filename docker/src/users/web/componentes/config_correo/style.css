@@ -1,5 +1,5 @@
 
-.config_correo div {
+.config_correo > div {
   display: none;
 }
 

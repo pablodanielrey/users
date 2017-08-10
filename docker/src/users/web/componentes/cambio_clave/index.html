@@ -13,8 +13,18 @@
 
   <div class='clave'>
     Por favor ingrese su clave nueva.
-    <input type='{{view.tipo}}' ng-model='view.clave1'></input><button ng-click='cambiarTipo()'>ver</button>
-    <input type='{{view.tipo}}' ng-model='view.clave2'></input>
+    <div>
+      <input type='{{view.tipo}}' ng-model='view.clave1'></input>
+      <button ng-click='cambiarTipo()'>
+        <div ng-if='view.tipo == "password"'>ver</div>
+        <div ng-if='view.tipo == "text"'>ocultar</div>
+      </button>
+      <div ng-if='view.clave1 != view.clave2' class='error'>Claves no son iguales</div>
+    </div>
+    <div>
+      <input type='{{view.tipo}}' ng-model='view.clave2'></input>
+      <div ng-if='view.clave1 != view.clave2' class='error'>Claves no son iguales</div>
+    </div>
     <button ng-click='pasoAnterior()'>Anterior</button>
     <button ng-click='cambiarClave()'>Siguiente</button>
   </div>

@@ -1,5 +1,5 @@
 
-.config_clave div {
+.config_clave > div {
   display: none;
 }
 
@@ -14,4 +14,9 @@
 
 .config_clave.paso3 .fin {
   display: block;
+}
+
+.error {
+  background-color: black;
+  color: red;
 }
