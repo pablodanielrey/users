@@ -18,12 +18,12 @@ class UsersModel:
         return q
 
     @classmethod
-    def claves(cls, clave=None):
+    def claves(cls, cid=None):
         session = Session()
         try:
             q = session.query(UsuarioClave)
-            q = q.filter(UsuarioClave.id == clave) if clave else q
-            q.order_by(UsuarioClave.actualizado.desc())
+            q = q.filter(UsuarioClave.id == cid) if cid else q
+            q.order_by(UsuarioClave.actualizado.desc(), UsuarioClave.creado.desc())
             return q.all()
         finally:
             session.close()
@@ -33,8 +33,6 @@ class UsersModel:
     def actualizar_usuario(cls, uid, datos):
         session = Session()
         try:
-            print(datos['nombre'])
-            print(datos['apellido'])
             usuario = session.query(Usuario).filter(Usuario.id == uid).one()
             if 'nombre' in datos: usuario.nombre = datos['nombre']
             if 'apellido' in datos: usuario.apellido = datos['apellido']
@@ -54,8 +52,6 @@ class UsersModel:
             q = q.filter(Usuario.dni == dni) if dni else q
 
             q = q.options(joinedload('claves')) if retornarClave else q
-
-
             q = q.options(joinedload('mails'), joinedload('telefonos'))
 
             q = cls._aplicar_filtros_comunes(q, offset, limit)

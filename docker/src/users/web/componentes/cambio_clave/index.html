@@ -2,11 +2,9 @@
 <div>
   {{estilo_actual}}
   {{estilo}}
-
-  {{correoPendiente}}
 </div>
 
-<div class='config_correo {{estilo}}'>
+<div class='config_clave {{estilo}}'>
 
   <div class='mensaje'>
     Mensaje Inicial
@@ -14,24 +12,16 @@
     <button ng-click='pasoSiguiente()'>Siguiente</button>
   </div>
 
-  <div class='correo'>
-    Ingrese Por favor su correo de contacto alternativo
-    <input type='email' ng-model='view.correo'></input>
+  <div class='clave'>
+    Por favor ingrese su clave nueva.
+    <input type='{{view.tipo1}}' ng-model='view.clave1'></input><button ng-click='cambiarTipo1()'>ver</button>
+    <input type='{{view.tipo2}}' ng-model='view.clave2'></input><button ng-click='cambiarTipo2()'>ver</button>
     <button ng-click='pasoAnterior()'>Anterior</button>
-    <button ng-click='agregarCorreo()'>Siguiente</button>
-  </div>
-
-  <div class='codigo'>
-    Se ha enviado un código de confirmación a la cuenta. {{view.correo}}
-    Por favor ingrese el código recibido
-    <input type='text' ng-model='view.codigo'></input>
-
-    <button ng-click='pasoAnterior()'>Anterior</button>
-    <button ng-click='verificarCorreo()'>Verificar</button>
+    <button ng-click='cambiarClave()'>Siguiente</button>
   </div>
 
   <div class='fin'>
-    Verificación correcta
+    Configuración correcta
     <button ng-click='pasoAnterior()'>Anterior</button>
     <button ng-click='pasoSiguiente()'>Siguiente</button>
   </div>
