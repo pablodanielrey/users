@@ -10,65 +10,106 @@
 
   <!-- <div>ID</div> -->
   <!-- <div>{{usuario.id}}</input></div> -->
-<div>
-  <div><b>Nombre</b></div>
-  <input ng-model='usuario.nombre' class="form-control ng-pristine ng-valid ng-empty ng-touched"></input>
-</div>
-<div>
-  <div><b>Apellido</b></div>
-  <input ng-model='usuario.apellido' class="form-control ng-pristine ng-valid ng-empty ng-touched"></input>
-</div>
-<div>
-  <div><b>DNI</b></div>
-  <input ng-model='usuario.dni' readonly=true class="form-control ng-pristine ng-valid ng-empty ng-touched"></input>
-</div>
-<div>
-  <div><b>Legajo</b></div>
-  <input value='2806/4' readonly=true class="form-control ng-pristine ng-valid ng-empty ng-touched"></input>
-</div>
+    <div class="contentPrimary">
+        <div>
+          <div class="titulo">PERFIL DE USUARIO</div><hr>
+          <div>
+            <div><b>Nombre</b></div>
+            <input ng-model='usuario.nombre' class="form-control ng-pristine ng-valid ng-empty ng-touched"></input>
+          </div>
+          <div>
+            <div><b>Apellido</b></div>
+            <input ng-model='usuario.apellido' class="form-control ng-pristine ng-valid ng-empty ng-touched"></input>
+          </div>
+          <div>
+            <div><b>DNI</b></div>
+            <input ng-model='usuario.dni' readonly=true class="form-control ng-pristine ng-valid ng-empty ng-touched"></input>
+          </div>
+          <div>
+            <div><b>Legajo</b></div>
+            <input value='2806/4' readonly=true class="form-control ng-pristine ng-valid ng-empty ng-touched"></input>
+          </div>
 
-<div>
-    <button ng-click='actualizarUsuario(usuario)' class="btn btn-primary">GUARDAR CAMBIOS</button>
-</div>
-<div>
-  <div>Correos de contacto</div>
-  <ol ng-repeat='m in correos'>
-    <li>
-      <div ng-if='m.fecha_confirmado != null'>
-        CONFIRMADO
-      </div>
-
-      <span>{{m.id}}</span>
-      <span>{{m.email}}</span>
-      <span>{{m.fecha_confirmado}}</span>
-      <span>{{m.hash}}</span>
-
-      <div ng-if='!esInstitucional(m)'>
-        <span><button ng-click='eliminarCorreo(m)'>Eliminar</button></span>
-      </div>
-
-      <div ng-if='m.hash != null && m.fecha_confirmado == null'>
-        <span>
-          se ha enviado un correo por favor chequee su casilla e ingrese el codigo de verificacion
-          <input type=text ng-model='m.codigo'></input>
-          <button ng-click='confirmarCorreo(m)'>Confirmar</button>
-          <button ng-click='enviarConfirmarCorreo(m)'>Reenviar</button>
-        </span>
-      </div>
-
-      <div ng-if='m.hash == null'>
-        <span><button ng-click='enviarConfirmarCorreo(m)'>Requiere Confirmación</button></span>
-      </div>
-
-    </li>
-  </ol>
-  <div>
-    Agregar:<input type='email' ng-model='emailAAgregar'></input>
-    <button ng-click='agregarCorreo()'>Agregar</button>
-  </div>
+          <div>
+              <button ng-click='actualizarUsuario(usuario)' class="btn btn-primary">GUARDAR CAMBIOS</button>
+          </div>
+        </div>
+        <div class="contentMails">
+          <div class="titulo">CORREOS DE CONTACTO</div><hr>
 
 
-  <!-- pantallas intermedias -->
 
-</div>
+          <!-- CORREOS CONFIRMADOS -->
+
+          <div ng-repeat='m in correos'>
+              <div>
+                <div>{{m.email}}</div>
+                <span class="statusMailConfirmed label label-success"> confirmado</span>
+                <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
+
+                <div ng-if='!esInstitucional(m)'>
+                  <span><button ng-click='eliminarCorreo(m)'>Eliminar</button></span>
+                </div>
+              </div>
+
+
+          </div>
+
+
+          <!-- CORREO ENVIADO, INTRODUCIR CODIGO -->
+
+          <div  class="b" ng-repeat='m in correos'>
+            <div>
+
+              <span>{{m.email}}</span>
+              <span class="statusMailConfirmed label label-success" ng-if='m.fecha_confirmado != null'>confirmado</span>
+              <span class="statusMailConfirmed label label-danger" ng-if='m.hash == null'>confirmación pendiente</span>
+              <span class="statusMailConfirmed label label-danger" ng-if='m.hash != null && m.fecha_confirmado == null'>confirmación pendiente</span>
+
+              <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
+
+              <div ng-if='!esInstitucional(m)'>
+                <span><button ng-click='eliminarCorreo(m)'>Eliminar</button></span>
+              </div>
+
+              <p class="bg-danger" ng-if='m.hash != null && m.fecha_confirmado == null'>
+                <span>
+                  se ha enviado un correo por favor chequee su casilla e ingrese el codigo de verificacion<br>
+                  <input type=text ng-model='m.codigo'></input>
+                  <button ng-click='confirmarCorreo(m)'>Confirmar</button>
+                  <button ng-click='enviarConfirmarCorreo(m)'>Reenviar</button>
+                </span>
+              </p>
+
+              <div ng-if='m.hash == null'>
+                <span><button ng-click='enviarConfirmarCorreo(m)'>Reenviar correo</button></span>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div>
+            <div>
+            <b>Nuevo Correo</b>
+            </div>
+          <!-- <input type='email' ng-model='emailAAgregar'></input>
+            <button class="btn btn-success" ng-click='agregarCorreo()'>AGREGAR CORREO</button> -->
+
+
+            <form class="form-inline">
+                <div class="form-group">
+                  <input type="email" class="form-control" id="exampleInputEmail2" ng-model='emailAAgregar' placeholder="nombre@dominio.com">
+                </div>
+                <button type="submit" class="btn btn-success" ng-click='agregarCorreo()'>AGREGAR CORREO</button>
+          </form>
+
+          </div>
+
+
+
+          <!-- pantallas intermedias -->
+
+        </div>
+    </div>
 </div>
