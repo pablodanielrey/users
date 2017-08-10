@@ -7,23 +7,21 @@
 <div class='config_clave {{estilo}}'>
 
   <div class='mensaje'>
-    Mensaje Inicial
-    <button ng-click='pasoAnterior()'>Anterior</button>
+    Su clave se encuentra vencida. Deberá cambiarla para poder continuar con el acceso a los sistemas.
     <button ng-click='pasoSiguiente()'>Siguiente</button>
   </div>
 
   <div class='clave'>
     Por favor ingrese su clave nueva.
-    <input type='{{view.tipo1}}' ng-model='view.clave1'></input><button ng-click='cambiarTipo1()'>ver</button>
-    <input type='{{view.tipo2}}' ng-model='view.clave2'></input><button ng-click='cambiarTipo2()'>ver</button>
+    <input type='{{view.tipo}}' ng-model='view.clave1'></input><button ng-click='cambiarTipo()'>ver</button>
+    <input type='{{view.tipo}}' ng-model='view.clave2'></input>
     <button ng-click='pasoAnterior()'>Anterior</button>
     <button ng-click='cambiarClave()'>Siguiente</button>
   </div>
 
   <div class='fin'>
-    Configuración correcta
-    <button ng-click='pasoAnterior()'>Anterior</button>
-    <button ng-click='pasoSiguiente()'>Siguiente</button>
+    Configuración correcta. Recuerde realizar el cambio en todos los dispositivos que utilice. Por ejemplo clientes de correo como outlook.
+    <button ng-click='finalizar()'>Finalizar</button>
   </div>
 
 </div>

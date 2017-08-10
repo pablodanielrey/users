@@ -32,24 +32,37 @@ class UsersModel:
 
     @classmethod
     def crear_clave(cls, uid, clave):
+        '''
+            IMPORANTE!!!!:
+            como ahora no todos los sistemas soportan varias claves en el registro de claves. se elimina la clave anterior.
+            por lo que no queda historial ni eliminación lógica de la clave!!!!
+            cuando todos los sistemas estén usando el nuevo esquema se cambia este método para registrar el historial de claves.
+        '''
         assert uid is not None
         assert clave is not None
 
         session = Session()
         try:
+            """
             dni = session.query(Usuario.dni).filter(Usuario.id == uid).one()
             uclave = session.query(UsuarioClave).filter(UsuarioClave.usuario_id == uid, UsuarioClave.eliminada == None).one_or_none()
-            if uuclave:
+            if uclave:
                 uclave.eliminada = datetime.datetime.now()
 
-            uuclave = UsuarioClave(nombre_de_usuario=dni, clave=clave)
+            uuclave = UsuarioClave(usuario_id=uid, nombre_de_usuario=dni, clave=clave)
             session.add(uuclave)
+            """
+            uclave = session.query(UsuarioClave).filter(UsuarioClave.usuario_id == uid).one_or_none()
+            if uclave:
+                uclave.clave = clave
+            else:
+                uuclave = UsuarioClave(usuario_id=uid, nombre_de_usuario=dni, clave=clave)
+                session.add(uuclave)
 
             session.commit()
 
         finally:
             session.close()
-
 
     @classmethod
     def actualizar_usuario(cls, uid, datos):
@@ -62,7 +75,6 @@ class UsersModel:
 
         finally:
             session.close()
-
 
     @classmethod
     def usuarios(cls, usuario=None, dni=None, retornarClave=False, fecha_actualizado=None, offset=None, limit=None):
@@ -81,7 +93,6 @@ class UsersModel:
             return q.all()
         finally:
             session.close()
-
 
     @classmethod
     def correos(cls, cid=None, usuario=None, historico=False, offset=None, limit=None):
@@ -158,7 +169,6 @@ class UsersModel:
 
         finally:
             session.close()
-
 
     @staticmethod
     def obtener_template(nombre, codigo):

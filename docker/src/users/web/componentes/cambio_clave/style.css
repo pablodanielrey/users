@@ -1,65 +1,17 @@
 
-.config_correo.paso1 .mensaje {
-}
-
-.config_correo.paso1 .correo {
-  display: none;
-}
-
-.config_correo.paso1 .codigo {
-  display: none;
-}
-
-.config_correo.paso1 .fin {
+.config_clave div {
   display: none;
 }
 
 
-
-.config_correo.paso2 .mensaje {
-  display: none;
+.config_clave.paso1 .mensaje {
+  display: block;
 }
 
-.config_correo.paso2 .correo {
+.config_clave.paso2 .clave {
+  display: block;
 }
 
-.config_correo.paso2 .codigo {
-  display: none;
-}
-
-.config_correo.paso2 .fin {
-  display: none;
-}
-
-
-.config_correo.paso3 .mensaje {
-  display: none;
-}
-
-.config_correo.paso3 .correo {
-  display: none;
-}
-
-.config_correo.paso3 .codigo {
-
-}
-
-.config_correo.paso3 .fin {
-  display: none;
-}
-
-
-.config_correo.paso4 .mensaje {
-  display: none;
-}
-
-.config_correo.paso4 .correo {
-  display: none;
-}
-
-.config_correo.paso4 .codigo {
-  display: none;
-}
-
-.config_correo.paso4 .fin {
+.config_clave.paso3 .fin {
+  display: block;
 }
