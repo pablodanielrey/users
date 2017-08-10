@@ -1,35 +1,34 @@
-<div>
+<div class="perfil">
+<!-- <div>
     {{mensaje}}
     {{parm}}
-</div>
+</div> -->
 
-<div style='{{estilo}}'>
+<!-- <div style='{{estilo}}'>
   aca va el codigo que se va a mostrar cuando esta cargando datos
-</div>
+</div> -->
 
-<div class="hola">
-  <div>ID</div>
-  <div>{{usuario.id}}</input>
+  <!-- <div>ID</div> -->
+  <!-- <div>{{usuario.id}}</input></div> -->
+<div>
+  <div><b>Nombre</b></div>
+  <input ng-model='usuario.nombre' class="form-control ng-pristine ng-valid ng-empty ng-touched"></input>
 </div>
 <div>
-  <div>Nombre</div>
-  <input ng-model='usuario.nombre'></input>
+  <div><b>Apellido</b></div>
+  <input ng-model='usuario.apellido' class="form-control ng-pristine ng-valid ng-empty ng-touched"></input>
 </div>
 <div>
-  <div>Apellido</div>
-  <input ng-model='usuario.apellido'></input>
+  <div><b>DNI</b></div>
+  <input ng-model='usuario.dni' readonly=true class="form-control ng-pristine ng-valid ng-empty ng-touched"></input>
 </div>
 <div>
-  <div>Dni</div>
-  <input ng-model='usuario.dni' readonly=true></input>
-</div>
-<div>
-  <div>Legajo</div>
-  <input value='2806/4' readonly=true></input>
+  <div><b>Legajo</b></div>
+  <input value='2806/4' readonly=true class="form-control ng-pristine ng-valid ng-empty ng-touched"></input>
 </div>
 
 <div>
-    <button ng-click='actualizarUsuario(usuario)'>Actualizar</button>
+    <button ng-click='actualizarUsuario(usuario)' class="btn btn-primary">GUARDAR CAMBIOS</button>
 </div>
 <div>
   <div>Correos de contacto</div>
@@ -71,4 +70,5 @@
 
   <!-- pantallas intermedias -->
 
+</div>
 </div>

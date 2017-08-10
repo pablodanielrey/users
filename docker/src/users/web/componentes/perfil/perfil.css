@@ -1,0 +1,21 @@
+.perfil {
+padding: 20px;
+}
+
+.perfil .form-control {
+width: 300px;
+}
+
+input {
+  margin-bottom: 5px;
+}
+
+.btn {
+  margin-top: 5px;
+}
+
+@media screen and (max-width: 769px) {
+  .perfil .form-control {
+  width: 100%;
+  }
+}

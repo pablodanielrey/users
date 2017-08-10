@@ -1,16 +1,15 @@
-<div class="adminMenu ng-scope">
+<div class="header ng-scope">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
           <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
+          <i class="fa fa-bars" aria-hidden="true"></i>
         </button>
         <a class="navbar-brand">Usuarios FCE</a>
       </div>
       <div class="collapse navbar-collapse" ng-class="!navCollapsed &amp;&amp; 'in'">
         <ul class="nav navbar-nav navbar-right">
-          <li><a class="btnOut" href="#" ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span> Salir</a></li>
+          <li><a class="btnUSer" ><i class="fa fa-user-circle" aria-hidden="true"></i> Walter Blanco</a></li>
+          <li><a class="btnOut" href="#"><span class="glyphicon glyphicon-log-out"></span> Salir</a></li>
         </ul>
       </div>
 </div>
