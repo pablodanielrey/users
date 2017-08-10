@@ -54,7 +54,7 @@ class UsersModel:
             q = q.filter(Usuario.dni == dni) if dni else q
 
             q = q.options(joinedload('claves')) if retornarClave else q
-    
+
 
             q = q.options(joinedload('mails'), joinedload('telefonos'))
 
@@ -85,6 +85,9 @@ class UsersModel:
         assert 'email' in datos
         session = Session()
         try:
+            if (session.query(Mail).filter(Mail.usuario_id == uid, Mail.email == datos['email'], Mail.eliminado == None).count() >= 1):
+                return
+
             usuario = session.query(Usuario).filter(Usuario.id == uid).one()
             mail = Mail(email=datos['email'].lower())
             usuario.mails.append(mail)
@@ -137,8 +140,9 @@ class UsersModel:
         session = Session()
         try:
             correo = session.query(Mail).filter(Mail.id == cid).join(Usuario).one()
-            correo.hash=str(uuid.uuid4())[:5]
-            session.commit()
+            if not correo.hash:
+                correo.hash=str(uuid.uuid4())[:5]
+                session.commit()
 
             mail = correo.email.lower().strip()
             codigo = correo.hash

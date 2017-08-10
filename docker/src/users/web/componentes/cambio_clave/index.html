@@ -1,0 +1,39 @@
+
+<div>
+  {{estilo_actual}}
+  {{estilo}}
+
+  {{correoPendiente}}
+</div>
+
+<div class='config_correo {{estilo}}'>
+
+  <div class='mensaje'>
+    Mensaje Inicial
+    <button ng-click='pasoAnterior()'>Anterior</button>
+    <button ng-click='pasoSiguiente()'>Siguiente</button>
+  </div>
+
+  <div class='correo'>
+    Ingrese Por favor su correo de contacto alternativo
+    <input type='email' ng-model='view.correo'></input>
+    <button ng-click='pasoAnterior()'>Anterior</button>
+    <button ng-click='agregarCorreo()'>Siguiente</button>
+  </div>
+
+  <div class='codigo'>
+    Se ha enviado un código de confirmación a la cuenta. {{view.correo}}
+    Por favor ingrese el código recibido
+    <input type='text' ng-model='view.codigo'></input>
+
+    <button ng-click='pasoAnterior()'>Anterior</button>
+    <button ng-click='verificarCorreo()'>Verificar</button>
+  </div>
+
+  <div class='fin'>
+    Verificación correcta
+    <button ng-click='pasoAnterior()'>Anterior</button>
+    <button ng-click='pasoSiguiente()'>Siguiente</button>
+  </div>
+
+</div>

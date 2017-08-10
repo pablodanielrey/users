@@ -1,0 +1,25 @@
+
+.config_correo div {
+  display: none;
+}
+
+
+.config_correo.chequeando .chequeando {
+  display: block;
+}
+
+.config_correo.paso1 .mensaje {
+  display: block;
+}
+
+.config_correo.paso2 .correo {
+  display: block;
+}
+
+.config_correo.paso3 .codigo {
+  display: block;
+}
+
+.config_correo.paso4 .fin {
+  display: block;
+}
