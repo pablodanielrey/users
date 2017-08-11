@@ -1,16 +1,24 @@
 
 <div>
-  {{estilo}}
-  {{error}}
-  {{codigo_error}}
+  <div style='background-color:black; color:white'>
+    <div>pantalla: {{estilo}}</div>
+    <div>error estado: {{error}}</div>
+    <div>pantalla error: {{codigo_error}}</div>
+  </div>
+
+  <div style='background-color:blue; color:white'>
+    Pantalla:
+    <button ng-click='pasoAnterior()'>Anterior</button>
+    <button ng-click='pasoSiguiente()'>Siguiente</button>
+  </div>
+
+  <div style='background-color:red'>
+    Errores:
+    <input type='checkbox' ng-model='errorc' ng-change='cambiarError()'>error?</input>
+    <button ng-click='errorAnterior()'>Error Anterior</button>
+    <button ng-click='errorSiguiente()'>Error Siguiente</button>
+  </div>
 </div>
-
-<button ng-click='pasoAnterior()'>Anterior</button>
-<button ng-click='pasoSiguiente()'>Siguiente</button>
-
-<input type='checkbox' ng-model='errorc' ng-change='cambiarError()'>error?</input>
-<button ng-click='errorAnterior()'>Error Anterior</button>
-<button ng-click='errorSiguiente()'>Error Siguiente</button>
 
 
 <div class='reset_clave {{estilo}} {{error}} {{codigo_error}}'>
