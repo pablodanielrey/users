@@ -37,6 +37,14 @@
     Atte Equipo de desarrollo de DiTeSI
   </div>
 
+  <div class='dni_sin_cuenta'>
+    Estimado {{view.usuario.nombre}} {{view.usuario.apellido}}
+    No tenemos registrada ninguna cuenta alternativa de contacto, por lo que es imposible enviar el código de verificación.
+    Por favor comuníquese con DiTeSI usando el siguiente <a href='#'>enlace</a>
+    Atte Equipo de desarrollo de DiTeSI
+    <button ng-click='pasoAnterior()'>Anterior</button>
+  </div>
+
   <div class='aviso_de_envio'>
     Bienvenido {{view.usuario.nombre}} {{view.usuario.apellido}}
     Vamos a enviar un código de confirmación a su cuenta alternativa de correo,
@@ -48,7 +56,7 @@
 
   <div class='limite_de_envio'>
     Ha superado el límite de envíos a {{view.correo.email}}
-    Este incidente ha sido registrado y se ha enviado un reporte al equipo de seguridad de la facultad,
+    Este incidente ha sido registrado y se ha enviado un reporte al equipo de seguridad de DiTeSI
     así como también un correo a la cuenta {{view.correo.email}} con un informe del incidente y pasos a seguir.
   </div>
 

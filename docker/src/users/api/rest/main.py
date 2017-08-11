@@ -7,13 +7,11 @@ from flask_jsontools import jsonapi
 
 from rest_utils import register_encoder
 
-app = Flask(__name__, static_url_path='/src/users/web')
+from . import reset
+
+app = Flask(__name__)
 register_encoder(app)
-
-@app.route('/<path:path>')
-def send(path):
-    return send_from_directory(app.static_url_path, path)
-
+reset.registrarApiReseteoClave(app)
 
 
 @app.route('/users/api/v1.0/usuarios/', methods=['OPTIONS'])

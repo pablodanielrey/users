@@ -6,7 +6,7 @@ import requests
 from sqlalchemy import or_
 from sqlalchemy.orm import joinedload
 
-from . import Session
+from . import Session, obtener_template, enviar_correo
 from .entities import *
 
 class UsersModel:
@@ -165,12 +165,13 @@ class UsersModel:
             mail = correo.email.lower().strip()
             codigo = correo.hash
             nombre = correo.usuario.nombre + ' ' + correo.usuario.apellido
-            cuerpo = cls.obtener_template(nombre, correo.hash)
-            cls.enviar_correo('pablo.rey@econo.unlp.edu.ar', mail, 'Confirmación de cuenta alternativa de contacto', cuerpo)
+            cuerpo = obtener_template('confirmar_correo.html', nombre, correo.hash)
+            enviar_correo('pablo.rey@econo.unlp.edu.ar', mail, 'Confirmación de cuenta alternativa de contacto', cuerpo)
 
         finally:
             session.close()
 
+    """
     @staticmethod
     def obtener_template(nombre, codigo):
         with open('users/model/templates/confirmar_correo.html','r') as f:
@@ -186,3 +187,4 @@ class UsersModel:
         bcuerpo = base64.urlsafe_b64encode(cuerpo.encode('utf-8')).decode()
         r = requests.post('http://163.10.56.57:8001/emails/api/v1.0/enviar_correo', json={'de':de, 'para':para, 'asunto':asunto, 'cuerpo':bcuerpo})
         print(str(r))
+    """

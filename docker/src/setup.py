@@ -34,7 +34,8 @@ setup(name='users',
                             'flask_jsontools',
                             'SQLAlchemy',
                             'google-api-python-client',
-                            'httplib2'],
+                            'httplib2',
+                            'pyjwt'],
           entry_points={
             'console_scripts': [
                 'wamp=users.api.wamp.main:main',

@@ -3,9 +3,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.schema import CreateSchema
 from sqlalchemy.orm import sessionmaker
 
-from .entities import *
-
 from model_utils import Base
+from .entities import *
 
 engine = create_engine('postgresql://{}:{}@{}:5432/{}'.format(
     os.environ['USERS_DB_USER'],
@@ -16,10 +15,26 @@ engine = create_engine('postgresql://{}:{}@{}:5432/{}'.format(
 
 Session = sessionmaker(bind=engine, autoflush=False, autocommit=False)
 
+def obtener_template(template, nombre, codigo):
+    with open('users/model/templates/' + template,'r') as f:
+        template = f.read()
+        texto = template.replace('$USUARIO',nombre)\
+                .replace('$CODIGO_CONFIRMACION',codigo)\
+                .replace('$URL_DE_INFORME','http://incidentes.econo.unlp.edu.ar/0293094-df2323-r4354-f34543')
+        return texto
+
+def enviar_correo(de, para, asunto, cuerpo):
+    ''' https://developers.google.com/gmail/api/guides/sending '''
+    bcuerpo = base64.urlsafe_b64encode(cuerpo.encode('utf-8')).decode()
+    r = requests.post('http://163.10.56.57:8001/emails/api/v1.0/enviar_correo', json={'de':de, 'para':para, 'asunto':asunto, 'cuerpo':bcuerpo})
+    return r
+
 from .UsersModel import UsersModel
+from .ResetClaveModel import ResetClaveModel
 
 __all__ = [
-    'UsersModel'
+    'UsersModel',
+    'ResetClaveModel'
 ]
 
 """
