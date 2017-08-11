@@ -1,19 +1,49 @@
 
 <div>
-  {{estilo_actual}}
   {{estilo}}
+  {{error}}
+  {{codigo_error}}
 </div>
 
-<div class='reset_clave {{estilo}}'>
+<button ng-click='pasoAnterior()'>Anterior</button>
+<button ng-click='pasoSiguiente()'>Siguiente</button>
 
-  <div class='chequeando'>
+<input type='checkbox' ng-model='errorc' ng-change='cambiarError()'>error?</input>
+<button ng-click='errorAnterior()'>Error Anterior</button>
+<button ng-click='errorSiguiente()'>Error Siguiente</button>
+
+
+<div class='reset_clave {{estilo}} {{error}} {{codigo_error}}'>
+
+  <div class='expirado'>
+      Por razones de seguridad se impone un límite de tiempo razonable para completar el proceso de recuperación.
+      Ha superado este tiempo. Por lo que debe iniciar el proceso nuevamente.
+      Tenga en cuenta que la cantidad de intentos de recuperación se registra, se informa y se evalúa para evitar ataques.
+      Para iniciar nuevamente el intento de recuperación de la clave por favor acceda al siguiente <a href='#'>enlace</a>
+      Si desea comunicarse con DiTeSI para reportar un problema puede hacerlo mediante el siguiente <a href='#'>enlace</a>
+      Atte
+      Equipo de desarrollo de DiTeSI
+  </div>
+
+  <!-- --------------------- paso ---------------------- -->
+
+
+  <div class='pantalla chequeando'>
       Cheqeuando Precondiciones. Por favor espere
   </div>
 
-  <div class='mensaje'>
+
+  <!-- --------------------- paso ---------------------- -->
+
+
+  <div class='pantalla mensaje'>
     Vamos a proceder a recuperar la clave de su cuenta
     <button ng-click='pasoSiguiente()'>Siguiente</button>
   </div>
+
+
+  <!-- --------------------- paso ---------------------- -->
+
 
   <div class='dni'>
     Por favor ingrese su dni (sin puntos, solo números)
@@ -45,20 +75,34 @@
     <button ng-click='pasoAnterior()'>Anterior</button>
   </div>
 
+
+  <!-- --------------------- paso ---------------------- -->
+
+
   <div class='aviso_de_envio'>
     Bienvenido {{view.usuario.nombre}} {{view.usuario.apellido}}
     Vamos a enviar un código de confirmación a su cuenta alternativa de correo,
-    antes de completar este paso asegúrese de poder acceder a la cuenta : {{view.correo.email}}
-    Si no puede acceder a su cuenta alternativa de correo por favor comuníquese con DiTeSI usando el siguiente <a href='#'>enlace</a>
+    antes de completar este paso asegúrese de poder acceder a la cuenta : {{view.usuario.correo.email}}
+    Si no puede acceder a su cuenta alternativa de correo por favor comuníquese con DiTeSI usando el siguiente <a href='#'>enlace</a> para que podamos ayudarlo a registrar otra cuenta.
     <button ng-click='pasoAnterior()'>Anterior</button>
     <button ng-click='enviarCodigo()'>Siguiente</button>
   </div>
 
   <div class='limite_de_envio'>
-    Ha superado el límite de envíos a {{view.correo.email}}
+    Ha superado el límite de envíos a {{view.usuario.correo.email}}
     Este incidente ha sido registrado y se ha enviado un reporte al equipo de seguridad de DiTeSI
-    así como también un correo a la cuenta {{view.correo.email}} con un informe del incidente y pasos a seguir.
+    así como también un correo a la cuenta {{view.usuario.correo.email}} con un informe del incidente y pasos a seguir.
   </div>
+
+  <div class='error_de_envio'>
+    No se pudo enviar el código a la cuenta {{view.usuario.correo.email}}
+    Por favor intente nuevamente en unos minutos.
+    Si el problema se reitera por favor comuníquese con DiTeSI usando el siguiente <a href='#'>enlace</a>
+  </div>
+
+
+  <!-- --------------------- paso ---------------------- -->
+
 
   <div class='codigo'>
     Se ha enviado el código de confirmación a la cuenta {{view.correo}}
@@ -75,9 +119,34 @@
     <button ng-click='verificarCodigo()'>Verificar</button>
   </div>
 
+  <div class='error_de_codigo'>
+    El código ingresado es incorrecto!!.
+    Chequee nuevamente su cuenta {{view.usuario.correo.email}} y asegúrese de que el código ingresado es el indicado en
+    el último correo recibido.
+    Tenga en cuenta que tendrá tantos correos como intentos de recuperar su clave.
+    Recuerde verificar también los correos clasificados como "Correo Basura" o "Spam"
+    Si el problema se reitera por favor comuníquese con DiTeSI usando el siguiente <a href='#'>enlace</a>
+    <button ng-click='pasoAnterior()'>Anterior</button>
+  </div>
+
+  <div class='limite_de_verificacion'>
+    Ha superado el límite de intentos de verificación.
+    Este incidente ha sido registrado y se ha enviado un reporte al equipo de seguridad de DiTeSI
+    así como también un correo a la cuenta {{view.usuario.correo.email}} con un informe del incidente y pasos a seguir.
+  </div>
+
+
+  <!-- --------------------- paso ---------------------- -->
+
+
   <div class='clave'>
     Verificación Exitosa.
-    Por favor ingrese su clave nueva.
+    Por favor ingrese una clave nueva.
+    El formato de clave aceptada es :
+    - mayor o igual a 8 caracteres
+    - al menos un dígito
+    - debe comenzar con una letra
+
     <div>
       Clave Nueva
       <input type='{{view.tipo}}' ng-model='view.clave1'></input>
@@ -95,11 +164,28 @@
     <button ng-click='cambiarClave()'>Siguiente</button>
   </div>
 
+  <div class='error_cambio_clave'>
+    Ocurrió un problema cambiando su clave.
+    El incidente se ha registrado y se ha informado al equipo de desarrollo de DiTeSI.
+    Si desea puede realizar nuevamente el proceso accediendo a <a href='#'>reintentar proceso</a>
+    Si el problema se reitera por favor comuníquese con DiTeSI usando el siguiente <a href='#'>enlace</a>
+    Atte
+    Equipo de desarrollo DiTeSI
+  </div>
+
+
+  <!-- --------------------- paso ---------------------- -->
+
+
   <div class='fin'>
     Se ha registrado con éxito el cambio de contraseña.
-    Recuerde cambiarla en todos los dispositivos que utilice. Por ejemplo clientes de correo como outlook.
-    Gracias por utilizar nuestros servicios.
+    Recuerde cambiarla en todos los dispositivos que utilice. Por ejemplo clientes de correo como outlook, datos de conexión en el celular, etc
+    No olvide mantener actualizado sus datos <a href='#'>aquí</a> ya que serán requeridos por distintas áreas de la facultad.
     Si tiene alguna consulta puede comunicarse con DiTeSI mediante el siguiente <a href='#'>enlace</a>
+    Gracias por utilizar nuestros servicios.
+    Atte
+    Equipo de desarrollo DiTeSI
   </div>
+
 
 </div>
