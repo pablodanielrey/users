@@ -19,19 +19,15 @@
   display: block;
 }
 
-.reset_clave.error.pantalla {
-  display: none;
-}
-
-.reset_clave.paso3.error1 .dni_inexistente {
+.reset_clave.paso3.error.error1 .dni_inexistente {
   display: block;
 }
 
-.reset_clave.paso3.error2 .usuario_bloqueado  {
+.reset_clave.paso3.error.error2 .usuario_bloqueado  {
   display: block;
 }
 
-.reset_clave.paso3.error3 .dni_sin_cuenta {
+.reset_clave.paso3.error.error3 .dni_sin_cuenta {
   display: block;
 }
 
@@ -39,11 +35,11 @@
   display: block;
 }
 
-.reset_clave.paso4.error1 .limite_de_envio {
+.reset_clave.paso4.error.error1 .limite_de_envio {
   display: block;
 }
 
-.reset_clave.paso4.error2 .error_de_envio {
+.reset_clave.paso4.error.error2 .error_de_envio {
   display: block;
 }
 
@@ -51,11 +47,11 @@
   display: block;
 }
 
-.reset_clave.paso5.error1 .error_de_codigo {
+.reset_clave.paso5.error.error1 .error_de_codigo {
   display: block;
 }
 
-.reset_clave.paso5.error2 .limite_de_verificacion {
+.reset_clave.paso5.error.error2 .limite_de_verificacion {
   display: block;
 }
 
@@ -64,10 +60,14 @@
   display: block;
 }
 
-.reset_clave.paso6.error1 .error_cambio_clave {
+.reset_clave.paso6.error.error1 .error_cambio_clave {
   display: block;
 }
 
-.reset_clave.paso6 .fin {
+.reset_clave.paso7 .fin {
   display: block;
+}
+
+.reset_clave.error .pantalla {
+  display: none;
 }

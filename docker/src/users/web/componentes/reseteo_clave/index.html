@@ -45,7 +45,7 @@
   <!-- --------------------- paso ---------------------- -->
 
 
-  <div class='dni'>
+  <div class='pantalla dni'>
     Por favor ingrese su dni (sin puntos, solo números)
     <input type='text' ng-model='view.dni'></input>
     <button ng-click='obtenerDatosDeUsuario()'>Siguiente</button>
@@ -72,14 +72,13 @@
     No tenemos registrada ninguna cuenta alternativa de contacto, por lo que es imposible enviar el código de verificación.
     Por favor comuníquese con DiTeSI usando el siguiente <a href='#'>enlace</a>
     Atte Equipo de desarrollo de DiTeSI
-    <button ng-click='pasoAnterior()'>Anterior</button>
   </div>
 
 
   <!-- --------------------- paso ---------------------- -->
 
 
-  <div class='aviso_de_envio'>
+  <div class='pantalla aviso_de_envio'>
     Bienvenido {{view.usuario.nombre}} {{view.usuario.apellido}}
     Vamos a enviar un código de confirmación a su cuenta alternativa de correo,
     antes de completar este paso asegúrese de poder acceder a la cuenta : {{view.usuario.correo.email}}
@@ -104,7 +103,7 @@
   <!-- --------------------- paso ---------------------- -->
 
 
-  <div class='codigo'>
+  <div class='pantalla codigo'>
     Se ha enviado el código de confirmación a la cuenta {{view.correo}}
     Tenga en cuenta que la recepción del correo puede demorarse algunos minutos.
     Chequee también los correos clasificados como "Correo Basura" o "Spam",
@@ -139,7 +138,7 @@
   <!-- --------------------- paso ---------------------- -->
 
 
-  <div class='clave'>
+  <div class='pantalla clave'>
     Verificación Exitosa.
     Por favor ingrese una clave nueva.
     El formato de clave aceptada es :
@@ -177,7 +176,7 @@
   <!-- --------------------- paso ---------------------- -->
 
 
-  <div class='fin'>
+  <div class='pantalla fin'>
     Se ha registrado con éxito el cambio de contraseña.
     Recuerde cambiarla en todos los dispositivos que utilice. Por ejemplo clientes de correo como outlook, datos de conexión en el celular, etc
     No olvide mantener actualizado sus datos <a href='#'>aquí</a> ya que serán requeridos por distintas áreas de la facultad.

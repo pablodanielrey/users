@@ -1,7 +1,7 @@
 
 app.controller("ReseteoClaveCtrl", ["$scope", "$location", "$routeParams", "$resource", "$timeout", function ($scope, $location, $routeParams, $resource, $tiemout) {
 
-  $scope.estilos = ['paso1', 'paso2', 'paso3', 'paso4', 'paso5', 'paso6'];
+  $scope.estilos = ['paso1', 'paso2', 'paso3', 'paso4', 'paso5', 'paso6', 'paso7'];
   $scope.estilo_actual = 0;
   $scope.estilo = $scope.estilos[$scope.estilo_actual];
 
