@@ -1,0 +1,22 @@
+
+.config_clave > div {
+  display: none;
+}
+
+
+.config_clave.paso1 .mensaje {
+  display: block;
+}
+
+.config_clave.paso2 .clave {
+  display: block;
+}
+
+.config_clave.paso3 .fin {
+  display: block;
+}
+
+.error {
+  background-color: black;
+  color: red;
+}
