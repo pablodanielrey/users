@@ -1,3 +1,6 @@
+import logging
+logging.getLogger().setLevel(logging.DEBUG)
+
 from flask import Flask, abort, make_response, jsonify, url_for, request, json, send_from_directory
 from users.model import ResetClaveModel
 from flask_jsontools import jsonapi
@@ -5,9 +8,11 @@ from flask_jsontools import jsonapi
 def _obtener_token_de_authorization():
     token = None
     auth = request.authorization
+    logging.debug(auth)
     if auth is None and 'Authorization' in request.headers:
         try:
-            auth_type, tk = request.headers['Authorization'].split(None,1)
+            header = request.headers['Authorization']
+            auth_type, tk = header.split(None,1)
             token = tk
         except ValueError:
             pass
@@ -23,6 +28,7 @@ def registrarApiReseteoClave(app):
     @app.route('/users/api/v1.0/reset/obtener_token', methods=['OPTIONS'])
     @app.route('/users/api/v1.0/reset/obtener_usuario/<dni>', methods=['OPTIONS'])
     @app.route('/users/api/v1.0/reset/enviar_codigo', methods=['OPTIONS'])
+    @app.route('/users/api/v1.0/reset/verificar_codigo', methods=['OPTIONS'])
     @app.route('/users/api/v1.0/reset/cambiar_clave', methods=['OPTIONS'])
     def reset_options(*args, **kargs):
         '''
@@ -72,6 +78,18 @@ def registrarApiReseteoClave(app):
             abort(403)
         return ResetClaveModel.enviar_codigo(token)
 
+    @app.route('/users/api/v1.0/reset/verificar_codigo', methods=['POST'])
+    @jsonapi
+    def reset_verificar_codigo():
+        token = _obtener_token_de_authorization()
+        if not token:
+            abort(403)
+        datos = json.loads(request.data)
+        if not 'codigo' in datos:
+            abort(400)
+        return ResetClaveModel.verificar_codigo(token, datos['codigo'])
+
+
     @app.route('/users/api/v1.0/reset/cambiar_clave', methods=['POST'])
     @jsonapi
     def reset_cambiar_clave():
@@ -80,6 +98,5 @@ def registrarApiReseteoClave(app):
             abort(403)
         datos = json.loads(request.data)
         if not 'clave' in datos:
-            abrot(400)
-        clave = datos['clave']
-        return ResetClaveModel.cambiar_clave(token, clave)
+            abort(400)
+        return ResetClaveModel.cambiar_clave(token, datos['clave'])

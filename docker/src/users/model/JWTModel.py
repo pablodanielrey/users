@@ -3,12 +3,13 @@ import jwt
 
 class JWTModel:
 
-    def __init__(self, clave):
+    def __init__(self, clave, exp=60):
         self.clave = clave
+        self.exp = exp
 
     def encode_auth_token(self, datos=''):
         payload = {
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=60),
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=self.exp),
             'iat': datetime.datetime.utcnow(),
             'datos': datos
         }

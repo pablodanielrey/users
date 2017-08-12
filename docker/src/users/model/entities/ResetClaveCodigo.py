@@ -4,13 +4,14 @@ from sqlalchemy.orm import relationship
 from model_utils import Base
 
 
-class ResetClave(Base):
+class ResetClaveCodigo(Base):
 
-    __tablename__ = 'reset_clave'
+    __tablename__ = 'reset_clave_codigo'
     __table_args__ = ({'schema': 'users'})
 
     dni = Column(String)
-    intentos = Column(Integer, default=0)
-
-    usuario_id = Column('user_id', String, ForeignKey('profile.users.id'))
-    usuario = relationship('Usuario')
+    nombre = Column(String)
+    codigo = Column(String)
+    correo = Column(String)
+    expira = Column(DateTime)
+    verificado = Column(DateTime)

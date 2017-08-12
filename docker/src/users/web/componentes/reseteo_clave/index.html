@@ -27,7 +27,7 @@
       Por razones de seguridad se impone un límite de tiempo razonable para completar el proceso de recuperación.
       Ha superado este tiempo. Por lo que debe iniciar el proceso nuevamente.
       Tenga en cuenta que la cantidad de intentos de recuperación se registra, se informa y se evalúa para evitar ataques.
-      Para iniciar nuevamente el intento de recuperación de la clave por favor acceda al siguiente <a href='#'>enlace</a>
+      Para iniciar nuevamente el intento de recuperación de la clave por favor acceda al siguiente <a href='#!/reset_clave'>enlace</a>
       Si desea comunicarse con DiTeSI para reportar un problema puede hacerlo mediante el siguiente <a href='#'>enlace</a>
       Atte
       Equipo de desarrollo de DiTeSI
@@ -46,7 +46,7 @@
 
   <div class='pantalla mensaje'>
     Vamos a proceder a recuperar la clave de su cuenta
-    <button ng-click='pasoSiguiente()'>Siguiente</button>
+    <button ng-click='iniciarProceso()'>Siguiente</button>
   </div>
 
 
@@ -63,7 +63,7 @@
     No tenemos registrado a ninguna persona con dni {{view.dni}}
     Si cree que esto es un error, puede comunicarse con DiTeSI usando el siguiente <a href='#'>enlace</a>
     Atte Equipo de desarrollo de DiTeSI
-    <button ng-click='pasoAnterior()'>Reingresar DNI</button>
+    <button ng-click='limpiarError()'>Reingresar DNI</button>
   </div>
 
   <div class='usuario_bloqueado'>
@@ -92,7 +92,7 @@
     antes de completar este paso asegúrese de poder acceder a la cuenta : {{view.usuario.correo.email}}
     Si no puede acceder a su cuenta alternativa de correo por favor comuníquese con DiTeSI usando el siguiente <a href='#'>enlace</a> para que podamos ayudarlo a registrar otra cuenta.
     <button ng-click='pasoAnterior()'>Anterior</button>
-    <button ng-click='enviarCodigo()'>Siguiente</button>
+    <button ng-click='enviarCodigo()'>Enviar Código</button>
   </div>
 
   <div class='limite_de_envio'>
@@ -112,17 +112,12 @@
 
 
   <div class='pantalla codigo'>
-    Se ha enviado el código de confirmación a la cuenta {{view.correo}}
+    Se ha enviado el código de confirmación a {{view.usuario.correo.email}}
     Tenga en cuenta que la recepción del correo puede demorarse algunos minutos.
     Chequee también los correos clasificados como "Correo Basura" o "Spam",
     En el caso de que haya llegado como basura, por favor indique que es correo requerido y NO es basura.
     A continuación ingrese el código recibido
     <input type='text' ng-model='view.codigo'></input>
-
-    <div ng-if='view.codigo == ""'>
-      <div ng-if='view.timer > 0'>Tiempo mínimo de espera para reenviar código : {{timer}}</div>
-      <button ng-if='view.timer <= 0' ng-click='enviarCodigo()'>Reenviar Código</button>
-    </div>
     <button ng-click='verificarCodigo()'>Verificar</button>
   </div>
 
@@ -133,7 +128,7 @@
     Tenga en cuenta que tendrá tantos correos como intentos de recuperar su clave.
     Recuerde verificar también los correos clasificados como "Correo Basura" o "Spam"
     Si el problema se reitera por favor comuníquese con DiTeSI usando el siguiente <a href='#'>enlace</a>
-    <button ng-click='pasoAnterior()'>Anterior</button>
+    <button ng-click='limpiarError()'>Anterior</button>
   </div>
 
   <div class='limite_de_verificacion'>

@@ -1,4 +1,7 @@
 import os
+import base64
+import requests
+
 from sqlalchemy import create_engine
 from sqlalchemy.schema import CreateSchema
 from sqlalchemy.orm import sessionmaker
@@ -26,8 +29,13 @@ def obtener_template(template, nombre, codigo):
 def enviar_correo(de, para, asunto, cuerpo):
     ''' https://developers.google.com/gmail/api/guides/sending '''
     bcuerpo = base64.urlsafe_b64encode(cuerpo.encode('utf-8')).decode()
-    r = requests.post('http://163.10.56.57:8001/emails/api/v1.0/enviar_correo', json={'de':de, 'para':para, 'asunto':asunto, 'cuerpo':bcuerpo})
+    r = requests.post('http://192.168.0.3:8001/emails/api/v1.0/enviar_correo', json={'de':de, 'para':para, 'asunto':asunto, 'cuerpo':bcuerpo})
     return r
+
+def crear_tablas():
+    #engine.execute(CreateSchema('users'))
+    Base.metadata.create_all(engine)
+
 
 from .UsersModel import UsersModel
 from .ResetClaveModel import ResetClaveModel
@@ -36,12 +44,3 @@ __all__ = [
     'UsersModel',
     'ResetClaveModel'
 ]
-
-"""
-por ahora usa las tablas generadas en los otros sistemas
-def crear_tablas():
-    from sqlalchemy.schema import CreateSchema
-
-    engine.execute(CreateSchema(''))
-    Base.metadata.create_all(engine)
-"""
