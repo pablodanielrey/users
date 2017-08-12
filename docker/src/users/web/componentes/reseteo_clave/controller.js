@@ -18,39 +18,66 @@ app.controller("ReseteoClaveCtrl", ["$scope", "$location", "$routeParams", "$res
   }
 
 
-  $scope.errores = ['', 'expirado', 'error1', 'error2', 'error3']
-  $scope.error_actual = 0;
-  $scope.codigo_error = $scope.errores[$scope.error_actual];
-  $scope.error = ''
 
-  $scope.cambiarError = function() {
-    if ($scope.error == '') {
-      $scope.error = 'error';
-    } else {
-      $scope.error = '';
-    }
+
+  $scope.error = {
+    error: '',
+    codigo: ''
   }
 
   $scope.limpiarError = function() {
-    $scope.setearError(0);
-    $scope.error = '';
+    $scope.error = {
+      error: '',
+      codigo: ''
+    }
   }
 
-  $scope.setearError = function(codigo) {
-    $scope.error = 'error';
-    $scope.error_actual = codigo;
-    $scope.codigo_error = $scope.errores[$scope.error_actual];
+  $scope.setearError = function(e) {
+    $scope.error = {
+      error: 'error',
+      codigo: e.error
+    };
+  }
+
+  /// se usa para debug //
+  $scope.errores_posibles = ['',
+      'TokenExpiradoError',
+      'UsuarioNoEncontradoError',
+      'SeguridadError',
+      'NoTieneCuentaAlternativaError',
+      'EnvioCodigoError',
+      'LimiteDeEnvioError',
+      'CodigoIncorrectoError',
+      'LimiteDeVerificacionError',
+      'ClaveError',
+      'FormatoDeClaveIncorrectoError'
+    ];
+  $scope.error_actual = 0;
+
+  $scope.cambiarError = function() {
+    if ($scope.error.error == '') {
+      $scope.error.error = 'error';
+    } else {
+      $scope.error.error = '';
+    }
   }
 
   $scope.errorSiguiente = function() {
-    $scope.error_actual = ($scope.error_actual + 1) % $scope.errores.length;
-    $scope.codigo_error = $scope.errores[$scope.error_actual];
+    $scope.error_actual = ($scope.error_actual + 1) % $scope.errores_posibles.length;
+    $scope.error = {
+      error: 'error',
+      codigo: $scope.errores_posibles[$scope.error_actual]
+    };
   }
 
   $scope.errorAnterior = function() {
-    $scope.error_actual = ($scope.error_actual + $scope.errores.length - 1) % $scope.errores.length;
-    $scope.codigo_error = $scope.errores[$scope.error_actual];
+    $scope.error_actual = ($scope.error_actual + $scope.errores_posibles.length - 1) % $scope.errores_posibles.length;
+    $scope.error = {
+      error: 'error',
+      codigo: $scope.errores_posibles[$scope.error_actual]
+    };
   }
+  ////////
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -117,22 +144,14 @@ app.controller("ReseteoClaveCtrl", ["$scope", "$location", "$routeParams", "$res
     $scope.view.tipo = $scope.view.tipos[$scope.view.indice];
   }
 
-  $scope.chequearError = function(resp) {
-    if (resp.estado != 'ok') {
-      $scope.setearError(resp.codigo);
-      return true;
-    }
-    return false;
-  }
-
 
   $scope.iniciarProceso = function() {
     Reset.obtener_token(function(resp) {
-      if ($scope.chequearError(resp)) { return; };
       $scope.token = resp.token;
       $scope.pasoSiguiente();
-    }, function(err) {
-      console.log(err);
+    }, function(e) {
+      console.log(e);
+      $scope.setearError(e.data);
     });
   }
 
@@ -141,22 +160,22 @@ app.controller("ReseteoClaveCtrl", ["$scope", "$location", "$routeParams", "$res
       return;
     }
     Reset.obtener_usuario({dni:$scope.view.dni}, function(resp) {
-      if ($scope.chequearError(resp)) { return; };
       $scope.token = resp.token;
       $scope.view.usuario = resp.usuario;
       $scope.pasoSiguiente();
-    }, function(err) {
-      console.log(err);
+    }, function(e) {
+      console.log(e);
+      $scope.setearError(e.data);
     })
   }
 
   $scope.enviarCodigo = function() {
     Reset.enviar_codigo(function(resp) {
-      if ($scope.chequearError(resp)) { return; };
       $scope.token = resp.token;
       $scope.pasoSiguiente();
-    }, function(err) {
-      console.log(err);
+    }, function(e) {
+      console.log(e);
+      $scope.setearError(e.data);
     })
   }
 
@@ -166,11 +185,11 @@ app.controller("ReseteoClaveCtrl", ["$scope", "$location", "$routeParams", "$res
     }
     var r = new Reset({codigo:$scope.view.codigo})
     r.$verificar_codigo(function(resp) {
-      if ($scope.chequearError(resp)) { return; };
       $scope.token = resp.token;
       $scope.pasoSiguiente();
-    }, function(err) {
-      console.log(err);
+    }, function(e) {
+      console.log(e);
+      $scope.setearError(e.data);
     })
   }
 
@@ -180,10 +199,10 @@ app.controller("ReseteoClaveCtrl", ["$scope", "$location", "$routeParams", "$res
     }
     var r = new Reset({clave:$scope.view.clave1})
     r.$cambiar_clave(function(resp) {
-      if ($scope.chequearError(resp)) { return; };
       $scope.pasoSiguiente();
-    }, function(err) {
-      console.log(err);
+    }, function(e) {
+      console.log(e);
+      $scope.setearError(e.data);
     })
   }
 

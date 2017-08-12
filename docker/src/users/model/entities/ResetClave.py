@@ -10,7 +10,3 @@ class ResetClave(Base):
     __table_args__ = ({'schema': 'users'})
 
     dni = Column(String)
-    intentos = Column(Integer, default=0)
-
-    usuario_id = Column('user_id', String, ForeignKey('profile.users.id'))
-    usuario = relationship('Usuario')

@@ -3,7 +3,7 @@
   display: none;
 }
 
-.reset_clave.expirado .expirado {
+.reset_clave.error.TokenExpiradoError .expirado {
   display: block;
 }
 
@@ -19,15 +19,15 @@
   display: block;
 }
 
-.reset_clave.paso3.error.error1 .dni_inexistente {
+.reset_clave.paso3.error.UsuarioNoEncontradoError .dni_inexistente {
   display: block;
 }
 
-.reset_clave.paso3.error.error2 .usuario_bloqueado  {
+.reset_clave.paso3.error.SeguridadError .usuario_bloqueado  {
   display: block;
 }
 
-.reset_clave.paso3.error.error3 .dni_sin_cuenta {
+.reset_clave.paso3.error.NoTieneCuentaAlternativaError .dni_sin_cuenta {
   display: block;
 }
 
@@ -35,11 +35,11 @@
   display: block;
 }
 
-.reset_clave.paso4.error.error1 .limite_de_envio {
+.reset_clave.paso4.error.LimiteDeEnvioError .limite_de_envio {
   display: block;
 }
 
-.reset_clave.paso4.error.error2 .error_de_envio {
+.reset_clave.paso4.error.EnvioCodigoError .error_de_envio {
   display: block;
 }
 
@@ -47,11 +47,11 @@
   display: block;
 }
 
-.reset_clave.paso5.error.error1 .error_de_codigo {
+.reset_clave.paso5.error.CodigoIncorrectoError .error_de_codigo {
   display: block;
 }
 
-.reset_clave.paso5.error.error2 .limite_de_verificacion {
+.reset_clave.paso5.error.LimiteDeVerificacionError .limite_de_verificacion {
   display: block;
 }
 
@@ -60,7 +60,11 @@
   display: block;
 }
 
-.reset_clave.paso6.error.error1 .error_cambio_clave {
+.reset_clave.paso6.error.ClaveError .error_cambio_clave {
+  display: block;
+}
+
+.reset_clave.paso6.error.FormatoDeClaveIncorrectoError .error_formato_de_clave {
   display: block;
 }
 

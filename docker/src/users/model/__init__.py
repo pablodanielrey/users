@@ -38,9 +38,13 @@ def crear_tablas():
 
 
 from .UsersModel import UsersModel
+from .UsersModel import UsersError
 from .ResetClaveModel import ResetClaveModel
+from .ResetClaveModel import ResetClaveError
 
 __all__ = [
     'UsersModel',
-    'ResetClaveModel'
+    'UsersError',
+    'ResetClaveModel',
+    'ResetClaveError'
 ]

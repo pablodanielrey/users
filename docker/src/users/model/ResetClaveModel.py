@@ -5,10 +5,56 @@ import os
 import logging
 logging.getLogger().setLevel(logging.DEBUG)
 
-from . import Session, UsersModel, obtener_template, enviar_correo
+from . import Session, UsersModel, UsersError, obtener_template, enviar_correo
 from .JWTModel import JWTModel
 from .entities import *
 
+class ResetClaveError(Exception):
+
+    def __init__(self, status_code=None):
+        self.status_code = 500
+        if status_code:
+            self.status_code=status_code
+        self.error = self.__class__.__name__
+
+    def __json__(self):
+        return self.__dict__
+
+class TokenExpiradoError(ResetClaveError):
+    def __init__(self):
+        super().__init__(status_code=403)
+
+class SeguridadError(ResetClaveError):
+    def __init__(self):
+        super().__init__(status_code=403)
+
+class UsuarioNoEncontradoError(ResetClaveError):
+    def __init__(self):
+        super().__init__(status_code=404)
+
+class NoTieneCuentaAlternativaError(ResetClaveError):
+    def __init__(self):
+        super().__init__(status_code=404)
+
+class CodigoIncorrectoError(ResetClaveError):
+    def __init__(self):
+        super().__init__(status_code=400)
+
+class EnvioCodigoError(ResetClaveError):
+    def __init__(self):
+        super().__init__(status_code=500)
+
+class LimiteDeEnvioError(ResetClaveError):
+    def __init__(self):
+        super().__init__(status_code=400)
+
+class LimiteDeVerificacionError(ResetClaveError):
+    def __init__(self):
+        super().__init__(status_code=403)
+
+class ClaveError(ResetClaveError):
+    def __init__(self):
+        super().__init__(status_code=500)
 
 
 class ResetClaveModel:
@@ -58,57 +104,45 @@ class ResetClaveModel:
 
     @classmethod
     def obtener_token(cls):
-        token = cls.DECODERS[0].encode_auth_token()
-        return {'estado':'ok', 'token':token}
+        try:
+            token = cls.DECODERS[0].encode_auth_token()
+            return {'estado':'ok', 'token':token}
+        except Exception:
+            raise ResetClaveError()
 
     @classmethod
-    def obtener_usuario(cls, token, dni):
+    def obtener_usuario(cls, session, token, dni):
         assert token is not None
         try:
             cls.DECODERS[0].decode_auth_token(token)
         except Exception as e:
-            return { 'estado': 'error', 'mensaje': 'token expirado', 'codigo': 1 }
+            raise TokenExpiradoError()
 
+        rc = ResetClave(dni=dni)
+        session.add(rc)
+        session.commit()
 
-        session = Session()
-        try:
-            ''' chequeo la cantidad de intentos '''
-            reset = session.query(ResetClave).filter(ResetClave.dni == dni).one_or_none()
-            if not reset:
-                rc = ResetClave(dni=dni, intentos=1)
-                session.add(rc)
-            else:
-                reset.intentos = reset.intentos + 1
-            session.commit()
+        usuario = session.query(Usuario).filter(Usuario.dni == dni).one_or_none()
+        if not usuario:
+            raise UsuarioNoEncontradoError()
 
-            usuario = session.query(Usuario).filter(Usuario.dni == dni).one_or_none()
-            if not usuario:
-                return { 'estado': 'error', 'mensaje': 'no existe ese dni', 'codigo': 2 }
+        correo = cls._obtener_correo_alternativo(usuario)
+        if not correo:
+            raise NoTieneCuentaAlternativaError()
 
-            '''
-                TODO: chequear aqui la cantidad de intentos a ver si no disparo el error con código 3
-            '''
-
-            correo = cls._obtener_correo_alternativo(usuario)
-            if not correo:
-                return { 'estado': 'error', 'mensaje': 'no tiene registrado cuenta alternativa de correo', 'codigo': 4 }
-
-            rusuario = {
-                'nombre': usuario.nombre,
-                'apellido': usuario.apellido,
-                'dni': usuario.dni,
-                'correo': {
-                        'email': correo.email,
-                    }
-            }
-            nuevo_token = cls.DECODERS[1].encode_auth_token(datos=rusuario)
-            r = { 'estado': 'ok',
-                  'usuario':rusuario,
-                  'token': nuevo_token}
-            return r
-
-        finally:
-            session.close()
+        rusuario = {
+            'nombre': usuario.nombre,
+            'apellido': usuario.apellido,
+            'dni': usuario.dni,
+            'correo': {
+                    'email': correo.email,
+                }
+        }
+        nuevo_token = cls.DECODERS[1].encode_auth_token(datos=rusuario)
+        r = { 'estado': 'ok',
+              'usuario':rusuario,
+              'token': nuevo_token}
+        return r
 
     @classmethod
     def enviar_codigo(cls, token):
@@ -117,7 +151,7 @@ class ResetClaveModel:
         try:
             datos = cls.DECODERS[1].decode_auth_token(token)
         except Exception as e:
-            return { 'estado': 'error', 'mensaje': 'token expirado', 'codigo': 1 }
+            raise TokenExpiradoError()
 
         session = Session()
         try:
@@ -136,17 +170,24 @@ class ResetClaveModel:
                 rc.expira = rc.expira + datetime.timedelta(days=1)
             session.commit()
 
+            '''
+                ///////////////////////////////////////////////////
+                //////////////////////////
+                TODO: aca falta chequear la cantidad de envíos realizados para un correo en especial. Debe ser por dni!!!
+
+                LimiteDeEnvioError
+            '''
+
             temp = obtener_template('reset_clave.html', rc.nombre, rc.codigo)
             r = enviar_correo('pablo.rey@econo.unlp.edu.ar', rc.correo, 'Código de confirmación de cambio de contraseña', temp)
             if not r.ok:
-                return { 'estado': 'error', 'mensaje': 'no se pudo enviar el correo con el código de confirmación', 'codigo': 3 }
+                raise EnvioCodigoError()
 
             nuevo_token = cls.DECODERS[2].encode_auth_token(datos=rc.id)
             return { 'estado':'ok', 'token': nuevo_token }
 
         except Exception as e:
-            logging.debug(e)
-            return { 'estado': 'error', 'mensaje': 'no se pudo enviar el correo con el código de confirmación', 'codigo': 3 }
+            raise EnvioCodigoError()
 
         finally:
             session.close()
@@ -158,17 +199,22 @@ class ResetClaveModel:
         try:
             rcid = cls.DECODERS[2].decode_auth_token(token)
         except Exception as e:
-            return { 'estado': 'error', 'mensaje': 'token expirado', 'codigo': 1 }
+            raise TokenExpiradoError()
 
         session = Session()
         try:
             ahora = datetime.datetime.now()
             rc = session.query(ResetClaveCodigo).filter(ResetClaveCodigo.id == rcid, ResetClaveCodigo.expira >= ahora).one_or_none()
             if not rc:
-                return { 'estado': 'error', 'mensaje': 'token expirado', 'codigo': 1 }
+                raise TokenExpiradoError()
 
             if rc.codigo != codigo:
-                return { 'estado': 'error', 'mensaje': 'error de código', 'codigo': 2 }
+                raise CodigoIncorrectoError()
+
+            '''
+                TODO: falta agregar el chequeo de intentos de verificaciónes. para chequear veces que se haya ingresado el codigo.
+                raise LimiteDeVerificacionError
+            '''
 
             rc.verificado = ahora
             rc.expira = ahora
@@ -182,27 +228,20 @@ class ResetClaveModel:
 
 
     @classmethod
-    def cambiar_clave(cls, token, clave):
+    def cambiar_clave(cls, session, token, clave):
         assert token is not None
         dni = None
         try:
             dni = cls.DECODERS[3].decode_auth_token(token)
         except Exception as e:
-            return { 'estado': 'error', 'mensaje': 'token expirado', 'codigo': 1 }
+            raise TokenExpiradoError()
 
         try:
-            usuario = UsersModel.usuarios(dni=dni)[0]
-            UsersModel.crear_clave(usuario.id, clave)
+            usuario = UsersModel.usuarios(session, dni=dni)[0]
+            UsersModel.cambiar_clave(session, usuario.id, clave)
+        except UsersError as e1:
+            raise e1
         except Exception as e:
-            return { 'estado': 'error', 'mensaje': 'error cambiando la contraseña', 'codigo': 2 }
-
-        session = Session()
-        try:
-            rc = session.query(ResetClave).filter(ResetClave.dni == dni).one()
-            session.delete(rc)
-            session.commit()
-
-        finally:
-            session.close()
+            raise ClaveError()
 
         return { 'estado': 'ok', 'mensaje': 'contraseña cambiada con éxito', 'codigo': 0 }

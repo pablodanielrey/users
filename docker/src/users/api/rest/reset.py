@@ -2,8 +2,10 @@ import logging
 logging.getLogger().setLevel(logging.DEBUG)
 
 from flask import Flask, abort, make_response, jsonify, url_for, request, json, send_from_directory
-from users.model import ResetClaveModel
+from users.model import ResetClaveModel, ResetClaveError, UsersError
 from flask_jsontools import jsonapi
+
+from users.model import Session
 
 def _obtener_token_de_authorization():
     token = None
@@ -65,7 +67,13 @@ def registrarApiReseteoClave(app):
         offset = request.args.get('offset', None, int)
         return ResetClaveModel.verificaciones(solo_pendientes=solo_pendientes, limit=limit, offset=offset)
 
+    @app.errorhandler(UsersError)
+    def reset_retorar_error(error):
+        return jsonify(error), error.status_code
 
+    @app.errorhandler(ResetClaveError)
+    def reset_retorar_error(error):
+        return jsonify(error), error.status_code
 
     @app.route('/users/api/v1.0/reset/obtener_token', methods=['GET'])
     @jsonapi
@@ -78,7 +86,17 @@ def registrarApiReseteoClave(app):
         token = _obtener_token_de_authorization()
         if not token:
             abort(403)
-        return ResetClaveModel.obtener_usuario(token, dni)
+        session = Session()
+        try:
+            return ResetClaveModel.obtener_usuario(session, token, dni)
+            session.commit()
+
+        except ResetClaveError as e:
+            session.commit()
+            raise e
+
+        finally:
+            session.close()
 
     @app.route('/users/api/v1.0/reset/enviar_codigo', methods=['POST'])
     @jsonapi
@@ -109,4 +127,10 @@ def registrarApiReseteoClave(app):
         datos = json.loads(request.data)
         if not 'clave' in datos:
             abort(400)
-        return ResetClaveModel.cambiar_clave(token, datos['clave'])
+
+        session = Session()
+        try:
+            return ResetClaveModel.cambiar_clave(session, token, datos['clave'])
+            session.commit()
+        finally:
+            session.close()

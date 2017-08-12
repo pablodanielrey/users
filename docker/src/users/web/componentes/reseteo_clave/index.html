@@ -21,7 +21,7 @@
 </div>
 
 
-<div class='reset_clave {{estilo}} {{error}} {{codigo_error}}'>
+<div class='reset_clave {{estilo}} {{error.error}} {{error.codigo}}'>
 
   <div class='expirado'>
       Por razones de seguridad se impone un límite de tiempo razonable para completar el proceso de recuperación.
@@ -33,7 +33,7 @@
       Equipo de desarrollo de DiTeSI
   </div>
 
-  <!-- --------------------- paso ---------------------- -->
+  <!-- --------------------- paso1 ---------------------- -->
 
 
   <div class='pantalla chequeando'>
@@ -41,7 +41,7 @@
   </div>
 
 
-  <!-- --------------------- paso ---------------------- -->
+  <!-- --------------------- paso2 ---------------------- -->
 
 
   <div class='pantalla mensaje'>
@@ -50,7 +50,7 @@
   </div>
 
 
-  <!-- --------------------- paso ---------------------- -->
+  <!-- --------------------- paso3 ---------------------- -->
 
 
   <div class='pantalla dni'>
@@ -170,6 +170,13 @@
     Ocurrió un problema cambiando su clave.
     El incidente se ha registrado y se ha informado al equipo de desarrollo de DiTeSI.
     Si desea puede realizar nuevamente el proceso accediendo a <a href='#'>reintentar proceso</a>
+    Si el problema se reitera por favor comuníquese con DiTeSI usando el siguiente <a href='#'>enlace</a>
+    Atte
+    Equipo de desarrollo DiTeSI
+  </div>
+
+  <div class='error_formato_de_clave'>
+    Formato de clave no permitido. Por favor chequee las restricciones impuestas sobre los caracteres y longitud permitidas para la contraseña.
     Si el problema se reitera por favor comuníquese con DiTeSI usando el siguiente <a href='#'>enlace</a>
     Atte
     Equipo de desarrollo DiTeSI
