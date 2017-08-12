@@ -57,6 +57,16 @@ def registrarApiReseteoClave(app):
             return ResetClaveModel._test_encode_token(encoder)
     """
 
+    @app.route('/users/api/v1.0/reset/verificaciones', methods=['GET'])
+    @jsonapi
+    def reset_obtener_verificaciones_de_codigo():
+        solo_pendientes = request.args.get('p', True, bool)
+        limit = request.args.get('limit', None, int)
+        offset = request.args.get('offset', None, int)
+        return ResetClaveModel.verificaciones(solo_pendientes=solo_pendientes, limit=limit, offset=offset)
+
+
+
     @app.route('/users/api/v1.0/reset/obtener_token', methods=['GET'])
     @jsonapi
     def reset_obtener_token():

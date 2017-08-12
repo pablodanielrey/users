@@ -39,6 +39,22 @@ class ResetClaveModel:
         ''' metodo de testeo para debug de la app '''
         return cls.DECODERS[encoder].decode_auth_token(token)
 
+    @classmethod
+    def verificaciones(cls, solo_pendientes=True, limit=None, offset=None):
+        session = Session()
+        try:
+            q = session.query(ResetClaveCodigo)
+            q = q.filter(ResetClaveCodigo.verificado == None) if solo_pendientes else q
+            q = q.limit(limit) if limit else q
+            q = q.offset(offset) if offset else q
+            q = q.order_by(ResetClaveCodigo.creado.desc(), ResetClaveCodigo.actualizado.desc())
+            return q.all()
+
+        finally:
+            session.close()
+
+
+
 
     @classmethod
     def obtener_token(cls):
