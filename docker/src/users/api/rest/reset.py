@@ -2,7 +2,8 @@ import logging
 logging.getLogger().setLevel(logging.DEBUG)
 
 from flask import Flask, abort, make_response, jsonify, url_for, request, json, send_from_directory
-from users.model import ResetClaveModel, ResetClaveError, UsersError
+from users.model import ResetClaveModel
+from users.model.exceptions import *
 from flask_jsontools import jsonapi
 
 from users.model import Session
