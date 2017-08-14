@@ -1,0 +1,131 @@
+
+.perfil > div {
+  display: none;
+}
+
+.perfil .pantalla_error > div {
+  display: none;
+}
+
+.perfil .pantalla_mensaje > div {
+  display: none;
+}
+
+.perfil.EstadoPerfil .edicion_perfil {
+  display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+}
+
+.perfil.EstadoCambioClave .cambio_clave {
+  display: block;
+}
+
+.perfil.EstadoPerfil.error.ErrorCorreo .error_correo {
+  display:block;
+}
+
+.perfil.EstadoPerfil.error.ErrorEnviandoConfirmacion .error_enviando_confirmacion {
+  display:block;
+}
+
+
+.perfil.CambiarClave .cambiar_clave {
+  display: block;
+}
+
+
+.perfil.error .pantalla {
+  display: none;
+}
+
+
+/* -------------------------------------------  */
+
+.perfil .pantalla {
+  padding: 20px;
+}
+
+.perfil.error .pantalla_error {
+  display: block;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  background: red;
+  width: 100%;
+  height: 100%;
+}
+
+
+.perfil .form-control {
+  width: 300px;
+}
+
+.perfil input {
+  /*margin-bottom: 5px;*/
+}
+
+.perfil hr {
+  margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.perfil .titulo {
+  color: #9D9D98;
+}
+
+.perfil .contentMails {
+  margin-left: 40px;
+}
+
+.perfil .statusMailConfirmed {
+  font-size: 10px;
+  font-style: normal;
+  font-weight: normal;
+}
+
+
+.perfil .edicion_perfil {
+  flex-direction: row;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+}
+
+.perfil .a {
+  background-color: #EEEEEE;
+  margin-bottom: 20px;
+}
+.perfil .b {
+  background-color: #e0dede;
+  margin-bottom: 20px;
+}
+.perfil .c {
+  background-color: #bcbcbc;
+  margin-bottom: 20px;
+}
+
+.perfil .aling {
+  display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  flex-direction: row;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+}
+
+
+
+@media screen and (max-width: 769px) {
+  .perfil .form-control {
+  width: 100%;
+  }
+  .perfil .contentPrimary {
+    flex-direction: column;
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+  }
+  .contentMails {
+    margin-top: 20px;
+    margin-left: 0px;
+  }
+}

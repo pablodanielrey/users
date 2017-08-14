@@ -1,16 +1,17 @@
-<div class="perfil">
-<!-- <div>
-    {{mensaje}}
-    {{parm}}
-</div> -->
 
-<!-- <div style='{{estilo}}'>
-  aca va el codigo que se va a mostrar cuando esta cargando datos
-</div> -->
+<div class="perfil {{estilo}} {{error.error}} {{error.codigo}}">
 
-  <!-- <div>ID</div> -->
-  <!-- <div>{{usuario.id}}</input></div> -->
-    <div class="contentPrimary">
+
+    <div class='cambiar_clave'>
+    </div>
+
+    <!-- <div>ID</div> -->
+    <!-- <div>{{usuario.id}}</input></div> -->
+
+
+    <!-- estado EdicionPerfil --->
+
+    <div class="pantalla edicion_perfil">
         <div>
           <div class="titulo">PERFIL DE USUARIO {{usuario.id}}</div><hr>
           <div>
@@ -112,4 +113,37 @@
 
         </div>
     </div>
+
+    <div class='pantalla_error'>
+      <div class='error_actualizando_usuario'>
+          Encontramos un error actualizando los datos del usuario.
+          <button ng-click='cerrarErrorUsuario()'>Aceptar</button>
+      </div>
+
+      <div class='error_correo'>
+          Encontramos un error
+          <button ng-click='limpiarError()'>Aceptar</button>
+      </div>
+
+      <div class='error_enviando_confirmacion'>
+          Se produjo un error cuando se trataba de contactar con el servidor de correo.
+          Por favor intente mas tarde.
+          <button ng-click='limpiarError()'>Aceptar</button>
+      </div>
+    </div>
+
+    <div class='pantalla_mensaje'>
+    </div>
+
+    <!-- pantalla cambiar clave ----->
+
+    <div class='pantalla cambio_clave'>
+
+    </div>
+
+    <div>
+    </div>
+
+    <!-- -->
+
 </div>

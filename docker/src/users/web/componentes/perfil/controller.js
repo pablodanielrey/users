@@ -8,8 +8,12 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
                                     'confirmar': { method:'POST', url: 'http://127.0.0.1:7001/users/api/v1.0/confirmar_correo/:id/:code' }
                                 });
 
-  $scope.estilos = ['','cargando','peteando'];
-  $scope.estilo = $scope.estilos[2];
+
+    // -------------- manejo de pantallas y errores ------------------------------------------------------ //
+    $scope.$parent.estilos = ['','EstadoPerfil'];
+    $scope.$parent.errores_posibles = ['ErrorCorreo','ErrorEnviandoConfirmacion'];
+    //////////////////
+
 
   $scope.parm = $routeParams;
   $scope.mensaje = 'Cargando';

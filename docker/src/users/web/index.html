@@ -19,10 +19,13 @@
 
   <script src='/module.js'></script>
   <script src="/index.js"></script>
-  <link rel="stylesheet" type="text/css" href="index.css">
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+  <script src='/componentes/consola/controller.js'></script>
+  <link rel="stylesheet" type="text/css" href="/componentes/consola/style.css">
 
   <script src='/componentes/perfil/controller.js'></script>
-  <link rel="stylesheet" type="text/css" href="/componentes/perfil/perfil.css">
+  <link rel="stylesheet" type="text/css" href="/componentes/perfil/style.css">
 
   <script src='/componentes/config_correo/controller.js'></script>
   <link rel="stylesheet" type="text/css" href="componentes/config_correo/style.css">
@@ -38,8 +41,9 @@
 
 </head>
 
-<body class="container-fluid" ng-app="MainApp" ng-controller="IndexCtrl">
+<body class="users" ng-app="MainApp" ng-controller="IndexCtrl">
   <div ng-include="'componentes/header/index.html'" ng-controller="HeaderCtrl"></div>
   <div ng-view></div>
+  <div ng-include="'componentes/consola/index.html'" ng-controller="ConsolaCtrl"></div>
 </body>
 </html>
