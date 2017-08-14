@@ -31,6 +31,8 @@
   display: block;
 }
 
+/*  pantalla voy a avisar que se va a enviar e lmail */
+
 .reset_clave.paso4 .aviso_de_envio {
   display: block;
 }
@@ -42,6 +44,9 @@
 .reset_clave.paso4.error.EnvioCodigoError .error_de_envio {
   display: block;
 }
+
+/*  -----   */
+
 
 .reset_clave.paso5 .codigo {
   display: block;

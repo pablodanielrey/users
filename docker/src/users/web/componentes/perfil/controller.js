@@ -1,6 +1,6 @@
 
 app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource", "$timeout", "Upload",
-              function ($scope, $location, $routeParams, $resource, $tiemout, Upload) {
+              function ($scope, $location, $routeParams, $resource, $timeout, Upload) {
 
   var Usuario = $resource('http://127.0.0.1:7001/users/api/v1.0/usuarios/:id', {id:null});
   var Correo = $resource('http://127.0.0.1:7001/users/api/v1.0/correos/:id', {id:null},
@@ -11,7 +11,11 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
 
 
     // -------------- manejo de pantallas y errores ------------------------------------------------------ //
-    $scope.$parent.estilos = ['','EstadoPerfil'];
+    $scope.$parent.estilos = ['EstadoPerfil'];
+    $timeout(function() {
+      $scope.$parent.estilo = 'EstadoPerfil';
+    });
+
     $scope.$parent.errores_posibles = ['ErrorCorreo','ErrorEnviandoConfirmacion'];
     //////////////////
 
