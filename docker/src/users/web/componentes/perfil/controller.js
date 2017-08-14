@@ -35,8 +35,9 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
 
   $scope.upload = function (dataUrl, name) {
       Upload.upload({
-          url: 'https://algo111.com/upload',
+          url: 'http://163.10.56.57:9001/files/api/v1.0/archivo/',
           data: {
+              fileName: name,
               file: Upload.dataUrltoBlob(dataUrl, name)
           },
       }).then(function (response) {
