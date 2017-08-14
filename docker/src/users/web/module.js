@@ -1,4 +1,4 @@
-app = angular.module('MainApp', ['ngRoute', 'ngResource'])
+app = angular.module('MainApp', ['ngRoute', 'ngResource','ngFileUpload', 'ngImgCrop']) 
 
 app.config(['$routeProvider', function($routeProvider) {
 

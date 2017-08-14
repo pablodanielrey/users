@@ -7,7 +7,7 @@ app.controller("HeaderCtrl", ["$scope", "$location", "$routeParams", "$resource"
     usuario: null
   };
 
-  Usuario.get({id:'89d88b81-fbc0-48fa-badb-d32854d3d93a'}, function(usuario) {
+  Usuario.get({id:'205de802-2a15-4652-8fde-f23c674a1246'}, function(usuario) {
     $scope.view.usuario = usuario;
   }, function(err) {
     alert(err);

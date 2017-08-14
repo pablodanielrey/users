@@ -1,5 +1,6 @@
 
-app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource", "$timeout", function ($scope, $location, $routeParams, $resource, $tiemout) {
+app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource", "$timeout", "Upload",
+              function ($scope, $location, $routeParams, $resource, $tiemout, Upload) {
 
   var Usuario = $resource('http://127.0.0.1:7001/users/api/v1.0/usuarios/:id', {id:null});
   var Correo = $resource('http://127.0.0.1:7001/users/api/v1.0/correos/:id', {id:null},
@@ -26,6 +27,25 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
   }
   $scope.correos = [];
   $scope.emailAAgregar = '';
+
+
+  $scope.upload = function (dataUrl, name) {
+      Upload.upload({
+          url: 'https://algo111.com/upload',
+          data: {
+              file: Upload.dataUrltoBlob(dataUrl, name)
+          },
+      }).then(function (response) {
+          $timeout(function () {
+              $scope.result = response.data;
+          });
+      }, function (response) {
+          if (response.status > 0) $scope.errorMsg = response.status
+              + ': ' + response.data;
+      }, function (evt) {
+          $scope.progress = parseInt(100.0 * evt.loaded / evt.total);
+      });
+    };
 
 
   var usuarios = Usuario.query({dni:$routeParams['dni']}, function() {
