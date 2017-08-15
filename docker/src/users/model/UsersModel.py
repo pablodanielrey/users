@@ -64,10 +64,11 @@ class UsersModel:
         if 'apellido' in datos: usuario.apellido = datos['apellido']
 
     @classmethod
-    def usuarios(cls, session, usuario=None, dni=None, retornarClave=False, fecha_actualizado=None, offset=None, limit=None):
+    def usuarios(cls, session, usuario=None, dni=None, retornarClave=False, fecha_actualizado=None, offset=None, limit=None, fecha=None):
         q = session.query(Usuario)
         q = q.filter(Usuario.id == usuario) if usuario else q
         q = q.filter(Usuario.dni == dni) if dni else q
+        q = q.filter(or_(Usuario.actualizado >= fecha, Usuario.creado >= fecha)) if fecha else q        
         q = q.options(joinedload('claves')) if retornarClave else q
         q = q.options(joinedload('mails'), joinedload('telefonos'))
         q = cls._aplicar_filtros_comunes(q, offset, limit)

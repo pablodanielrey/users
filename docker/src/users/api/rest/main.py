@@ -48,11 +48,14 @@ def usuarios(uid):
     limit = request.args.get('limit',None,int)
     mostrarClave = request.args.get('c',False,bool)
 
+    fecha_str = request.args.get('f', None)
+    fecha = parser.parse(fecha_str) if fecha_str else None
+
     session = Session()
     try:
         if not uid:
             dni = request.args.get('dni',None,str)
-            return UsersModel.usuarios(session=session, dni=dni, retornarClave=mostrarClave, offset=offset, limit=limit)
+            return UsersModel.usuarios(session=session, dni=dni, retornarClave=mostrarClave, offset=offset, limit=limit, fecha=fecha)
         else:
             us = UsersModel.usuarios(session=session, usuario=uid, retornarClave=mostrarClave)
             return None if len(us) == 0 else us[0]
