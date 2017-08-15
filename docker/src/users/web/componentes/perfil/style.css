@@ -100,7 +100,7 @@
   margin-bottom: 20px;
 }
 .perfil .c {
-  background-color: #bcbcbc;
+  background-color: orange;
   margin-bottom: 20px;
 }
 
@@ -166,18 +166,26 @@
       transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;*/
 }
 
+.perfil .actions {
+  display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;  flex-direction: row;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+}
+
 
 
 @media screen and (max-width: 769px) {
   .perfil .inputData {
   width: 100%;
   }
-  .perfil .contentPrimary {
+  .perfil .pantalla {
     flex-direction: column;
     -webkit-flex-direction: column;
     -moz-flex-direction: column;
   }
-  .contentMails {
+  .perfil .contentMails {
     margin-top: 20px;
     margin-left: 0px;
   }

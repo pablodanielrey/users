@@ -50,6 +50,8 @@
               <button ng-click='actualizarUsuario(usuario)' class="btn btn-primary">GUARDAR CAMBIOS</button>
           </div>
         </div>
+
+
         <div class="contentMails">
           <div class="titulo">CORREOS DE CONTACTO</div><hr>
             <div><b>Correos</b></div>
@@ -75,7 +77,7 @@
           <!-- CORREOS SIN CONFIRMAR -->
 
 
-          <div class="b" ng-repeat='m in correos'>
+          <div class="" ng-repeat='m in correos'>
               <div class="itemsMail">
                 <div class="mail">
                     <div>{{m.email}} &nbsp;</div>
@@ -83,32 +85,30 @@
                     <div class="statusMailConfirmed label label-danger" ng-if='m.hash != null && m.fecha_confirmado == null'>sin confirmar</div>
                 </div>
                 <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
-                <div ng-if='!esInstitucional(m)'>
-                  <div><button ng-click='enviarConfirmarCorreo(m)'>Reenviar</button></div>
+                <div class="actions" ng-if='!esInstitucional(m)'>
+                  <div><button class="btn btnTrash" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button></div>
                   <div><button class="btn btnTrash" ng-click='eliminarCorreo(m)'><i class="fa fa-trash-o" aria-hidden="true"></i></button></div>
                 </div>
               </div>
           </div>
 
 
-
-
           <!-- CORREO ENVIADO, INTRODUCIR CODIGO -->
 
-          <div  class="b" ng-repeat='m in correos'>
-            <div>
 
-              <span>{{m.email}}</span>
-              <span class="statusMailConfirmed label label-success" ng-if='m.fecha_confirmado != null'>confirmado</span>
-              <span class="statusMailConfirmed label label-danger" ng-if='m.hash == null'>confirmación pendiente</span>
-              <span class="statusMailConfirmed label label-danger" ng-if='m.hash != null && m.fecha_confirmado == null'>confirmación pendiente</span>
-
-              <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
-
-              <div ng-if='!esInstitucional(m)'>
-                <span><button ng-click='eliminarCorreo(m)'>Eliminar</button></span>
+          <div class="" ng-repeat='m in correos'>
+              <div class="itemsMail">
+                <div class="mail">
+                    <div>{{m.email}} &nbsp;</div>
+                    <div class="statusMailConfirmed label label-danger" ng-if='m.hash == null'>sin confirmar</div>
+                    <div class="statusMailConfirmed label label-danger" ng-if='m.hash != null && m.fecha_confirmado == null'>sin confirmar</div>
+                </div>
+                <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
+                <div class="actions" ng-if='!esInstitucional(m)'>
+                  <div><button class="btn btnTrash" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button></div>
+                  <div><button class="btn btnTrash" ng-click='eliminarCorreo(m)'><i class="fa fa-trash-o" aria-hidden="true"></i></button></div>
+                </div>
               </div>
-
               <p class="bg-danger" ng-if='m.hash != null && m.fecha_confirmado == null'>
                 <span>
                   se ha enviado un correo por favor chequee su casilla e ingrese el codigo de verificacion<br>
@@ -117,38 +117,29 @@
                   <button ng-click='enviarConfirmarCorreo(m)'>Reenviar</button>
                 </span>
               </p>
-
-              <div ng-if='m.hash == null'>
-                <span><button ng-click='enviarConfirmarCorreo(m)'>Reenviar correo</button></span>
-              </div>
-
-            </div>
-
           </div>
 
+
+          <!-- AGREGAR CORREO -->
+
           <div>
-            <div>
-            <b>Nuevo Correo</b>
-            </div>
+            <div><b>Nuevo Correo</b></div>
           <!-- <input type='email' ng-model='emailAAgregar'></input>
             <button class="btn btn-success" ng-click='agregarCorreo()'>AGREGAR CORREO</button> -->
-
 
             <form class="form-inline">
                 <div class="form-group">
                   <input type="email" class="form-control" id="exampleInputEmail2" ng-model='emailAAgregar' placeholder="nombre@dominio.com">
                 </div>
                 <button type="submit" class="btn btn-success" ng-click='agregarCorreo()'>AGREGAR CORREO</button>
-          </form>
-
+              </form>
           </div>
 
-
-
-          <!-- pantallas intermedias -->
+        <!-- pantallas intermedias -->
 
         </div>
     </div>
+
 
     <div class='pantalla_error'>
       <div class='error_actualizando_usuario'>
