@@ -57,8 +57,8 @@
 }
 
 
-.perfil .form-control {
-  width: 300px;
+.perfil .inputData {
+  width: 400px;
 }
 
 .perfil input {
@@ -79,7 +79,7 @@
 }
 
 .perfil .statusMailConfirmed {
-  font-size: 10px;
+  font-size: 12px;
   font-style: normal;
   font-weight: normal;
 }
@@ -96,7 +96,7 @@
   margin-bottom: 20px;
 }
 .perfil .b {
-  background-color: #e0dede;
+  background-color: red;
   margin-bottom: 20px;
 }
 .perfil .c {
@@ -113,10 +113,63 @@
   -moz-flex-direction: row;
 }
 
+.perfil .contentItemMail {
+  display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;  flex-direction: row;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.perfil .itemsMail {
+  width: 500px;
+  display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;  flex-direction: row;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #ccc;
+  padding-left:10px;
+  margin-bottom: 10px;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.perfil .mail {
+  width: 400px;
+  display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;  flex-direction: row;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  align-items: center;
+  height: 34px;
+
+}
+
+.perfil .btnTrash {
+  background-color: #eee;
+  /*border: 1px solid #ccc;*/
+      /*border-radius: 4px;
+      -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+      box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+      -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+      -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+      transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;*/
+}
+
 
 
 @media screen and (max-width: 769px) {
-  .perfil .form-control {
+  .perfil .inputData {
   width: 100%;
   }
   .perfil .contentPrimary {

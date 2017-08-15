@@ -15,7 +15,7 @@
         <div>
           <div class="titulo">PERFIL DE USUARIO {{usuario.id}}</div><hr>
 
-          <div>
+          <!-- <div>
             <img src='http://127.0.0.1:9001/files/api/v1.0/archivo/496ff972-e834-46a6-9361-79b2e5c1bf85/contenido'></img>
             <form>
               <button ngf-select ng-model="picFile" accept="image/*">Select Picture</button>
@@ -27,11 +27,11 @@
               </div>
               <button ng-click="upload(croppedDataUrl, picFile.name)">Submit</button>
             </form>
-          </div>
+          </div> -->
 
           <div>
             <div><b>Nombre</b></div>
-            <input ng-model='usuario.nombre' class="form-control ng-pristine ng-valid ng-empty ng-touched"></input>
+            <input ng-model='usuario.nombre' class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
           </div>
           <div>
             <div><b>Apellido</b></div>
@@ -52,24 +52,45 @@
         </div>
         <div class="contentMails">
           <div class="titulo">CORREOS DE CONTACTO</div><hr>
-
+            <div><b>Correos</b></div>
 
 
           <!-- CORREOS CONFIRMADOS -->
 
-          <div ng-repeat='m in correos'>
-              <div>
-                <div>{{m.email}}</div>
-                <span class="statusMailConfirmed label label-success"> confirmado</span>
-                <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
 
+          <div ng-repeat='m in correos'>
+              <div class="itemsMail">
+                <div class="mail">
+                    <div>{{m.email}} &nbsp;</div>
+                    <div class="statusMailConfirmed label label-default"> confirmado</div>
+                </div>
+                <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
                 <div ng-if='!esInstitucional(m)'>
-                  <span><button ng-click='eliminarCorreo(m)'>Eliminar</button></span>
+                  <span><button class="btn btnTrash" ng-click='eliminarCorreo(m)'><i class="fa fa-trash-o" aria-hidden="true"></i></button></span>
                 </div>
               </div>
-
-
           </div>
+
+
+          <!-- CORREOS SIN CONFIRMAR -->
+
+
+          <div class="b" ng-repeat='m in correos'>
+              <div class="itemsMail">
+                <div class="mail">
+                    <div>{{m.email}} &nbsp;</div>
+                    <div class="statusMailConfirmed label label-danger" ng-if='m.hash == null'>sin confirmar</div>
+                    <div class="statusMailConfirmed label label-danger" ng-if='m.hash != null && m.fecha_confirmado == null'>sin confirmar</div>
+                </div>
+                <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
+                <div ng-if='!esInstitucional(m)'>
+                  <div><button ng-click='enviarConfirmarCorreo(m)'>Reenviar</button></div>
+                  <div><button class="btn btnTrash" ng-click='eliminarCorreo(m)'><i class="fa fa-trash-o" aria-hidden="true"></i></button></div>
+                </div>
+              </div>
+          </div>
+
+
 
 
           <!-- CORREO ENVIADO, INTRODUCIR CODIGO -->
