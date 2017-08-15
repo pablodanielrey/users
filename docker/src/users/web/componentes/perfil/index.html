@@ -109,12 +109,13 @@
                   <div><button class="btn btnTrash" ng-click='eliminarCorreo(m)'><i class="fa fa-trash-o" aria-hidden="true"></i></button></div>
                 </div>
               </div>
-              <p class="bg-danger" ng-if='m.hash != null && m.fecha_confirmado == null'>
+              <i class="flechaCode fa fa-sort-asc fa-2x" aria-hidden="true"></i>
+
+              <p class="contentCode" ng-if='m.hash != null && m.fecha_confirmado == null'>
                 <span>
-                  se ha enviado un correo por favor chequee su casilla e ingrese el codigo de verificacion<br>
-                  <input type=text ng-model='m.codigo'></input>
-                  <button ng-click='confirmarCorreo(m)'>Confirmar</button>
-                  <button ng-click='enviarConfirmarCorreo(m)'>Reenviar</button>
+                  Se ha enviado un correo a su casilla con un código de verificación. <b>¡Revise el correo!</b><br>
+                  <input type=text class="inputCode" ng-model='m.codigo' placeholder="INGRESE CÓDIGO"></input>
+                  <button class="btn btnConformar" ng-click='confirmarCorreo(m)'>Confirmar</button>
                 </span>
               </p>
           </div>

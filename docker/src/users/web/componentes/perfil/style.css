@@ -124,7 +124,6 @@
 }
 
 .perfil .itemsMail {
-  width: 500px;
   display: flex;
   display: -webkit-flex;
   display: -moz-flex;  flex-direction: row;
@@ -172,6 +171,44 @@
   display: -moz-flex;  flex-direction: row;
   -webkit-flex-direction: row;
   -moz-flex-direction: row;
+}
+
+.perfil .flechaCode {
+  color: #D9534F;
+  margin-left: 10px;
+  margin-top: -10px;
+
+}
+
+.perfil .contentCode {
+  border-radius: 4px;
+  padding: 10px;
+  background-color: #D9534F;
+  color: white;
+  margin-top: -18px;
+}
+
+.perfil .inputCode {
+  margin-top: 5px;
+    padding: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.perfil .btnConformar {
+  background-color: #222222;
+  color: white;
+  height: 32px;
 }
 
 
