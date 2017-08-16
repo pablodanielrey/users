@@ -11,18 +11,18 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
 
 
     // -------------- manejo de pantallas y errores ------------------------------------------------------ //
-    $scope.$parent.estilos = ['EstadoPerfil'];
+    $scope.$parent.errores_posibles = ['ErrorCorreo','ErrorEnviandoConfirmacion'];
+    $scope.$parent.mensajes = ['MensajeGuardadoConExito','MensajeCargando'];
+
+    $scope.$parent.estados = ['EstadoPerfil'];
     $timeout(function() {
-      $scope.$parent.estilo = 'EstadoPerfil';
+      $scope.$parent.estado = 'EstadoPerfil';
+      $scope.$parent.mensaje = {mensaje:'', codigo:''};
     });
 
-    $scope.$parent.errores_posibles = ['ErrorCorreo','ErrorEnviandoConfirmacion'];
     //////////////////
 
-
   $scope.parm = $routeParams;
-  $scope.mensaje = 'Cargando';
-
 
   $scope.usuario = {
     nombre:'',
@@ -70,6 +70,19 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
     return correo.email.indexOf('econo.unlp.edu.ar') !== -1;
   }
 
+  $scope.noEsInstitucional = function(correo) {
+    console.log(correo.email.indexOf('econo.unlp.edu.ar') == -1);
+    return correo.email.indexOf('econo.unlp.edu.ar') == -1;
+  }
+
+  $scope.estaConfirmado = function(correo) {
+    return correo.confirmado;
+  }
+
+  $scope.seEnvioCodigo = function(m) {
+    return m.hash != null & m.hash != '';
+  }
+
   $scope.eliminarCorreo = function(correo) {
     correo.$delete({id:correo.id}, function(correo, headers) {
       $scope.correos = Correo.query({uid:$scope.usuario.id});
@@ -79,6 +92,8 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
   $scope.enviarConfirmarCorreo = function(correo) {
     correo.$enviar_confirmar({id:correo.id}, function() {
       $scope.correos = Correo.query({uid:$scope.usuario.id});
+    }, function(err) {
+      alert(err);
     });
   }
 

@@ -11,6 +11,19 @@
   display: none;
 }
 
+.perfil.mensaje .pantalla_mensaje {
+  display: block;
+}
+
+.perfil.mensaje.MensajeGuardadoConExito .cambios_guardados_con_exito {
+  display: block;
+}
+
+.perfil.mensaje.MensajeCargando .mensaje_cargando {
+  display: block;
+}
+
+
 .perfil.EstadoPerfil .edicion_perfil {
   display: flex;
   display: -webkit-flex;
@@ -36,6 +49,10 @@
 
 
 .perfil.error .pantalla {
+  display: none;
+}
+
+.perfil.mensaje .pantalla {
   display: none;
 }
 

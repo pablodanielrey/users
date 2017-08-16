@@ -1,5 +1,5 @@
 
-<div class="perfil {{estilo}} {{error.error}} {{error.codigo}}">
+<div class="perfil {{estado}} {{mensaje.mensaje}} {{mensaje.codigo}} {{error.error}} {{error.codigo}}">
 
 
     <div class='cambiar_clave'>
@@ -61,7 +61,7 @@
                 <div ng-if='esInstitucional(m)' class="itemsMail">
                   <div class="mail">
                       <div>{{m.email}} &nbsp;</div>
-                      <div class="statusMailConfirmed label labelConfirmed"> confirmado</div>
+                      <div ng-if='estaConfirmado(m)' class="statusMailConfirmed label labelConfirmed"> confirmado</div>
                   </div>
                   <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
                   <div ng-if='!esInstitucional(m)' title="Eliminar correo">
@@ -72,71 +72,36 @@
           </div>
           <!-- CORREOS CONFIRMADOS -->
 
-
-          <div>
-          <div><b>Correos Alternativos de contacto</b></div>
-          <div ng-repeat='m in correos'>
+          <!-- CORREO NO CONFIRMADOS -->
+          <div><b>Correos Alternativos de Contacto</b></div>
+          <div class="" ng-repeat='m in correos'>
               <div ng-if='!esInstitucional(m)' class="itemsMail">
                 <div class="mail">
                     <div>{{m.email}} &nbsp;</div>
-                    <div class="statusMailConfirmed label labelConfirmed"> confirmado</div>
+                    <div ng-if='estaConfirmado(m)' class="statusMailConfirmed label labelConfirmed">confirmado</div>
+                    <div ng-if="!estaConfirmado(m)" class="statusMailConfirmed label labelSinConfirmar">sin confirmar</div>
                 </div>
                 <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
-                <div title="Eliminar correo">
-                  <span><button class="btn btnTrash" ng-click='eliminarCorreo(m)'><i class="fa fa-trash-o" aria-hidden="true"></i></button></span>
-                </div>
-              </div>
-          </div>
-        </div>
-
-          <!-- CORREOS SIN CONFIRMAR -->
-
-          <!--
-          <div class="" ng-repeat='m in correos'>
-              <div class="itemsMail">
-                <div class="mail">
-                    <div>{{m.email}} &nbsp;</div>
-                    <div class="statusMailConfirmed label labelSinConfirmar" ng-if='m.hash == null'>sin confirmar</div>
-                    <div class="statusMailConfirmed label labelSinConfirmar" ng-if='m.hash != null && m.fecha_confirmado == null'>sin confirmar</div>
-                </div>
-                <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
-    <!--            <div class="actions" ng-if='!esInstitucional(m)'>
-                  <div title="Reenviar Correo"><button class="btn btnReenviar" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button></div>
+                <div class="actions">
+                  <div title="Reenviar Correo" ng-if='!seEnvioCodigo(m)'><button class="btn btnReenviar" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button></div>
                   <div title="Eliminar correo"><button class="btn btnTrash" ng-click='eliminarCorreo(m)'><i class="fa fa-trash-o" aria-hidden="true"></i></button></div>
                 </div>
+
+              </div>
+
+              <div ng-if='!estaConfirmado(m) && seEnvioCodigo(m)'>
+                <!-- <div ng-if='m.hash != null && m.fecha_confirmado == null'> -->
+                <i class="flechaCode fa fa-sort-asc fa-2x" aria-hidden="true"></i>
+                <p class="contentCode">
+                  <span>
+                    Se ha enviado un correo a su casilla con un código de verificación. <b>¡Revise el correo!</b><br>
+                    <input type=text class="inputCode" ng-model='m.codigo' placeholder="INGRESE CÓDIGO"></input>
+                    <button class="btn btnConfirmar" ng-click='confirmarCorreo(m)'>Confirmar</button>
+                    <button class="btn btnReenviar" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button>
+                  </span>
+                </p>
               </div>
           </div>
- -->
-
-          <!-- CORREO ENVIADO, INTRODUCIR CODIGO -->
-
-
-          <div class="" ng-repeat='m in correos'>
-              <div class="itemsMail">
-                <div class="mail">
-                    <div>{{m.email}} &nbsp;</div>
-                    <div class="statusMailConfirmed label labelSinConfirmar" ng-if='m.hash == null'>sin confirmar</div>
-                    <div class="statusMailConfirmed label labelSinConfirmar" ng-if='m.hash != null && m.fecha_confirmado == null'>sin confirmar</div>
-                </div>
-                <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
-                <div class="actions" ng-if='!esInstitucional(m)'>
-                  <div title="Reenviar Correo"><button class="btn btnReenviar" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button></div>
-                  <div title="Eliminar correo"><button class="btn btnTrash" ng-click='eliminarCorreo(m)'><i class="fa fa-trash-o" aria-hidden="true"></i></button></div>
-                </div>
-              </div>
-              <div>
-              <!-- <div ng-if='m.hash != null && m.fecha_confirmado == null'> -->
-              <i class="flechaCode fa fa-sort-asc fa-2x" aria-hidden="true"></i>
-              <p class="contentCode">
-                <span>
-                  Se ha enviado un correo a su casilla con un código de verificación. <b>¡Revise el correo!</b><br>
-                  <input type=text class="inputCode" ng-model='m.codigo' placeholder="INGRESE CÓDIGO"></input>
-                  <button class="btn btnConfirmar" ng-click='confirmarCorreo(m)'>Confirmar</button>
-                </span>
-              </p>
-              </div>
-          </div>
-
 
           <!-- AGREGAR CORREO -->
 
@@ -178,6 +143,11 @@
     </div>
 
     <div class='pantalla_mensaje'>
+
+      <div>
+      </div>
+
+
     </div>
 
     <!-- pantalla cambiar clave ----->
@@ -186,9 +156,33 @@
 
     </div>
 
-    <div>
+
+
+
+
+    <!-- Errores generales -->
+
+    <div class='pantalla_error'>
+      <div class='error_actualizando_usuario'>
+          Encontramos un error actualizando los datos del usuario.
+          <button ng-click='cerrarErrorUsuario()'>Aceptar</button>
+      </div>
     </div>
 
-    <!-- -->
+    <!-- mensajes generales --->
+
+    <div class='pantalla_mensaje'>
+
+      <div class='cambios_guardados_con_exito'>
+        Cambios Guardados con éxito
+      </div>
+
+      <div class='mensaje_cargando'>
+        AGUANTAAAAAA FLACOOO que estoy CARGANDOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+      </div>
+
+
+    </div>
+
 
 </div>
