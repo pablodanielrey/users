@@ -1,9 +1,15 @@
 from flask import Flask, request, send_from_directory
+#from flask_oidc import OpenIDConnect
 
 # set the project root directory as the static folder, you can set others.
 app = Flask(__name__, static_url_path='/src/users/web')
+app.debug = True
+app.config['SECRET_KEY'] = 'algo-secreto'
+app.config['OIDC_CLIENT_SECRETS'] = '/src/users/web/client_secrets.json'
+#oidc = OpenIDConnect(app)
 
 @app.route('/<path:path>')
+#@oidc.require_login
 def send(path):
     return send_from_directory(app.static_url_path, path)
 
