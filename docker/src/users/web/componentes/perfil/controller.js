@@ -70,6 +70,15 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
     return correo.email.indexOf('econo.unlp.edu.ar') !== -1;
   }
 
+  $scope.tieneCuentasAlternativas = function() {
+    for (var i = 0; i < $scope.correos.length; i++) {
+      if (!$scope.esInstitucional($scope.correos[i])) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   $scope.noEsInstitucional = function(correo) {
     console.log(correo.email.indexOf('econo.unlp.edu.ar') == -1);
     return correo.email.indexOf('econo.unlp.edu.ar') == -1;

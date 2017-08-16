@@ -73,8 +73,13 @@
           <!-- CORREOS CONFIRMADOS -->
 
           <!-- CORREO NO CONFIRMADOS -->
-          <div><b>Correos Alternativos de Contacto</b></div>
-          <div class="" ng-repeat='m in correos'>
+          <div><b>Correos alternativos</b></div>
+          <div class="contentSinCorreo" role="alert" ng-if='!tieneCuentasAlternativas()'>
+            <strong>IMPORTANTE!!! CORREO ALTERNATIVO SIN </strong> <br>
+            sjshkh
+          </div>
+
+          <div ng-if='tieneCuentasAlternativas()' class="" ng-repeat='m in correos'>
               <div ng-if='!esInstitucional(m)' class="itemsMail">
                 <div class="mail">
                     <div>{{m.email}} &nbsp;</div>
@@ -106,6 +111,7 @@
           <!-- AGREGAR CORREO -->
 
           <div>
+            <hr>
             <div><b>Nuevo Correo</b></div>
           <!-- <input type='email' ng-model='emailAAgregar'></input>
             <button class="btn btn-success" ng-click='agregarCorreo()'>AGREGAR CORREO</button> -->
@@ -114,7 +120,7 @@
                 <div class="form-group">
                   <input type="email" class="form-control" id="exampleInputEmail2" ng-model='emailAAgregar' placeholder="nombre@dominio.com">
                 </div>
-                <button type="submit" class="btn btn-success" ng-click='agregarCorreo()'>AGREGAR CORREO</button>
+                <button type="submit" class="btn btnAgregarCorreo" ng-click='agregarCorreo()'>AGREGAR CORREO</button>
               </form>
           </div>
 

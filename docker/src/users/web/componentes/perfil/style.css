@@ -237,6 +237,15 @@
   margin-top: -19px;
 }
 
+.perfil .contentSinCorreo {
+  border-radius: 4px;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-left: 5px solid #E43E46;
+  color: #E43E46;
+}
+
+
 .perfil .inputCode {
   margin-top: 5px;
     padding: 5px;
@@ -263,6 +272,13 @@
 .perfil .btnConfirmar:hover {
   background-color: #383838;
 }
+
+.perfil .btnAgregarCorreo {
+  background-color: #92AD17;
+  color: white;
+}
+
+.perfil .
 
 
 
