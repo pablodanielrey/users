@@ -46,6 +46,26 @@
   padding: 20px;
 }
 
+.perfil .btnSave {
+  margin-top: 5px;
+}
+
+.perfil .btnPrimario {
+  background-color: #0066a6 ;
+  color: white;
+}
+.perfil .btnPrimario:hover {
+  background-color: #075382 ;
+}
+
+.perfil .labelConfirmed {
+  background-color: #92AD17;
+}
+
+.perfil .labelSinConfirmar {
+  background-color: #E43E46;
+}
+
 .perfil.error .pantalla_error {
   display: block;
   padding: 0;
@@ -59,6 +79,7 @@
 
 .perfil .inputData {
   width: 400px;
+  margin-bottom: 5px;
 }
 
 .perfil input {
@@ -156,13 +177,24 @@
 
 .perfil .btnTrash {
   background-color: #eee;
-  /*border: 1px solid #ccc;*/
-      /*border-radius: 4px;
-      -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-      box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-      -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
-      -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-      transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;*/
+  border-left: 1px solid #ccc;
+}
+
+
+.perfil .btnTrash:hover {
+  color: white;
+  background-color: #E43E46;
+}
+
+.perfil .btnReenviar {
+  background-color: #eee;
+  border-left: 1px solid #ccc;
+
+}
+
+.perfil .btnReenviar:hover {
+  background-color: #92AD17;
+  color: white;
 }
 
 .perfil .actions {
@@ -174,7 +206,7 @@
 }
 
 .perfil .flechaCode {
-  color: #D9534F;
+  color: #E43E46;
   margin-left: 10px;
   margin-top: -10px;
 
@@ -183,9 +215,9 @@
 .perfil .contentCode {
   border-radius: 4px;
   padding: 10px;
-  background-color: #D9534F;
+  background-color: #E43E46;
   color: white;
-  margin-top: -18px;
+  margin-top: -19px;
 }
 
 .perfil .inputCode {
@@ -205,10 +237,14 @@
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
 
-.perfil .btnConformar {
+.perfil .btnConfirmar {
   background-color: #222222;
   color: white;
   height: 32px;
+}
+
+.perfil .btnConfirmar:hover {
+  background-color: #383838;
 }
 
 

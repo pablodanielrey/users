@@ -35,63 +35,78 @@
           </div>
           <div>
             <div><b>Apellido</b></div>
-            <input ng-model='usuario.apellido' class="form-control ng-pristine ng-valid ng-empty ng-touched"></input>
+            <input ng-model='usuario.apellido' class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
           </div>
           <div>
             <div><b>DNI</b></div>
-            <input ng-model='usuario.dni' readonly=true class="form-control ng-pristine ng-valid ng-empty ng-touched"></input>
+            <input ng-model='usuario.dni' readonly=true class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
           </div>
           <div>
             <div><b>Legajo</b></div>
-            <input value='2806/4' readonly=true class="form-control ng-pristine ng-valid ng-empty ng-touched"></input>
+            <input value='2806/4' readonly=true class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
           </div>
 
           <div>
-              <button ng-click='actualizarUsuario(usuario)' class="btn btn-primary">GUARDAR CAMBIOS</button>
+              <button ng-click='actualizarUsuario(usuario)' class="btn btnSave btnPrimario">GUARDAR CAMBIOS</button>
           </div>
         </div>
 
 
         <div class="contentMails">
           <div class="titulo">CORREOS DE CONTACTO</div><hr>
-            <div><b>Correos</b></div>
 
-
+          <div>
+            <div><b>Correo Institucional</b></div>
+            <div ng-repeat='m in correos'>
+                <div ng-if='esInstitucional(m)' class="itemsMail">
+                  <div class="mail">
+                      <div>{{m.email}} &nbsp;</div>
+                      <div class="statusMailConfirmed label labelConfirmed"> confirmado</div>
+                  </div>
+                  <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
+                  <div ng-if='!esInstitucional(m)' title="Eliminar correo">
+                    <span><button class="btn btnTrash" ng-click='eliminarCorreo(m)'><i class="fa fa-trash-o" aria-hidden="true"></i></button></span>
+                  </div>
+                </div>
+            </div>
+          </div>
           <!-- CORREOS CONFIRMADOS -->
 
 
+          <div>
+          <div><b>Correos Alternativos de contacto</b></div>
           <div ng-repeat='m in correos'>
-              <div class="itemsMail">
+              <div ng-if='!esInstitucional(m)' class="itemsMail">
                 <div class="mail">
                     <div>{{m.email}} &nbsp;</div>
-                    <div class="statusMailConfirmed label label-default"> confirmado</div>
+                    <div class="statusMailConfirmed label labelConfirmed"> confirmado</div>
                 </div>
                 <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
-                <div ng-if='!esInstitucional(m)'>
+                <div title="Eliminar correo">
                   <span><button class="btn btnTrash" ng-click='eliminarCorreo(m)'><i class="fa fa-trash-o" aria-hidden="true"></i></button></span>
                 </div>
               </div>
           </div>
-
+        </div>
 
           <!-- CORREOS SIN CONFIRMAR -->
 
-
+          <!--
           <div class="" ng-repeat='m in correos'>
               <div class="itemsMail">
                 <div class="mail">
                     <div>{{m.email}} &nbsp;</div>
-                    <div class="statusMailConfirmed label label-danger" ng-if='m.hash == null'>sin confirmar</div>
-                    <div class="statusMailConfirmed label label-danger" ng-if='m.hash != null && m.fecha_confirmado == null'>sin confirmar</div>
+                    <div class="statusMailConfirmed label labelSinConfirmar" ng-if='m.hash == null'>sin confirmar</div>
+                    <div class="statusMailConfirmed label labelSinConfirmar" ng-if='m.hash != null && m.fecha_confirmado == null'>sin confirmar</div>
                 </div>
                 <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
-                <div class="actions" ng-if='!esInstitucional(m)'>
-                  <div><button class="btn btnTrash" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button></div>
-                  <div><button class="btn btnTrash" ng-click='eliminarCorreo(m)'><i class="fa fa-trash-o" aria-hidden="true"></i></button></div>
+    <!--            <div class="actions" ng-if='!esInstitucional(m)'>
+                  <div title="Reenviar Correo"><button class="btn btnReenviar" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button></div>
+                  <div title="Eliminar correo"><button class="btn btnTrash" ng-click='eliminarCorreo(m)'><i class="fa fa-trash-o" aria-hidden="true"></i></button></div>
                 </div>
               </div>
           </div>
-
+ -->
 
           <!-- CORREO ENVIADO, INTRODUCIR CODIGO -->
 
@@ -100,24 +115,26 @@
               <div class="itemsMail">
                 <div class="mail">
                     <div>{{m.email}} &nbsp;</div>
-                    <div class="statusMailConfirmed label label-danger" ng-if='m.hash == null'>sin confirmar</div>
-                    <div class="statusMailConfirmed label label-danger" ng-if='m.hash != null && m.fecha_confirmado == null'>sin confirmar</div>
+                    <div class="statusMailConfirmed label labelSinConfirmar" ng-if='m.hash == null'>sin confirmar</div>
+                    <div class="statusMailConfirmed label labelSinConfirmar" ng-if='m.hash != null && m.fecha_confirmado == null'>sin confirmar</div>
                 </div>
                 <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
                 <div class="actions" ng-if='!esInstitucional(m)'>
-                  <div><button class="btn btnTrash" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button></div>
-                  <div><button class="btn btnTrash" ng-click='eliminarCorreo(m)'><i class="fa fa-trash-o" aria-hidden="true"></i></button></div>
+                  <div title="Reenviar Correo"><button class="btn btnReenviar" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button></div>
+                  <div title="Eliminar correo"><button class="btn btnTrash" ng-click='eliminarCorreo(m)'><i class="fa fa-trash-o" aria-hidden="true"></i></button></div>
                 </div>
               </div>
+              <div>
+              <!-- <div ng-if='m.hash != null && m.fecha_confirmado == null'> -->
               <i class="flechaCode fa fa-sort-asc fa-2x" aria-hidden="true"></i>
-
-              <p class="contentCode" ng-if='m.hash != null && m.fecha_confirmado == null'>
+              <p class="contentCode">
                 <span>
                   Se ha enviado un correo a su casilla con un código de verificación. <b>¡Revise el correo!</b><br>
                   <input type=text class="inputCode" ng-model='m.codigo' placeholder="INGRESE CÓDIGO"></input>
-                  <button class="btn btnConformar" ng-click='confirmarCorreo(m)'>Confirmar</button>
+                  <button class="btn btnConfirmar" ng-click='confirmarCorreo(m)'>Confirmar</button>
                 </span>
               </p>
+              </div>
           </div>
 
 
