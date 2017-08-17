@@ -11,7 +11,7 @@
 
     <!-- estado EdicionPerfil --->
 
-    <div class="pantalla edicion_perfil">
+    <div class="pantalla edicion_perfil contenedorPerfil">
         <div>
           <div class="titulo">PERFIL DE USUARIO {{usuario.id}}</div><hr>
 
@@ -73,10 +73,14 @@
           <!-- CORREOS CONFIRMADOS -->
 
           <!-- CORREO NO CONFIRMADOS -->
-          <div><b>Correos alternativos</b></div>
+          <div><b>Correos Alternativos</b></div>
           <div class="contentSinCorreo" role="alert" ng-if='!tieneCuentasAlternativas()'>
-            <strong>IMPORTANTE!!! CORREO ALTERNATIVO SIN </strong> <br>
-            sjshkh
+            <strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> IMPORTANTE!!!<br>
+              CORREO ALTERNATIVO SIN CONFIGURAR</strong> <br>
+              Es necesario contar con una cuenta de coreo alternativa<br>
+              para tener acceso a los sistemas infomaticos de la FCE,<br>
+              como tambien, para recuperar su contraseña en caso de <br>
+              olvido.
           </div>
 
           <div ng-if='tieneCuentasAlternativas()' class="" ng-repeat='m in correos'>
@@ -102,7 +106,7 @@
                     Se ha enviado un correo a su casilla con un código de verificación. <b>¡Revise el correo!</b><br>
                     <input type=text class="inputCode" ng-model='m.codigo' placeholder="INGRESE CÓDIGO"></input>
                     <button class="btn btnConfirmar" ng-click='confirmarCorreo(m)'>Confirmar</button>
-                    <button class="btn btnReenviar" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button>
+                    <button class="btn btnReenviar2" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button>
                   </span>
                 </p>
               </div>
@@ -112,15 +116,15 @@
 
           <div>
             <hr>
-            <div><b>Nuevo Correo</b></div>
+            <div><b>Agregar Correo Alternativo</b></div>
           <!-- <input type='email' ng-model='emailAAgregar'></input>
             <button class="btn btn-success" ng-click='agregarCorreo()'>AGREGAR CORREO</button> -->
 
             <form class="form-inline">
                 <div class="form-group">
-                  <input type="email" class="form-control" id="exampleInputEmail2" ng-model='emailAAgregar' placeholder="nombre@dominio.com">
+                  <input type="email" class="inputMail form-control" id="exampleInputEmail2" ng-model='emailAAgregar' placeholder="nombre@dominio.com">
                 </div>
-                <button type="submit" class="btn btnAgregarCorreo" ng-click='agregarCorreo()'>AGREGAR CORREO</button>
+                <button type="submit" class="btn btnAgregarCorreo" ng-click='agregarCorreo()'>AGREGAR</button>
               </form>
           </div>
 
@@ -130,21 +134,47 @@
     </div>
 
 
-    <div class='pantalla_error'>
+    <div class='fondo pantalla_error'>
       <div class='error_actualizando_usuario'>
-          Encontramos un error actualizando los datos del usuario.
-          <button ng-click='cerrarErrorUsuario()'>Aceptar</button>
+        <div class="estiloError">
+          <div>
+            <i class="iconosErrores fa fa-server" aria-hidden="true"></i>
+          </div>
+          <div>
+              <h1>ERROR</h1>
+              <p>Encontramos un error actualizando los datos del usuario.</p><br>
+              Por favor intente mas tarde.</p>
+            <button class="btn btnVolver" ng-click='cerrarErrorUsuario()'>Volver</button>
+          </div>
+        </div>
       </div>
 
       <div class='error_correo'>
-          Encontramos un error
-          <button ng-click='limpiarError()'>Aceptar</button>
+        <div class="estiloError">
+          <div>
+            <i class="iconosErrores fa fa-server" aria-hidden="true"></i>
+          </div>
+          <div>
+              <h1>ERROR EN EL SERVIDOR</h1>
+              <p>Se produjo un error al intentar enviar el correo.<br>
+                Por favor intente mas tarde.</p>
+            <button class="btn btnVolver" ng-click='limpiarError()'>Volver</button>
+          </div>
+        </div>
       </div>
 
       <div class='error_enviando_confirmacion'>
-          Se produjo un error cuando se trataba de contactar con el servidor de correo.
-          Por favor intente mas tarde.
-          <button ng-click='limpiarError()'>Aceptar</button>
+          <div class="estiloError">
+            <div>
+              <i class="iconosErrores fa fa-server" aria-hidden="true"></i>
+            </div>
+            <div>
+                <h1>ERROR EN EL SERVIDOR</h1>
+                <p>Se produjo un error al intentar enviar el código de verifiacción.<br>
+                  Por favor intente mas tarde.</p>
+              <button class="btn btnVolver" ng-click='limpiarError()'>Volver</button>
+            </div>
+          </div>
       </div>
     </div>
 
@@ -184,7 +214,7 @@
       </div>
 
       <div class='mensaje_cargando'>
-        AGUANTAAAAAA FLACOOO que estoy CARGANDOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+        <img src="/img/preloader.gif"></img>
       </div>
 
 
