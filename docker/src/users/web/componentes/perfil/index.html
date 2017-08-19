@@ -4,17 +4,12 @@
 
     <div class='cambiar_clave'>
     </div>
-
     <!-- <div>ID</div> -->
     <!-- <div>{{usuario.id}}</input></div> -->
-
-
     <!-- estado EdicionPerfil --->
-
     <div class="pantalla edicion_perfil contenedorPerfil">
         <div>
           <div class="titulo">PERFIL DE USUARIO {{usuario.id}}</div><hr>
-
           <!-- <div>
             <img src='http://127.0.0.1:9001/files/api/v1.0/archivo/496ff972-e834-46a6-9361-79b2e5c1bf85/contenido'></img>
             <form>
@@ -28,7 +23,6 @@
               <button ng-click="upload(croppedDataUrl, picFile.name)">Submit</button>
             </form>
           </div> -->
-
           <div>
             <div><b>Nombre</b></div>
             <input ng-model='usuario.nombre' class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
@@ -133,7 +127,6 @@
         </div>
     </div>
 
-
     <div class='fondo pantalla_error'>
       <div class='error_actualizando_usuario'>
         <div class="estiloError">
@@ -179,46 +172,57 @@
     </div>
 
     <div class='pantalla_mensaje'>
-
       <div>
       </div>
-
-
     </div>
 
     <!-- pantalla cambiar clave ----->
 
     <div class='pantalla cambio_clave'>
-
     </div>
-
-
-
-
 
     <!-- Errores generales -->
 
-    <div class='pantalla_error'>
+    <div class='fondo pantalla_error'>
       <div class='error_actualizando_usuario'>
-          Encontramos un error actualizando los datos del usuario.
-          <button ng-click='cerrarErrorUsuario()'>Aceptar</button>
+        <div class="estiloError">
+          <div>
+            <i class="iconosErrores fa fa-user-times" aria-hidden="true"></i>
+          </div>
+          <div>
+              <h1>ERROR</h1>
+              <p> Encontramos un error actualizando los datos del usuario.</p><br>
+              Por favor intente mas tarde.</p>
+            <button class="btn btnVolver" ng-click='cerrarErrorUsuario()'>Volver</button>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- mensajes generales --->
 
-    <div class='pantalla_mensaje'>
-
+    <div class='fondo pantalla_mensaje'>
       <div class='cambios_guardados_con_exito'>
-        Cambios Guardados con éxito
+          <div class="estiloError">
+            <div>
+              <i class="iconosErrores fa fa-check-square" aria-hidden="true"></i>
+            </div>
+            <div>
+                <h1>Cambios Guardados <br> con éxito</h1>
+              <button class="btn btnVolver">Volver</button>
+            </div>
+          </div>
       </div>
 
       <div class='mensaje_cargando'>
-        <img src="/img/preloader.gif"></img>
+        <div class="estiloError">
+          <div>
+            <img src="/img/preloader.gif"></img>
+          </div>
+        </div>
       </div>
 
 
     </div>
-
 
 </div>
