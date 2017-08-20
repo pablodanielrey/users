@@ -9,20 +9,24 @@ from flask_oidc import OpenIDConnect
 app = Flask(__name__, static_url_path='/src/users/web')
 app.debug = True
 app.config['SECRET_KEY'] = 'algo-secreto'
+app.config['SESSION_COOKIE_NAME'] = 'users_session'
+
 app.config['OIDC_CLIENT_SECRETS'] = '/src/users/web/client_secrets.json'
 app.config['OIDC_COOKIE_SECURE'] = False
 app.config['OIDC_VALID_ISSUERS'] = ['http://localhost','https://localhost']
 app.config['OIDC_RESOURCE_CHECK_AUD'] = False
 app.config['OIDC_INTROSPECTION_AUTH_METHOD'] = 'client_secret_post'
-app.config['SESSION_COOKIE_NAME'] = 'users_session'
+app.config['OIDC_ID_TOKEN_COOKIE_NAME'] = 'users_oidc'
+app.config['OIDC_USER_INFO_ENABLED'] = True
+app.config['OIDC_SCOPES'] = ['openid','email','phone','profile','address']
 
 
 class MyOpenIDConnect(OpenIDConnect):
     '''
         Reemplaza métodos que funcionan mal o fuera de la especificación
     '''
-    def __init__(self, app):
-        super().__init__(app)
+    def __init__(self, app, credentials_store=None):
+        super().__init__(app, credentials_store)
         self.current_app = app
 
     def _is_id_token_valid(self, id_token):
@@ -90,14 +94,51 @@ class MyOpenIDConnect(OpenIDConnect):
 
         return True
 
-oidc = MyOpenIDConnect(app)
+
+class DictWrapper(object):
+    def __init__(self, name, d=None):
+        self.name = name
+        if d:
+            self.data = dict(d)
+        else:
+            self.data = dict()
+
+    def __setitem__(self, key, value):
+        logging.debug('{} --- setitem {} --> {}'.format(self.name, key, value))
+        self.data[key] = value
+
+    def __getitem__(self, key):
+        v = self.data[key]
+        logging.debug('{} --- getitem {} --> {}'.format(self.name, key, v))
+        return v
+
+    def __delitem__(self, key):
+        logging.debug('{} --- delitem {}'.format(self.name, key))
+        del self.data[key]
+
+    def __contains__(self, key):
+        logging.debug('{} --- contains {}'.format(self.name, key))
+        return key in self.data
+
+    def items(self):
+        logging.debug('{} ---  items --'.format(self.name))
+        return self.data.items()
+
+    def pop(self, key, default=None):
+        v = self.data.pop(key)
+        logging.debug('{} --- pop {} --> {}'.format(self.name, key, v))
+        return v
+
+
+oidc = MyOpenIDConnect(app, credentials_store=DictWrapper('credentials_store'))
 
 
 @app.route('/usuario', methods=['GET'])
 @oidc.require_login
 def usuario():
     if oidc.user_loggedin:
-        return jsonify(oidc.user_getfield('email'))
+        d = oidc.user_getinfo(['name','family_name','picture','birdthdate'])
+        return jsonify(str(d))
     else:
         return jsonify({'no':'no'})
 
