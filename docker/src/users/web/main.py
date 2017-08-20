@@ -2,7 +2,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 import flask
-from flask import Flask, request, send_from_directory
+from flask import Flask, request, send_from_directory, jsonify
 from flask_oidc import OpenIDConnect
 
 # set the project root directory as the static folder, you can set others.
@@ -18,20 +18,20 @@ app.config['SESSION_COOKIE_NAME'] = 'users_session'
 
 
 class MyOpenIDConnect(OpenIDConnect):
-    """
+    '''
         Reemplaza métodos que funcionan mal o fuera de la especificación
-    """
+    '''
     def __init__(self, app):
         super().__init__(app)
         self.current_app = app
 
     def _is_id_token_valid(self, id_token):
-        """
+        '''
         Check if `id_token` is a current ID token for this application,
         was issued by the Apps domain we expected,
         and that the email address has been verified.
         @see: http://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation
-        """
+        '''
         if not id_token:
             return False
 
@@ -90,16 +90,22 @@ class MyOpenIDConnect(OpenIDConnect):
 
         return True
 
-
 oidc = MyOpenIDConnect(app)
 
-#@app.before_request
-#def abrir_session():
-#    app.open_session(request)
-#    logging.debug('-----------------------------------------')
-#    for a in request.args:
-#        logging.debug(a)
-#    logging.debug('-----------------------------------------')
+
+@app.route('/usuario', methods=['GET'])
+@oidc.require_login
+def usuario():
+    if oidc.user_loggedin:
+        return jsonify(oidc.user_getfield('email'))
+    else:
+        return jsonify({'no':'no'})
+
+@app.route('/logout', methods=['GET'])
+@oidc.require_login
+def logout():
+    oidc.logout()
+    return jsonify({'ok':'ok'})
 
 
 @app.route('/<path:path>')
