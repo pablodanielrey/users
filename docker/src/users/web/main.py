@@ -32,7 +32,7 @@ oidc = MyOpenIDConnect(app, credentials_store=DictWrapper('credentials_store'))
 @jsonapi
 def configuracion():
     return {
-        'usuario': oidc.user_getinfo(['name','family_name','picture','birdthdate']),
+        'usuario': oidc.user_getinfo(['name','family_name','picture','email','email_verified','birdthdate','address','profile']),
         'usuarios_api_url': USERS_API_URL
     }
 
