@@ -1,6 +1,8 @@
 import logging
 from flask_oidc import OpenIDConnect
 
+logger = logging.getLogger(__name__)
+
 class MyOpenIDConnect(OpenIDConnect):
     '''
         Reemplaza métodos que funcionan mal o fuera de la especificación

@@ -6,4 +6,5 @@ app.controller("IndexCtrl", ["$scope", "$http", function ($scope, $http) {
     return $http.get('/config.json');
   }
 
+
 }]);
