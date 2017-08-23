@@ -2,7 +2,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 import flask
-from flask import Flask, request, send_from_directory, jsonify
+from flask import Flask, request, send_from_directory, jsonify, redirect
 from flask_oidc import OpenIDConnect
 
 # set the project root directory as the static folder, you can set others.
@@ -149,10 +149,14 @@ def logout():
     return jsonify({'ok':'ok'})
 
 
-@app.route('/<path:path>')
+@app.route('/', methods=['GET'], defaults={'path':None})
+@app.route('/<path:path>', methods=['GET'])
 @oidc.require_login
 def send(path):
+    if not path:
+        return redirect('/index.html'), 303
     return send_from_directory(app.static_url_path, path)
+
 
 @app.after_request
 def add_header(r):
