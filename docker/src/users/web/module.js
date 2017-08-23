@@ -1,4 +1,4 @@
-app = angular.module('MainApp', ['ngRoute', 'ngResource','ngFileUpload', 'ngImgCrop']) 
+app = angular.module('MainApp', ['ngRoute', 'ngResource','ngFileUpload', 'ngImgCrop'])
 
 app.config(['$routeProvider', function($routeProvider) {
 
@@ -7,7 +7,7 @@ app.config(['$routeProvider', function($routeProvider) {
     .when('/config_clave/:uid', {templateUrl: '/componentes/cambio_clave/index.html', controller:'ConfigClaveCtrl'})
     .when('/reset_clave', {templateUrl: '/componentes/reseteo_clave/index.html', controller:'ReseteoClaveCtrl'})
     .when('/perfil/:dni', {templateUrl: '/componentes/perfil/index.html', controller:'PerfilCtrl'})
-    .otherwise({ redirectTo: '/reset_clave' });
+    .otherwise({ redirectTo: '/perfil/' });
 
 }]);
 

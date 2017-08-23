@@ -11,9 +11,8 @@
       </div>
       <div class="collapse navbar-collapse" ng-class="!navCollapsed &amp;&amp; 'in'">
         <ul class="nav navbar-nav navbar-right">
-          <li><a class="btnUSer" ><i class="fa fa-user-circle" aria-hidden="true"></i> {{view.usuario.id}}</a></li>
-          <li><a class="btnUSer" ><i class="fa fa-user-circle" aria-hidden="true"></i> {{view.usuario.nombre}} {{view.usuario.apellido}}</a></li>
-          <li><a class="btnOut" href="/logout"><span class="glyphicon glyphicon-log-out"></span> Salir</a></li>
+          <li><a class="btnUSer" ><i class="fa fa-user-circle" aria-hidden="true"></i> {{view.usuario.name}} {{view.usuario.family_name}}</a></li>
+          <li><a class="btnOut" ng-click="salir()"><span class="glyphicon glyphicon-log-out"></span> Salir</a></li>
         </ul>
       </div>
 </div>
