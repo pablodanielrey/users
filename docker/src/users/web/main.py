@@ -3,6 +3,24 @@ logging.basicConfig(level=logging.DEBUG)
 
 import os
 
+
+'''
+    escribo el archivo de propiedades de oidc desde las propiedades del environment
+'''
+with open('/tmp/client_secrets.json','w') as f:
+    import json
+    json.dump({"web": {
+      "client_id":"some-consumer",
+      "client_secret":"consumer-secret",
+      "auth_uri": os.environ['LOGIN_OIDC_URL'] + "/authorization",
+      "token_uri": os.environ['LOGIN_OIDC_URL'] + "/token",
+      "userinfo_uri": os.environ['LOGIN_OIDC_URL'] + "/userinfo",
+      "issuer": os.environ['LOGIN_OIDC_ISSUER'],
+      "redirect_uris": os.environ['USERS_URL'] + "/oidc_callback"
+    }}, f)
+
+
+
 import flask
 from flask import Flask, request, send_from_directory, jsonify, redirect, url_for
 from flask_jsontools import jsonapi
@@ -15,16 +33,15 @@ app.debug = True
 app.config['SECRET_KEY'] = 'algo-secreto'
 app.config['SESSION_COOKIE_NAME'] = 'users_session'
 
-app.config['OIDC_CLIENT_SECRETS'] = '/src/users/web/client_secrets.json'
+app.config['OIDC_CLIENT_SECRETS'] = '/tmp/client_secrets.json'
 app.config['OIDC_COOKIE_SECURE'] = False
-app.config['OIDC_VALID_ISSUERS'] = ['http://localhost','https://localhost']
+app.config['OIDC_VALID_ISSUERS'] = [os.environ['LOGIN_OIDC_ISSUER']]
 app.config['OIDC_RESOURCE_CHECK_AUD'] = False
 app.config['OIDC_INTROSPECTION_AUTH_METHOD'] = 'client_secret_post'
 app.config['OIDC_ID_TOKEN_COOKIE_NAME'] = 'users_oidc'
 app.config['OIDC_USER_INFO_ENABLED'] = True
 app.config['OIDC_SCOPES'] = ['openid','email','phone','profile','address']
 
-USERS_API_URL = os.environ['USERS_API_URL']
 oidc = MyOpenIDConnect(app, credentials_store=DictWrapper('credentials_store'))
 
 @app.route('/config.json', methods=['GET'])
@@ -33,7 +50,7 @@ oidc = MyOpenIDConnect(app, credentials_store=DictWrapper('credentials_store'))
 def configuracion():
     return {
         'usuario': oidc.user_getinfo(['name','family_name','picture','email','email_verified','birdthdate','address','profile']),
-        'usuarios_api_url': USERS_API_URL
+        'usuarios_api_url': os.environ['USERS_API_URL']
     }
 
 @app.route('/usuario', methods=['GET'])
