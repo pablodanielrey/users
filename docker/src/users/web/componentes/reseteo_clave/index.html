@@ -36,14 +36,14 @@
     <button ng-click='obtenerDatosDeUsuario()'>Siguiente</button>
   </div>
 
-  <div class='dni_inexistente'>
+  <div class='pantalla_error dni_inexistente'>
     No tenemos registrado a ninguna persona con dni {{view.dni}}
     Si cree que esto es un error, puede comunicarse con DiTeSI usando el siguiente <a href='#'>enlace</a>
     Atte Equipo de desarrollo de DiTeSI
     <button ng-click='limpiarError()'>Reingresar DNI</button>
   </div>
 
-  <div class='usuario_bloqueado'>
+  <div class='pantalla_error usuario_bloqueado'>
     El dni {{view.dni}} ha sido usado para recuperar la clave demasiadas veces.
     Esto puede ocurrir cuando se sufren ataques sobre las seguridades del sistema.
     Se ha reportado el incidente al equipo de seguridad de la facultad, asi como también se ha enviado un
@@ -52,7 +52,7 @@
     Atte Equipo de desarrollo de DiTeSI
   </div>
 
-  <div class='dni_sin_cuenta'>
+  <div class='pantalla_error dni_sin_cuenta'>
     Estimado {{view.usuario.nombre}} {{view.usuario.apellido}}
     No tenemos registrada ninguna cuenta alternativa de contacto, por lo que es imposible enviar el código de verificación.
     Por favor comuníquese con DiTeSI usando el siguiente <a href='#'>enlace</a>
@@ -72,13 +72,13 @@
     <button ng-click='enviarCodigo()'>Enviar Código</button>
   </div>
 
-  <div class='limite_de_envio'>
+  <div class='pantalla_error limite_de_envio'>
     Ha superado el límite de envíos a {{view.usuario.correo.email}}
     Este incidente ha sido registrado y se ha enviado un reporte al equipo de seguridad de DiTeSI
     así como también un correo a la cuenta {{view.usuario.correo.email}} con un informe del incidente y pasos a seguir.
   </div>
 
-  <div class='error_de_envio'>
+  <div class='pantalla_error error_de_envio'>
     No se pudo enviar el código a la cuenta {{view.usuario.correo.email}}
     Por favor intente nuevamente en unos minutos.
     Si el problema se reitera por favor comuníquese con DiTeSI usando el siguiente <a href='#'>enlace</a>
@@ -88,7 +88,7 @@
   <!-- --------------------- paso ---------------------- -->
 
 
-  <div class='pantalla codigo'>
+  <div class='pantalla pantalla codigo'>
     Se ha enviado el código de confirmación a {{view.usuario.correo.email}}
     Tenga en cuenta que la recepción del correo puede demorarse algunos minutos.
     Chequee también los correos clasificados como "Correo Basura" o "Spam",
@@ -98,7 +98,7 @@
     <button ng-click='verificarCodigo()'>Verificar</button>
   </div>
 
-  <div class='error_de_codigo'>
+  <div class='pantalla_error error_de_codigo'>
     El código ingresado es incorrecto!!.
     Chequee nuevamente su cuenta {{view.usuario.correo.email}} y asegúrese de que el código ingresado es el indicado en
     el último correo recibido.
@@ -108,7 +108,7 @@
     <button ng-click='limpiarError()'>Anterior</button>
   </div>
 
-  <div class='limite_de_verificacion'>
+  <div class='pantalla_error limite_de_verificacion'>
     Ha superado el límite de intentos de verificación.
     Este incidente ha sido registrado y se ha enviado un reporte al equipo de seguridad de DiTeSI
     así como también un correo a la cuenta {{view.usuario.correo.email}} con un informe del incidente y pasos a seguir.
@@ -143,7 +143,7 @@
     <button ng-click='cambiarClave()'>Siguiente</button>
   </div>
 
-  <div class='error_cambio_clave'>
+  <div class='pantalla_error error_cambio_clave'>
     Ocurrió un problema cambiando su clave.
     El incidente se ha registrado y se ha informado al equipo de desarrollo de DiTeSI.
     Si desea puede realizar nuevamente el proceso accediendo a <a href='#'>reintentar proceso</a>
@@ -152,7 +152,7 @@
     Equipo de desarrollo DiTeSI
   </div>
 
-  <div class='error_formato_de_clave'>
+  <div class='pantalla_error error_formato_de_clave'>
     Formato de clave no permitido. Por favor chequee las restricciones impuestas sobre los caracteres y longitud permitidas para la contraseña.
     Si el problema se reitera por favor comuníquese con DiTeSI usando el siguiente <a href='#'>enlace</a>
     Atte
