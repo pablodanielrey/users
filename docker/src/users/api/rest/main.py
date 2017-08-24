@@ -17,6 +17,7 @@ register_encoder(app)
 reset.registrarApiReseteoClave(app)
 
 
+@app.route('/users/api/v1.0/avatar/<uid>', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/usuarios/', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/usuarios/<uid>', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/usuarios/<uid>/claves/', methods=['OPTIONS'])
@@ -40,6 +41,19 @@ def options(*args, **kargs):
     r.headers['Access-Control-Allow-Headers'] = rh
     r.headers['Access-Control-Max-Age'] = 1
     return r
+
+
+
+@app.route('/users/api/v1.0/avatar/<hash>', methods=['GET'])
+@jsonapi
+def avatar(hash):
+    session = Session()
+    try:
+        return UsersModel.avatar(session=session, hash=hash)
+    except Exception as e:
+        return "http://usuarios.econo.unlp.edu.ar:5005/img/usersico.gif"
+    finally:
+        session.close()
 
 
 @app.route('/users/api/v1.0/usuarios/', methods=['GET'], defaults={'uid':None})

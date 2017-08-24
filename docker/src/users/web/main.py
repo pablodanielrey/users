@@ -40,7 +40,7 @@ app.config['OIDC_RESOURCE_CHECK_AUD'] = False
 app.config['OIDC_INTROSPECTION_AUTH_METHOD'] = 'client_secret_post'
 app.config['OIDC_ID_TOKEN_COOKIE_NAME'] = 'users_oidc'
 app.config['OIDC_USER_INFO_ENABLED'] = True
-app.config['OIDC_SCOPES'] = ['openid','email','phone','profile','address']
+app.config['OIDC_SCOPES'] = ['openid','email','phone','profile','address','picture']
 
 oidc = MyOpenIDConnect(app, credentials_store=DictWrapper('credentials_store'))
 
