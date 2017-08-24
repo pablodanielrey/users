@@ -68,11 +68,17 @@ class UsersModel:
         q = session.query(Usuario)
         q = q.filter(Usuario.id == usuario) if usuario else q
         q = q.filter(Usuario.dni == dni) if dni else q
-        q = q.filter(or_(Usuario.actualizado >= fecha, Usuario.creado >= fecha)) if fecha else q        
+        q = q.filter(or_(Usuario.actualizado >= fecha, Usuario.creado >= fecha)) if fecha else q
         q = q.options(joinedload('claves')) if retornarClave else q
         q = q.options(joinedload('mails'), joinedload('telefonos'))
         q = cls._aplicar_filtros_comunes(q, offset, limit)
         return q.all()
+
+    @classmethod
+    def existe(cls, session, usuario):
+        if session.query(Usuario).filter(Usuario.id == usuario).count() > 0:
+            return True
+        return False
 
     @classmethod
     def correos(cls, session, cid=None, usuario=None, historico=False, offset=None, limit=None):
