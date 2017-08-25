@@ -1,27 +1,24 @@
 
 app.controller("ConfigCorreoCtrl", ["$scope", "$location", "$routeParams", "$resource", "$timeout", function ($scope, $location, $routeParams, $resource, $tiemout) {
 
+    // -------------- manejo de pantallas y errores ------------------------------------------------------ //
+    $scope.$parent.errores_posibles = ['FormatoDeClaveIncorrectoError', 'SistemaError'];
+    $scope.$parent.mensajes = [];
+
+    $scope.$parent.estados = ['EstadoClaveVencida','EstadoCambioClave','EstadoOK'];
+    $timeout(function() {
+      $scope.$parent.estado = 'EstadoClaveVencida';
+      $scope.$parent.mensaje = {mensaje:'', codigo:''};
+    });
+    //////////////////
+
+
   var Correo = $resource('http://127.0.0.1:7001/users/api/v1.0/correos/:id', {id:null},
                                 {
                                     'enviar_confirmar': { method:'POST', url: 'http://127.0.0.1:7001/users/api/v1.0/enviar_confirmar_correo/:id' },
                                     'confirmar': { method:'POST', url: 'http://127.0.0.1:7001/users/api/v1.0/confirmar_correo/:id/:code' }
                                 });
 
-
-
-  $scope.estilos = ['chequeando','paso1','paso2','paso3','paso4'];
-  $scope.estilo_actual = 0;
-  $scope.estilo = $scope.estilos[$scope.estilo_actual];
-
-  $scope.pasoSiguiente = function() {
-    $scope.estilo_actual = ($scope.estilo_actual + 1) % $scope.estilos.length;
-    $scope.estilo = $scope.estilos[$scope.estilo_actual];
-  }
-
-  $scope.pasoAnterior = function() {
-    $scope.estilo_actual = ($scope.estilo_actual + $scope.estilos.length - 1) % $scope.estilos.length;
-    $scope.estilo = $scope.estilos[$scope.estilo_actual];
-  }
 
   $scope.correoPendiente = null;
   $scope.view = {

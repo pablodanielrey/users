@@ -1,5 +1,5 @@
 
-app.controller("ConfigClaveCtrl", ["$scope", "$location", "$routeParams", "$resource", "$timeout", function ($scope, $location, $routeParams, $resource, $timeout) {
+app.controller("ConfigClaveCtrl", ["$scope", "$location", "$routeParams", "$resource", "$timeout", "$window", function ($scope, $location, $routeParams, $resource, $timeout, $window) {
 
   // -------------- manejo de pantallas y errores ------------------------------------------------------ //
   $scope.$parent.errores_posibles = ['FormatoDeClaveIncorrectoError', 'SistemaError'];
