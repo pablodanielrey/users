@@ -3,20 +3,26 @@
   display: none;
 }
 
+.config_clave.error .pantalla {
+  display: none;
+}
 
-.config_clave.paso1 .mensaje {
+.config_clave.EstadoClaveVencida .clave_vencida {
   display: block;
 }
 
-.config_clave.paso2 .clave {
+.config_clave.EstadoCambioClave .cambio_clave {
   display: block;
 }
 
-.config_clave.paso3 .fin {
+.config_clave.EstadoOK .fin {
   display: block;
 }
 
-.config_clave.error {
-  background-color: black;
-  color: red;
+.config_clave.error.FormatoDeClaveIncorrectoError .error_sistema {
+  display: block;
+}
+
+.config_clave.error.SistemaError .error_sistema {
+  display: block;
 }

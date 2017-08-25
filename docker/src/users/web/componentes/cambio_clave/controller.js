@@ -1,7 +1,19 @@
 
-app.controller("ConfigClaveCtrl", ["$scope", "$location", "$routeParams", "$resource", "$timeout", function ($scope, $location, $routeParams, $resource, $tiemout) {
+app.controller("ConfigClaveCtrl", ["$scope", "$location", "$routeParams", "$resource", "$timeout", function ($scope, $location, $routeParams, $resource, $timeout) {
 
-  var Clave = $resource('http://127.0.0.1:7001/users/api/v1.0/usuarios/:uid/claves/', {uid:null});
+  // -------------- manejo de pantallas y errores ------------------------------------------------------ //
+  $scope.$parent.errores_posibles = ['FormatoDeClaveIncorrectoError', 'SistemaError'];
+  $scope.$parent.mensajes = [];
+
+  $scope.$parent.estados = ['EstadoClaveVencida','EstadoCambioClave','EstadoOK'];
+  $timeout(function() {
+    $scope.$parent.estado = 'EstadoClaveVencida';
+    $scope.$parent.mensaje = {mensaje:'', codigo:''};
+  });
+  //////////////////
+
+
+  // var Clave = $resource('http://127.0.0.1:7001/users/api/v1.0/usuarios/:uid/claves/', {uid:null});
 
   /*
   var Usuario = $resource('http://127.0.0.1:7001/users/api/v1.0/usuarios/:id', {id:null});
@@ -11,20 +23,6 @@ app.controller("ConfigClaveCtrl", ["$scope", "$location", "$routeParams", "$reso
                                     'confirmar': { method:'POST', url: 'http://127.0.0.1:7001/users/api/v1.0/confirmar_correo/:id/:code' }
                                 });
 */
-
-  $scope.estilos = ['paso1','paso2','paso3'];
-  $scope.estilo_actual = 0;
-  $scope.estilo = $scope.estilos[$scope.estilo_actual];
-
-  $scope.pasoSiguiente = function() {
-    $scope.estilo_actual = ($scope.estilo_actual + 1) % $scope.estilos.length;
-    $scope.estilo = $scope.estilos[$scope.estilo_actual];
-  }
-
-  $scope.pasoAnterior = function() {
-    $scope.estilo_actual = ($scope.estilo_actual + $scope.estilos.length - 1) % $scope.estilos.length;
-    $scope.estilo = $scope.estilos[$scope.estilo_actual];
-  }
 
   $scope.uid = $routeParams['uid']
   $scope.view = {
@@ -41,7 +39,7 @@ app.controller("ConfigClaveCtrl", ["$scope", "$location", "$routeParams", "$reso
   }
 
   $scope.finalizar = function() {
-    alert('redireccionando a /perfil')
+    $window.location.href = '/';
   }
 
   $scope.cambiarClave = function() {
@@ -49,14 +47,14 @@ app.controller("ConfigClaveCtrl", ["$scope", "$location", "$routeParams", "$reso
       alert('las claves no son iguales');
       return;
     }
-    var c = new Clave({clave:$scope.view.clave1});
-    c.$save({uid:$scope.uid}, function(c2) {
-      $scope.view.clave1 = '';
-      $scope.view.clave2 = '';
-      $scope.pasoSiguiente();
-    }, function(err) {
-      alert(err);
-    })
+    // var c = new Clave({clave:$scope.view.clave1});
+    // c.$save({uid:$scope.uid}, function(c2) {
+    //   $scope.view.clave1 = '';
+    //   $scope.view.clave2 = '';
+    //   $scope.pasoSiguiente();
+    // }, function(err) {
+    //   alert(err);
+    // })
   }
 
 }]);
