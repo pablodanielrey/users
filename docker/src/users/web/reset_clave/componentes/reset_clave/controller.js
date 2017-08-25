@@ -1,85 +1,31 @@
 
-app.controller("ReseteoClaveCtrl", ["$scope", "$location", "$routeParams", "$resource", "$timeout", function ($scope, $location, $routeParams, $resource, $tiemout) {
+app.controller("ResetClaveCtrl", ["$scope", "$location", "$routeParams", "$resource", "$timeout", function ($scope, $location, $routeParams, $resource, $timeout) {
 
   // -------------- manejo de pantallas y errores ------------------------------------------------------ //
+  $scope.$parent.errores_posibles = [
+                    'TokenExpiradoError',
+                    'UsuarioNoEncontradoError',
+                    'SeguridadError',
+                    'NoTieneCuentaAlternativaError',
+                    'EnvioCodigoError',
+                    'LimiteDeEnvioError',
+                    'CodigoIncorrectoError',
+                    'LimiteDeVerificacionError',
+                    'ClaveError',
+                    'FormatoDeClaveIncorrectoError',
+                    'CorreoBloqueadoError'
+                  ];
+  $scope.$parent.mensajes = [];
 
-  $scope.estilos = ['paso1', 'paso2', 'paso3', 'paso4', 'paso5', 'paso6', 'paso7'];
-  $scope.estilo_actual = 0;
-  $scope.estilo = $scope.estilos[$scope.estilo_actual];
-
-  $scope.pasoSiguiente = function() {
-    $scope.estilo_actual = ($scope.estilo_actual + 1) % $scope.estilos.length;
-    $scope.estilo = $scope.estilos[$scope.estilo_actual];
-  }
-
-  $scope.pasoAnterior = function() {
-    $scope.estilo_actual = ($scope.estilo_actual + $scope.estilos.length - 1) % $scope.estilos.length;
-    $scope.estilo = $scope.estilos[$scope.estilo_actual];
-  }
+  $scope.$parent.estados = ['EstadoIngreseSuDNI','EstadoAvisoDeEnvio','EstadoIngreseCodigo','EstadoIngreseClave','EstadoOK'];
+  $timeout(function() {
+    $scope.$parent.estado = 'EstadoIngreseSuDNI';
+    $scope.$parent.mensaje = {mensaje:'', codigo:''};
+  });
+  //////////////////
 
 
 
-
-  $scope.error = {
-    error: '',
-    codigo: ''
-  }
-
-  $scope.limpiarError = function() {
-    $scope.error = {
-      error: '',
-      codigo: ''
-    }
-  }
-
-  $scope.setearError = function(e) {
-    $scope.error = {
-      error: 'error',
-      codigo: e.error
-    };
-  }
-
-  /// se usa para debug //
-  $scope.errores_posibles = ['',
-      'TokenExpiradoError',
-      'UsuarioNoEncontradoError',
-      'SeguridadError',
-      'NoTieneCuentaAlternativaError',
-      'EnvioCodigoError',
-      'LimiteDeEnvioError',
-      'CodigoIncorrectoError',
-      'LimiteDeVerificacionError',
-      'ClaveError',
-      'FormatoDeClaveIncorrectoError'
-    ];
-  $scope.error_actual = 0;
-
-  $scope.cambiarError = function() {
-    if ($scope.error.error == '') {
-      $scope.error.error = 'error';
-    } else {
-      $scope.error.error = '';
-    }
-  }
-
-  $scope.errorSiguiente = function() {
-    $scope.error_actual = ($scope.error_actual + 1) % $scope.errores_posibles.length;
-    $scope.error = {
-      error: 'error',
-      codigo: $scope.errores_posibles[$scope.error_actual]
-    };
-  }
-
-  $scope.errorAnterior = function() {
-    $scope.error_actual = ($scope.error_actual + $scope.errores_posibles.length - 1) % $scope.errores_posibles.length;
-    $scope.error = {
-      error: 'error',
-      codigo: $scope.errores_posibles[$scope.error_actual]
-    };
-  }
-  ////////
-
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   $scope.token = '';
 

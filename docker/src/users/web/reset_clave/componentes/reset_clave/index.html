@@ -1,6 +1,6 @@
-<div class='reset_clave {{estilo}} {{error.error}} {{error.codigo}}'>
+<div class='reset_clave {{estado}} {{mensaje.mensaje}} {{mensaje.codigo}} {{error.error}} {{error.codigo}}'>
 
-  <div class='expirado'>
+  <div class='pantalla_error expirado'>
       Por razones de seguridad se impone un límite de tiempo razonable para completar el proceso de recuperación.
       Ha superado este tiempo. Por lo que debe iniciar el proceso nuevamente.
       Tenga en cuenta que la cantidad de intentos de recuperación se registra, se informa y se evalúa para evitar ataques.
@@ -10,24 +10,8 @@
       Equipo de desarrollo de DiTeSI
   </div>
 
-  <!-- --------------------- paso1 ---------------------- -->
 
-
-  <div class='pantalla chequeando'>
-      Cheqeuando Precondiciones. Por favor espere
-  </div>
-
-
-  <!-- --------------------- paso2 ---------------------- -->
-
-
-  <div class='pantalla mensaje'>
-    Vamos a proceder a recuperar la clave de su cuenta
-    <button ng-click='iniciarProceso()'>Siguiente</button>
-  </div>
-
-
-  <!-- --------------------- paso3 ---------------------- -->
+  <!-- --------------------- EstadoIngreseSuDNI ---------------------- -->
 
 
   <div class='pantalla dni'>
@@ -59,8 +43,17 @@
     Atte Equipo de desarrollo de DiTeSI
   </div>
 
+  <div class='pantalla_error correo_bloqueado'>
+    La cuenta {{view.correo}} se encuentra bloqueada en nuestros sitemas debido a que ha indicado que el correo recibido de alguna de las áreas de
+    la facultad es "Correo No Deseado".
+    Este proceso nos obliga a no enviar mas correo desde cuentas de la facultad.
+    Para poder continuar debe indicar que todo el correo recibido de la facultad NO es "Correo no Deseado" y contactarse
+    con DiTeSI <a href='#'>aqui</a>
+    Caso contrario la cuenta {{view.usuario.correo.email}} seguirá bloqueada y no se enviará correo desde cuentas institucionales de la facultad.
+  </div>
 
-  <!-- --------------------- paso ---------------------- -->
+
+  <!-- --------------------- EstadoAvisoDeEnvio ---------------------- -->
 
 
   <div class='pantalla aviso_de_envio'>
@@ -85,10 +78,10 @@
   </div>
 
 
-  <!-- --------------------- paso ---------------------- -->
+  <!-- --------------------- EstadoIngreseCodigo ---------------------- -->
 
 
-  <div class='pantalla pantalla codigo'>
+  <div class='pantalla codigo'>
     Se ha enviado el código de confirmación a {{view.usuario.correo.email}}
     Tenga en cuenta que la recepción del correo puede demorarse algunos minutos.
     Chequee también los correos clasificados como "Correo Basura" o "Spam",
@@ -115,7 +108,7 @@
   </div>
 
 
-  <!-- --------------------- paso ---------------------- -->
+  <!-- --------------------- EstadoIngreseClave ---------------------- -->
 
 
   <div class='pantalla clave'>
@@ -160,7 +153,7 @@
   </div>
 
 
-  <!-- --------------------- paso ---------------------- -->
+  <!-- --------------------- EstadoOK ---------------------- -->
 
 
   <div class='pantalla fin'>
