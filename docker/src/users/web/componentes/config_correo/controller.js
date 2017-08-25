@@ -1,24 +1,23 @@
 
-app.controller("ConfigCorreoCtrl", ["$scope", "$location", "$routeParams", "$resource", "$timeout", function ($scope, $location, $routeParams, $resource, $tiemout) {
+app.controller("ConfigCorreoCtrl", ["$scope", "$location", "$routeParams", "$resource", "$timeout", function ($scope, $location, $routeParams, $resource, $timeout) {
 
     // -------------- manejo de pantallas y errores ------------------------------------------------------ //
-    $scope.$parent.errores_posibles = ['FormatoDeClaveIncorrectoError', 'SistemaError'];
+    $scope.$parent.errores_posibles = ['EnvioCodigoError', 'CodigoIncorrectoError', 'CorreoBloqueadoError', 'SistemaError'];
     $scope.$parent.mensajes = [];
 
-    $scope.$parent.estados = ['EstadoClaveVencida','EstadoCambioClave','EstadoOK'];
+    $scope.$parent.estados = ['EstadoMensajeAlumnos','EstadoMensajeDocentes','EstadoConfigCorreo','EstadoIngreseCodigo','EstadoOK'];
     $timeout(function() {
-      $scope.$parent.estado = 'EstadoClaveVencida';
+      $scope.$parent.estado = 'EstadoMensajeAlumnos';
       $scope.$parent.mensaje = {mensaje:'', codigo:''};
     });
     //////////////////
 
 
-  var Correo = $resource('http://127.0.0.1:7001/users/api/v1.0/correos/:id', {id:null},
-                                {
-                                    'enviar_confirmar': { method:'POST', url: 'http://127.0.0.1:7001/users/api/v1.0/enviar_confirmar_correo/:id' },
-                                    'confirmar': { method:'POST', url: 'http://127.0.0.1:7001/users/api/v1.0/confirmar_correo/:id/:code' }
-                                });
-
+  // var Correo = $resource('http://127.0.0.1:7001/users/api/v1.0/correos/:id', {id:null},
+  //                               {
+  //                                   'enviar_confirmar': { method:'POST', url: 'http://127.0.0.1:7001/users/api/v1.0/enviar_confirmar_correo/:id' },
+  //                                   'confirmar': { method:'POST', url: 'http://127.0.0.1:7001/users/api/v1.0/confirmar_correo/:id/:code' }
+  //                               });
 
   $scope.correoPendiente = null;
   $scope.view = {
@@ -32,22 +31,21 @@ app.controller("ConfigCorreoCtrl", ["$scope", "$location", "$routeParams", "$res
   ////////////// chequea las precondiciones y si esta ok entonces pasa al paso1. en caso contrario es redirigido al perfil ////////////
 
   $scope.chequearPrecondiciones = function() {
-    Correo.query({uid:$scope.uid}, function(cc) {
-      if (cc != null && cc.length >= 1) {
-        var alternativos = $scope._buscarCorreosNoInstitucionales(cc);
-        if (alternativos.length >= 1) {
-          // redirigir al sitio de perfil.
-          alert('redirigiendo /perfil');
-        }
-      }
-
-      $scope.correoPendiente = null;
-      $scope.view.correo = '';
-      $scope.view.codigo = '';
-      $scope.pasoSiguiente();
-    });
+    // Correo.query({uid:$scope.uid}, function(cc) {
+    //   if (cc != null && cc.length >= 1) {
+    //     var alternativos = $scope._buscarCorreosNoInstitucionales(cc);
+    //     if (alternativos.length >= 1) {
+    //       // redirigir al sitio de perfil.
+    //       alert('redirigiendo /perfil');
+    //     }
+    //   }
+    //
+    //   $scope.correoPendiente = null;
+    //   $scope.view.correo = '';
+    //   $scope.view.codigo = '';
+    //   $scope.pasoSiguiente();
+    // });
   }
-  $scope.chequearPrecondiciones();
 
   ////////////////////////////////////////////////////////////////////////////////////
 

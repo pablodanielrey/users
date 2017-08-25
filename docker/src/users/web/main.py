@@ -73,6 +73,19 @@ def logout():
     return redirect(url_for('send'))
 
 
+
+@app.route('/reset_clave', methods=['GET'], defaults={'path':None})
+@app.route('/reset_clave/<path:path>', methods=['GET'])
+def reset_clave(path):
+    if not path:
+        return redirect('/reset_clave/index.html'), 303
+    return send_from_directory(app.static_url_path + '/reset_clave', path)
+
+@app.route('/libs/<path:path>', methods=['GET'])
+def send_libs(path):
+    return send_from_directory(app.static_url_path + '/libs', path)
+
+
 @app.route('/', methods=['GET'], defaults={'path':None})
 @app.route('/<path:path>', methods=['GET'])
 #@oidc.require_login

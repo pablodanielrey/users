@@ -4,22 +4,44 @@
 }
 
 
-.config_correo.chequeando .chequeando {
+.config_correo.EstadoMensajeAlumnos .mensaje_alumnos {
   display: block;
 }
 
-.config_correo.paso1 .mensaje {
+.config_correo.EstadoMensajeDocentes .mensaje_institucional {
   display: block;
 }
 
-.config_correo.paso2 .correo {
+.config_correo.EstadoConfigCorreo .correo {
   display: block;
 }
 
-.config_correo.paso3 .codigo {
+.config_correo.EstadoIngreseCodigo .codigo {
   display: block;
 }
 
-.config_correo.paso4 .fin {
+.config_correo.EstadoOK .fin {
+  display: block;
+}
+
+
+
+.config_correo.error .pantalla {
+  display: none;
+}
+
+.config_correo.error.EnvioCodigoError .error_envio {
+  display: block;
+}
+
+.config_correo.error.CorreoBloqueadoError .correo_bloqueado {
+  display: block;
+}
+
+.config_correo.error.CodigoIncorrectoError .error_codigo {
+  display: block;
+}
+
+.config_correo.error.SistemaError .sistema_error {
   display: block;
 }
