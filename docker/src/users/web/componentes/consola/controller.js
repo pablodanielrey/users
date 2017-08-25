@@ -16,7 +16,7 @@ app.controller("ConsolaCtrl", ["$scope", "$location", "$routeParams", "$resource
   $scope.mensaje_actual = 0;
 
   $scope.estadoSiguiente = function() {
-    $scope.estado_actual = ($scope.estado_actual + 1) % $scope.$parent.estilos.length;
+    $scope.estado_actual = ($scope.estado_actual + 1) % $scope.$parent.estados.length;
     $scope.$parent.estado = $scope.$parent.estados[$scope.estado_actual];
   }
 

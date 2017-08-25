@@ -3,10 +3,6 @@
   display: none;
 }
 
-.config_clave.error .pantalla {
-  display: none;
-}
-
 .config_clave.EstadoClaveVencida .clave_vencida {
   display: block;
 }
@@ -17,6 +13,12 @@
 
 .config_clave.EstadoOK .fin {
   display: block;
+}
+
+/*este estilo siempre va a lo ultimo de todas las configs de las pantallas.*/
+
+.config_clave.error .pantalla {
+  display: none;
 }
 
 .config_clave.error.FormatoDeClaveIncorrectoError .error_sistema {
