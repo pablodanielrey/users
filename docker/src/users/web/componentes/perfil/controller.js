@@ -112,7 +112,7 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
         $scope.eliminarCorreo = function(correo) {
           correo.$delete({cid:correo.id, uid:correo.usuario_id},
             function(correo, headers) {
-              $scope.correos = Correo.query({uid:$scope.usuario.id});
+              $scope.correos = Correo.query({uid:$scope.model.usuario.id});
             },
             function(err) {
               alert(err);
@@ -122,7 +122,7 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
         $scope.enviarConfirmarCorreo = function(correo) {
           correo.$enviar_confirmar({cid:correo.id, uid:correo.usuario_id},
             function() {
-              $scope.correos = Correo.query({uid:$scope.usuario.id});
+              $scope.correos = Correo.query({uid:$scope.model.usuario.id});
             },
             function(err) {
               alert(err);
@@ -132,7 +132,7 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
         $scope.confirmarCorreo = function(correo) {
           correo.$confirmar({cid:correo.id, uid:correo.usuario_id, codigo:correo.codigo},
             function() {
-              $scope.correos = Correo.query({uid:$scope.usuario.id});
+              $scope.correos = Correo.query({uid:$scope.model.usuario.id});
             },
             function(err) {
               alert(err);
@@ -148,10 +148,10 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
               email: $scope.model.emailAAgregar,
               confirmado: false
           });
-          correo.$save({uid:$scope.usuario.id},
+          correo.$save({uid:$scope.model.usuario.id},
             function(c, headers) {
               $scope.model.emailAAgregar = '';
-              $scope.model.correos = Correo.query({uid:$scope.usuario.id});
+              $scope.model.correos = Correo.query({uid:$scope.model.usuario.id});
             },
             function(err) {
               alert(err);
