@@ -25,8 +25,17 @@ class UsersModel:
 
     @classmethod
     def obtener_avatar(cls, hash):
-        url = cls.FILES_API_URL + '/archivo/' + hash + '/contenido'
-        return requests.get(url).content
+        #url = cls.FILES_API_URL + '/archivo/' + hash + '/contenido'
+        resp = requests.get('http://icons.iconarchive.com/icons/arrioch/whack/128/Whack-Google-Earth-icon.png')
+        if resp.status_code != 200:
+            raise Error()
+
+        avatar = {
+            'name': 'default',
+            'data': base64.b64encode(resp.content).decode('utf-8'),
+            'content-type': resp.headers['Content-Type']
+        }
+        return avatar
 
 
     @classmethod

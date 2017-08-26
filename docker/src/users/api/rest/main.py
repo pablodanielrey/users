@@ -1,7 +1,9 @@
 import logging
 logging.getLogger().setLevel(logging.INFO)
 import sys
-from flask import Flask, abort, make_response, jsonify, url_for, request, json, send_from_directory
+import base64
+
+from flask import Flask, abort, make_response, jsonify, url_for, request, json, send_from_directory, send_file
 from users.model import UsersModel
 from flask_jsontools import jsonapi
 from dateutil import parser
@@ -36,6 +38,9 @@ reset.registrarApiReseteoClave(app)
 @app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>/enviar_confirmar', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>/confirmar', methods=['OPTIONS'])
+@app.route('/users/api/v1.0/usuarios/<uid>/avatar/', methods=['OPTIONS'], defaults={'hash':None})
+@app.route('/users/api/v1.0/usuarios/<uid>/avatar/<hash>', methods=['OPTIONS'])
+@app.route('/users/api/v1.0/usuarios/<uid>/avatar/<hash>/contenido', methods=['OPTIONS'])
 def options(*args, **kwargs):
     '''
         para autorizar el CORS
@@ -52,15 +57,34 @@ def options(*args, **kwargs):
     r.headers['Access-Control-Max-Age'] = 1
     return r
 
+import requests
 
-
+@app.route('/users/api/v1.0/avatar/', methods=['GET'], defaults={'hash':None})
 @app.route('/users/api/v1.0/avatar/<hash>', methods=['GET'])
 @jsonapi
-def avatar(hash):
-    try:
-        return UsersModel.avatar(hash=hash)
-    except Exception as e:
-        return "http://usuarios.econo.unlp.edu.ar:5005/img/usersico.gif"
+def obtener_avatar(hash):
+    return UsersModel.obtener_avatar(hash=hash)
+
+@app.route('/users/api/v1.0/usuarios/<uid>/avatar/', methods=['GET'], defaults={'hash':None})
+@app.route('/users/api/v1.0/usuarios/<uid>/avatar/<hash>', methods=['GET'])
+@jsonapi
+def obtener_avatar_por_usuario(uid, hash):
+    return obtener_avatar(hash)
+
+
+@app.route('/users/api/v1.0/avatar/<hash>/contenido', methods=['GET'])
+def obtener_avatar_binario(hash):
+    avatar = obtener_avatar(hash)
+    r = make_response()
+    r.status_code = 200
+    r.data = base64.b64decode(avatar['data'])
+    r.headers['Content-Type'] = avatar['content-type']
+    return r
+
+@app.route('/users/api/v1.0/usuarios/<uid>/avatar/<hash>/contenido', methods=['GET'])
+def obtener_avatar_binario_por_usuario(uid, hash):
+    return obtener_avatar_binario(hash)
+
 
 
 @app.route('/users/api/v1.0/usuarios', methods=['GET'], defaults={'uid':None})
@@ -113,6 +137,8 @@ def crear_clave(uid):
     finally:
         session.close()
 
+
+"""
 @app.route('/users/api/v1.0/usuarios/<uid>/claves', methods=['GET'])
 @app.route('/users/api/v1.0/usuarios/<uid>/claves/', methods=['GET'])
 @jsonapi
@@ -132,7 +158,7 @@ def claves(cid):
         return UsersModel.claves(session=session, cid=cid)
     finally:
         session.close()
-
+"""
 
 @app.route('/users/api/v1.0/usuarios/<uid>/correos', methods=['GET'], defaults={'cid':None})
 @app.route('/users/api/v1.0/usuarios/<uid>/correos/', methods=['GET'], defaults={'cid':None})
@@ -179,7 +205,7 @@ def eliminar_correo(uid=None, cid=None):
         session.close()
 
 
-@app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>/enviar_confirmar', methods=['PUT','POST'])
+@app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>/enviar_confirmar', methods=['GET'])
 @jsonapi
 def enviar_confirmar_correo(uid, cid):
     datos = json.loads(request.data)
@@ -203,20 +229,16 @@ def confirmar_correo(uid, cid):
     finally:
         session.close()
 
-
-
-
 @app.route('/users/api/v1.0/correos/', methods=['GET'], defaults={'cid':None})
 @app.route('/users/api/v1.0/correos/<cid>', methods=['GET'])
 @jsonapi
 def correos(cid):
     offset = request.args.get('offset',None,int)
     limit = request.args.get('limit',None,int)
-    uid = request.args.get('uid',None,str)
     h = request.args.get('h',False,bool)
     session = Session()
     try:
-        return UsersModel.correos(session=session, usuario=uid, historico=h, offset=offset, limit=limit)
+        return UsersModel.correos(session=session, historico=h, offset=offset, limit=limit)
     finally:
         session.close()
 

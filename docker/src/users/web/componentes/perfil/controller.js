@@ -15,6 +15,7 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
         //////////////////
 
         $scope.model = {
+          avatar: '',
           usuario: {},
           correos: [],
           emailAAgregar:''
@@ -30,10 +31,25 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
                 uid:$routeParams['uid']
               },
               {
-                'enviar_confirmar': {method:'POST', url: $scope.$parent.config.users_api_url + '/usuarios/:uid/correos/:cid/enviar_confirmar'},
+                'enviar_confirmar': {method:'GET', url: $scope.$parent.config.users_api_url + '/usuarios/:uid/correos/:cid/enviar_confirmar'},
                 'confirmar': {method:'POST', url: $scope.$parent.config.users_api_url + '/usuarios/:uid/correos/:cid/confirmar'}
               }
           );
+
+
+        $scope._cargar_avatar = function() {
+          if ($scope.model.correos.length > 0) {
+            for (var i = 0; i < $scope.model.correos.length; i++) {
+              if ($scope.esInstitucional($scope.model.correos[i])) {
+                // cargo el avatar para el primer correo institucional
+                var md = forge.md.md5.create();
+                md.update($scope.model.correos[i].email);
+                var hs = md.digest().toHex();
+                $scope.model.avatar = $scope.$parent.config.users_api_url + '/usuarios/' + $routeParams['uid'] + '/avatar/' + hs + '/contenido';
+              }
+            }
+          }
+        }
 
 
         $scope._inicializar = function() {
@@ -48,6 +64,7 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
           Correo.query({uid:$routeParams['uid']}, function(ms) {
             console.log(ms);
             $scope.model.correos = ms;
+            $scope._cargar_avatar();
           });
         }
 

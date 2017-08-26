@@ -4,14 +4,12 @@
 
     <div class='cambiar_clave'>
     </div>
-    <!-- <div>ID</div> -->
-    <!-- <div>{{model.id}}</input></div> -->
     <!-- estado EdicionPerfil --->
     <div class="pantalla edicion_perfil contenedorPerfil">
         <div>
           <div class="titulo">PERFIL DE USUARIO</div><hr>
-          <!-- <div>
-            <img src='http://127.0.0.1:9001/files/api/v1.0/archivo/496ff972-e834-46a6-9361-79b2e5c1bf85/contenido'></img>
+          <div>
+            <img src='{{model.avatar}}'></img>
             <form>
               <button ngf-select ng-model="picFile" accept="image/*">Select Picture</button>
               <div ngf-drop ng-model="picFile" ngf-pattern="image/*" class="cropArea">
@@ -22,7 +20,7 @@
               </div>
               <button ng-click="upload(croppedDataUrl, picFile.name)">Submit</button>
             </form>
-          </div> -->
+          </div>
           <div>
             <div><b>Nombre</b></div>
             <input ng-model='model.usuario.nombre' class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
