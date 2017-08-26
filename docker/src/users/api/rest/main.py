@@ -21,8 +21,10 @@ reset.registrarApiReseteoClave(app)
 @app.route('/users/api/v1.0/usuarios/', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/usuarios/<uid>', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/usuarios/<uid>/claves/', methods=['OPTIONS'])
+@app.route('/users/api/v1.0/usuarios/<uid>/correos', methods=['OPTIONS'])
+@app.route('/users/api/v1.0/usuarios/<uid>/correos/', methods=['OPTIONS'])
+@app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/correos/', methods=['OPTIONS'])
-@app.route('/users/api/v1.0/correos/<uid>', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/enviar_confirmar_correo/<cid>', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/confirmar_correo/<uid>/<code>', methods=['OPTIONS'])
 def options(*args, **kargs):
@@ -102,6 +104,7 @@ def crear_clave(uid):
     finally:
         session.close()
 
+@app.route('/users/api/v1.0/usuarios/<uid>/claves', methods=['GET'])
 @app.route('/users/api/v1.0/usuarios/<uid>/claves/', methods=['GET'])
 @jsonapi
 def obtener_claves(uid):
@@ -120,6 +123,52 @@ def claves(cid):
         return UsersModel.claves(session=session, cid=cid)
     finally:
         session.close()
+
+
+@app.route('/users/api/v1.0/usuarios/<uid>/correos', methods=['GET'], defaults={'cid':None})
+@app.route('/users/api/v1.0/usuarios/<uid>/correos/', methods=['GET'], defaults={'cid':None})
+@app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>', methods=['GET'])
+@jsonapi
+def correos_de_usuario(uid, cid):
+    offset = request.args.get('offset',None,int)
+    limit = request.args.get('limit',None,int)
+    h = request.args.get('h',False,bool)
+    session = Session()
+    try:
+        return UsersModel.correos(session=session, usuario=uid, historico=h, offset=offset, limit=limit)
+    finally:
+        session.close()
+
+
+
+
+
+
+@app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>/enviar_confirmar', methods=['PUT','POST'])
+@jsonapi
+def enviar_confirmar_correo(uid, cid):
+    datos = json.loads(request.data)
+    session = Session()
+    try:
+        UsersModel.enviar_confirmar_correo(session, cid, datos)
+        session.commit()
+    finally:
+        session.close()
+
+@app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>/confirmar', methods=['PUT','POST'])
+@jsonapi
+def confirmar_correo(uid, cid):
+    assert cid is not None
+    code = json.loads(request.data)['codigo']
+
+    session = Session()
+    try:
+        UsersModel.confirmar_correo(session=session, cid=cid, code=code)
+        session.commit()
+    finally:
+        session.close()
+
+
 
 
 @app.route('/users/api/v1.0/correos/', methods=['GET'], defaults={'cid':None})
@@ -155,29 +204,6 @@ def eliminar_correo(cid):
     session = Session()
     try:
         UsersModel.eliminar_correo(session, cid)
-        session.commit()
-    finally:
-        session.close()
-
-@app.route('/users/api/v1.0/enviar_confirmar_correo/<cid>', methods=['PUT','POST'])
-@jsonapi
-def enviar_confirmar_correo(cid):
-    datos = json.loads(request.data)
-    session = Session()
-    try:
-        UsersModel.enviar_confirmar_correo(session, cid, datos)
-        session.commit()
-    finally:
-        session.close()
-
-@app.route('/users/api/v1.0/confirmar_correo/<cid>/<code>', methods=['PUT','POST'])
-@jsonapi
-def confirmar_correo(cid, code):
-    assert cid is not None
-    assert code is not None
-    session = Session()
-    try:
-        UsersModel.confirmar_correo(session=session, cid=cid, code=code)
         session.commit()
     finally:
         session.close()

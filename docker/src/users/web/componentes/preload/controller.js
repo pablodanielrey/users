@@ -1,15 +1,16 @@
 
-app.controller("PreloadCtrl", ["$scope", "$http", function ($scope, $http) {
+app.controller("PreloadCtrl", ["$scope", "$http", '$location', function ($scope, $http, $location) {
 
   $scope.$parent.estado = 'EstadoPreload';
 
-  $scope.config().then(function(c) {
-    console.log(c.data);
-    $scope.view.usuario = c.data.usuario;
-  });
-
-  $scope.view = {
-    usuario:{}
+  $scope._inicializar = function() {
+    if ($scope.$parent.config != null && $scope.$parent.config.usuario != null) {
+      $location.path('/perfil/' + $scope.$parent.config.usuario['sub']);
+    }
   }
+
+  $scope.$on('config', $scope._inicializar);
+
+  $scope._inicializar();
 
 }]);

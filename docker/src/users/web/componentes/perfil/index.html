@@ -5,11 +5,11 @@
     <div class='cambiar_clave'>
     </div>
     <!-- <div>ID</div> -->
-    <!-- <div>{{usuario.id}}</input></div> -->
+    <!-- <div>{{model.id}}</input></div> -->
     <!-- estado EdicionPerfil --->
     <div class="pantalla edicion_perfil contenedorPerfil">
         <div>
-          <div class="titulo">PERFIL DE USUARIO {{usuario.id}}</div><hr>
+          <div class="titulo">PERFIL DE USUARIO</div><hr>
           <!-- <div>
             <img src='http://127.0.0.1:9001/files/api/v1.0/archivo/496ff972-e834-46a6-9361-79b2e5c1bf85/contenido'></img>
             <form>
@@ -25,15 +25,15 @@
           </div> -->
           <div>
             <div><b>Nombre</b></div>
-            <input ng-model='usuario.nombre' class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
+            <input ng-model='model.usuario.nombre' class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
           </div>
           <div>
             <div><b>Apellido</b></div>
-            <input ng-model='usuario.apellido' class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
+            <input ng-model='model.usuario.apellido' class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
           </div>
           <div>
             <div><b>DNI</b></div>
-            <input ng-model='usuario.dni' readonly=true class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
+            <input ng-model='model.usuario.dni' readonly=true class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
           </div>
           <div>
             <div><b>Legajo</b></div>
@@ -51,7 +51,7 @@
 
           <div>
             <div><b>Correo Institucional</b></div>
-            <div ng-repeat='m in correos'>
+            <div ng-repeat='m in model.correos'>
                 <div ng-if='esInstitucional(m)' class="itemsMail">
                   <div class="mail">
                       <div>{{m.email}} &nbsp;</div>
@@ -77,7 +77,7 @@
               olvido.
           </div>
 
-          <div ng-if='tieneCuentasAlternativas()' class="" ng-repeat='m in correos'>
+          <div ng-if='tieneCuentasAlternativas()' class="" ng-repeat='m in model.correos'>
               <div ng-if='!esInstitucional(m)' class="itemsMail">
                 <div class="mail">
                     <div>{{m.email}} &nbsp;</div>
@@ -86,7 +86,7 @@
                 </div>
                 <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
                 <div class="actions">
-                  <div title="Reenviar Correo" ng-if='!seEnvioCodigo(m)'><button class="btn btnReenviar" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button></div>
+                  <div title="Reenviar Correo" ng-if='!seEnvioCodigo(m) && !estaConfirmado(m)'><button class="btn btnReenviar" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button></div>
                   <div title="Eliminar correo"><button class="btn btnTrash" ng-click='eliminarCorreo(m)'><i class="fa fa-trash-o" aria-hidden="true"></i></button></div>
                 </div>
 
@@ -122,8 +122,6 @@
               </form>
           </div>
 
-        <!-- pantallas intermedias -->
-
         </div>
     </div>
 
@@ -135,7 +133,7 @@
           </div>
           <div>
               <h1>ERROR</h1>
-              <p>Encontramos un error actualizando los datos del usuario.</p><br>
+              <p>Encontramos un error actualizando los datos de la persona</p><br>
               Por favor intente mas tarde.</p>
             <button class="btn btnVolver" ng-click='cerrarErrorUsuario()'>Volver</button>
           </div>
@@ -191,7 +189,7 @@
           </div>
           <div>
               <h1>ERROR</h1>
-              <p> Encontramos un error actualizando los datos del usuario.</p><br>
+              <p> Encontramos un error actualizando los datos del model.</p><br>
               Por favor intente mas tarde.</p>
             <button class="btn btnVolver" ng-click='cerrarErrorUsuario()'>Volver</button>
           </div>

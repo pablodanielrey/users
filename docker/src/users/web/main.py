@@ -52,7 +52,7 @@ def configuracion():
     usuario = oidc.user_getinfo()
     return {
         'usuario': usuario,
-        'usuarios_api_url': os.environ['USERS_API_URL']
+        'users_api_url': os.environ['USERS_API_URL']
     }
 
 @app.route('/usuario', methods=['GET'])
