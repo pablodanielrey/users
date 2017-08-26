@@ -102,6 +102,7 @@ class UsersModel:
     @classmethod
     def agregar_correo(cls, session, uid, datos):
         assert 'email' in datos
+        assert len(datos['email'].strip()) > 0
         if (session.query(Mail).filter(Mail.usuario_id == uid, Mail.email == datos['email'], Mail.eliminado == None).count() >= 1):
             ''' ya existe, no lo agrego pero no tiro error '''
             return

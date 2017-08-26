@@ -25,7 +25,7 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
                 uid:$routeParams['uid']
               }
           );
-        var Correo = $resource($scope.$parent.config.users_api_url + '/usuarios/:uid/correos',
+        var Correo = $resource($scope.$parent.config.users_api_url + '/usuarios/:uid/correos/:cid',
               {
                 uid:$routeParams['uid']
               },
@@ -111,8 +111,10 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
 
         $scope.eliminarCorreo = function(correo) {
           correo.$delete({cid:correo.id, uid:correo.usuario_id},
-            function(correo, headers) {
-              $scope.correos = Correo.query({uid:$scope.model.usuario.id});
+            function(correo) {
+              Correo.query({uid:$scope.model.usuario.id}, function(cs) {
+                $scope.model.correos = cs;
+              });
             },
             function(err) {
               alert(err);
@@ -122,7 +124,9 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
         $scope.enviarConfirmarCorreo = function(correo) {
           correo.$enviar_confirmar({cid:correo.id, uid:correo.usuario_id},
             function() {
-              $scope.correos = Correo.query({uid:$scope.model.usuario.id});
+              Correo.query({uid:$scope.model.usuario.id}, function(cs) {
+                $scope.model.correos = cs;
+              });
             },
             function(err) {
               alert(err);
@@ -132,7 +136,9 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
         $scope.confirmarCorreo = function(correo) {
           correo.$confirmar({cid:correo.id, uid:correo.usuario_id, codigo:correo.codigo},
             function() {
-              $scope.correos = Correo.query({uid:$scope.model.usuario.id});
+              Correo.query({uid:$scope.model.usuario.id}, function(cs) {
+                $scope.model.correos = cs;
+              });
             },
             function(err) {
               alert(err);
@@ -149,11 +155,14 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
               confirmado: false
           });
           correo.$save({uid:$scope.model.usuario.id},
-            function(c, headers) {
+            function(c) {
               $scope.model.emailAAgregar = '';
-              $scope.model.correos = Correo.query({uid:$scope.model.usuario.id});
+              Correo.query({uid:$scope.model.usuario.id}, function(cs) {
+                $scope.model.correos = cs;
+              });
             },
             function(err) {
+              console.log(err);
               alert(err);
             });
 

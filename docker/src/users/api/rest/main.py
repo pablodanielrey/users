@@ -13,10 +13,12 @@ from . import reset
 from users.model import Session
 
 app = Flask(__name__)
+app.debug = True
 register_encoder(app)
 reset.registrarApiReseteoClave(app)
 
 
+"""
 @app.route('/users/api/v1.0/avatar/<uid>', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/usuarios/', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/usuarios/<uid>', methods=['OPTIONS'])
@@ -27,12 +29,18 @@ reset.registrarApiReseteoClave(app)
 @app.route('/users/api/v1.0/correos/', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/enviar_confirmar_correo/<cid>', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/confirmar_correo/<uid>/<code>', methods=['OPTIONS'])
-def options(*args, **kargs):
+"""
+@app.route('/users/api/v1.0/usuarios/', methods=['OPTIONS'], defaults={'path':None})
+@app.route('/users/api/v1.0/usuarios/<path:path>', methods=['OPTIONS'])
+@app.route('/users/api/v1.0/usuarios/<uid>/correos/', methods=['OPTIONS'], defaults={'cid':None})
+@app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>', methods=['OPTIONS'])
+@app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>/enviar_confirmar', methods=['OPTIONS'])
+@app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>/confirmar', methods=['OPTIONS'])
+def options(*args, **kwargs):
     '''
         para autorizar el CORS
         https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
     '''
-    print(request.headers)
     o = request.headers.get('Origin')
     rm = request.headers.get('Access-Control-Request-Method')
     rh = request.headers.get('Access-Control-Request-Headers')
@@ -55,6 +63,7 @@ def avatar(hash):
         return "http://usuarios.econo.unlp.edu.ar:5005/img/usersico.gif"
 
 
+@app.route('/users/api/v1.0/usuarios', methods=['GET'], defaults={'uid':None})
 @app.route('/users/api/v1.0/usuarios/', methods=['GET'], defaults={'uid':None})
 @app.route('/users/api/v1.0/usuarios/<uid>', methods=['GET'])
 @jsonapi
@@ -136,12 +145,38 @@ def correos_de_usuario(uid, cid):
     session = Session()
     try:
         return UsersModel.correos(session=session, usuario=uid, historico=h, offset=offset, limit=limit)
+    except Exception as e:
+        logging.exception(e)
+        raise e
     finally:
         session.close()
 
+@app.route('/users/api/v1.0/usuarios/<uid>/correos/', methods=['PUT','POST'])
+@jsonapi
+def agregar_correo(uid):
+    assert uid != None
+    datos = json.loads(request.data)
+    print(datos)
+    session = Session()
+    try:
+        UsersModel.agregar_correo(session=session, uid=uid, datos=datos)
+        session.commit()
+    except Exception as e:
+        logging.exception(e)
+        raise e
+    finally:
+        session.close()
 
-
-
+@app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>', methods=['DELETE'])
+@app.route('/users/api/v1.0/correos/<cid>', methods=['DELETE'])
+@jsonapi
+def eliminar_correo(uid=None, cid=None):
+    session = Session()
+    try:
+        UsersModel.eliminar_correo(session, cid)
+        session.commit()
+    finally:
+        session.close()
 
 
 @app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>/enviar_confirmar', methods=['PUT','POST'])
@@ -185,28 +220,8 @@ def correos(cid):
     finally:
         session.close()
 
-@app.route('/users/api/v1.0/correos/', methods=['PUT','POST'])
-@jsonapi
-def agregar_correo():
-    uid = request.args.get('uid',None,str)
-    assert uid != None
-    datos = json.loads(request.data)
-    session = Session()
-    try:
-        UsersModel.agregar_correo(session=session, uid=uid, datos=datos)
-        session.commit()
-    finally:
-        session.close()
 
-@app.route('/users/api/v1.0/correos/<cid>', methods=['DELETE'])
-@jsonapi
-def eliminar_correo(cid):
-    session = Session()
-    try:
-        UsersModel.eliminar_correo(session, cid)
-        session.commit()
-    finally:
-        session.close()
+
 
 
 @app.after_request
@@ -222,6 +237,18 @@ def add_header(r):
 
     r.headers['Access-Control-Allow-Origin'] = '*'
     return r
+
+
+@app.route('/rutas', methods=['GET'])
+@jsonapi
+def rutas():
+    links = []
+    for rule in app.url_map.iter_rules():
+        url = url_for(rule.endpoint, **(rule.defaults or {}))
+        links.append(url)
+    return links
+
+
 
 def main():
     app.run(host='0.0.0.0', port=5001, debug=True)
