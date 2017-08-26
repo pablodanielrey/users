@@ -45,7 +45,7 @@ app.config['OIDC_SCOPES'] = ['openid','email','phone','profile','address','econo
 oidc = MyOpenIDConnect(app, credentials_store=DictWrapper('credentials_store'))
 
 @app.route('/config.json', methods=['GET'])
-@oidc.require_login
+#@oidc.require_login
 @jsonapi
 def configuracion():
     #usuario = oidc.user_getinfo(['sub','name','family_name','picture','email','email_verified','birdthdate','address','profile','econo'])
@@ -56,7 +56,7 @@ def configuracion():
     }
 
 @app.route('/usuario', methods=['GET'])
-@oidc.require_login
+#@oidc.require_login
 def usuario():
     if oidc.user_loggedin:
         d = oidc.user_getinfo(['name','family_name','picture','birdthdate'])
@@ -86,7 +86,7 @@ def send_libs(path):
 
 @app.route('/', methods=['GET'], defaults={'path':None})
 @app.route('/<path:path>', methods=['GET'])
-@oidc.require_login
+#@oidc.require_login
 def send(path):
     if not path:
         return redirect('/index.html'), 303
