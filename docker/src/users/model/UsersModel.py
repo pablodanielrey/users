@@ -1,3 +1,4 @@
+import os
 import uuid
 import datetime
 import base64
@@ -13,11 +14,20 @@ from .entities import *
 
 class UsersModel:
 
+    FILES_API_URL = os.environ['FILES_API_URL']
+
     @staticmethod
     def _aplicar_filtros_comunes(q, offset, limit):
         q = q.offset(offset) if offset else q
         q = q.limit(limit) if limit else q
         return q
+
+
+    @classmethod
+    def obtener_avatar(cls, hash):
+        url = cls.FILES_API_URL + '/archivo/' + hash + '/contenido'
+        return requests.get(url).content
+
 
     @classmethod
     def claves(cls, session, uid=None, cid=None, limit=None, offset=None):

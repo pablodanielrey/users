@@ -11,6 +11,57 @@ class MyOpenIDConnect(OpenIDConnect):
         super().__init__(app, credentials_store)
         self.current_app = app
 
+
+    def user_getinfo(self, fields=None, access_token=None):
+        """
+        Request multiple fields of information about the user.
+
+        :param fields: The names of the fields requested.
+        :type fields: list
+        :returns: The values of the current user for the fields requested.
+            The keys are the field names, values are the values of the
+            fields as indicated by the OpenID Provider. Note that fields
+            that were not provided by the Provider are absent.
+        :rtype: dict
+        :raises Exception: If the user was not authenticated. Check this with
+            user_loggedin.
+
+        .. versionadded:: 1.0
+        """
+        from flask import g
+
+
+        if g.oidc_id_token is None and access_token is None:
+            raise Exception('User was not authenticated')
+        info = {}
+        all_info = None
+
+        ''' ----------------------- parche mío para agregar que retorne toda la info que tenga cuando fields == None ------------------- '''
+        if not fields:
+            import copy
+            info = copy.deepcopy(g.oidc_id_token)
+            if self.current_app.config['OIDC_USER_INFO_ENABLED']:
+                all_info = self._retrieve_userinfo(access_token)
+                for f in all_info:
+                    info[f] = all_info[f]
+        else:
+            for field in fields:
+                if access_token is None and field in g.oidc_id_token:
+                    info[field] = g.oidc_id_token[field]
+                elif self.current_app.config['OIDC_USER_INFO_ENABLED']:
+                    # This was not in the id_token. Let's get user information
+                    if all_info is None:
+                        all_info = self._retrieve_userinfo(access_token)
+                        if all_info is None:
+                            # To make sure we don't retry for every field
+                            all_info = {}
+                    if field in all_info:
+                        info[field] = all_info[field]
+                    else:
+                        # We didn't get this information
+                        pass
+        return info
+
     def _is_id_token_valid(self, id_token):
         '''
         Check if `id_token` is a current ID token for this application,

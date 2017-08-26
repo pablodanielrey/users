@@ -47,13 +47,10 @@ def options(*args, **kargs):
 @app.route('/users/api/v1.0/avatar/<hash>', methods=['GET'])
 @jsonapi
 def avatar(hash):
-    session = Session()
     try:
-        return UsersModel.avatar(session=session, hash=hash)
+        return UsersModel.avatar(hash=hash)
     except Exception as e:
         return "http://usuarios.econo.unlp.edu.ar:5005/img/usersico.gif"
-    finally:
-        session.close()
 
 
 @app.route('/users/api/v1.0/usuarios/', methods=['GET'], defaults={'uid':None})

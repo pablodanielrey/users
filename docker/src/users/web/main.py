@@ -40,7 +40,7 @@ app.config['OIDC_RESOURCE_CHECK_AUD'] = False
 app.config['OIDC_INTROSPECTION_AUTH_METHOD'] = 'client_secret_post'
 app.config['OIDC_ID_TOKEN_COOKIE_NAME'] = 'users_oidc'
 app.config['OIDC_USER_INFO_ENABLED'] = True
-app.config['OIDC_SCOPES'] = ['openid','email','phone','profile','address','picture']
+app.config['OIDC_SCOPES'] = ['openid','email','phone','profile','address','econo']
 
 oidc = MyOpenIDConnect(app, credentials_store=DictWrapper('credentials_store'))
 
@@ -48,8 +48,10 @@ oidc = MyOpenIDConnect(app, credentials_store=DictWrapper('credentials_store'))
 @oidc.require_login
 @jsonapi
 def configuracion():
+    #usuario = oidc.user_getinfo(['sub','name','family_name','picture','email','email_verified','birdthdate','address','profile','econo'])
+    usuario = oidc.user_getinfo()
     return {
-        'usuario': oidc.user_getinfo(['name','family_name','picture','email','email_verified','birdthdate','address','profile']),
+        'usuario': usuario,
         'usuarios_api_url': os.environ['USERS_API_URL']
     }
 
