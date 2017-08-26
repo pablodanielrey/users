@@ -25,10 +25,13 @@ class UsersModel:
 
     @classmethod
     def obtener_avatar(cls, hash):
-        #url = cls.FILES_API_URL + '/archivo/' + hash + '/contenido'
-        resp = requests.get('http://icons.iconarchive.com/icons/arrioch/whack/128/Whack-Google-Earth-icon.png')
+        url = cls.FILES_API_URL + '/archivo/' + hash + '/contenido'
+        resp = requests.get(url)
         if resp.status_code != 200:
-            raise Error()
+            ''' pruebo obtener una imagen por defecto '''
+            resp = requests.get('http://icons.iconarchive.com/icons/arrioch/whack/128/Whack-Google-Earth-icon.png')
+            if resp.status_code != 200:
+                raise UsersError()
 
         avatar = {
             'name': 'default',
@@ -36,6 +39,13 @@ class UsersModel:
             'content-type': resp.headers['Content-Type']
         }
         return avatar
+
+    @classmethod
+    def actualizar_avatar(cls, hash, contenido):
+        url = cls.FILES_API_URL + '/archivo/' + hash + '.json'
+        resp = requests.post(url=url, json={'id':hash, 'data':contenido})
+        if resp.status_code != 200:
+            raise UsersError()
 
 
     @classmethod

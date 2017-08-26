@@ -65,13 +65,6 @@ import requests
 def obtener_avatar(hash):
     return UsersModel.obtener_avatar(hash=hash)
 
-@app.route('/users/api/v1.0/usuarios/<uid>/avatar/', methods=['GET'], defaults={'hash':None})
-@app.route('/users/api/v1.0/usuarios/<uid>/avatar/<hash>', methods=['GET'])
-@jsonapi
-def obtener_avatar_por_usuario(uid, hash):
-    return obtener_avatar(hash)
-
-
 @app.route('/users/api/v1.0/avatar/<hash>/contenido', methods=['GET'])
 def obtener_avatar_binario(hash):
     avatar = obtener_avatar(hash)
@@ -80,6 +73,20 @@ def obtener_avatar_binario(hash):
     r.data = base64.b64decode(avatar['data'])
     r.headers['Content-Type'] = avatar['content-type']
     return r
+
+@app.route('/users/api/v1.0/avatar/<hash>', methods=['PUT','POST'])
+@jsonapi
+def agregar_avatar(hash):
+    f = request.files['file']
+    contenido = base64.b64encode(f.read()).decode('utf-8')
+    UsersModel.actualizar_avatar(hash, contenido)
+    return {'status':'OK','status_code':200}, 200
+
+@app.route('/users/api/v1.0/usuarios/<uid>/avatar/', methods=['GET'], defaults={'hash':None})
+@app.route('/users/api/v1.0/usuarios/<uid>/avatar/<hash>', methods=['GET'])
+@jsonapi
+def obtener_avatar_por_usuario(uid, hash):
+    return obtener_avatar(hash)
 
 @app.route('/users/api/v1.0/usuarios/<uid>/avatar/<hash>/contenido', methods=['GET'])
 def obtener_avatar_binario_por_usuario(uid, hash):

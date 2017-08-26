@@ -21,6 +21,10 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
           emailAAgregar:''
         }
 
+        $scope.view = {
+          cambiandoImagen: false
+        }
+
         var Usuario = $resource($scope.$parent.config.users_api_url + '/usuarios/:uid',
               {
                 uid:$routeParams['uid']
@@ -37,19 +41,62 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
           );
 
 
-        $scope._cargar_avatar = function() {
-          if ($scope.model.correos.length > 0) {
-            for (var i = 0; i < $scope.model.correos.length; i++) {
-              if ($scope.esInstitucional($scope.model.correos[i])) {
-                // cargo el avatar para el primer correo institucional
-                var md = forge.md.md5.create();
-                md.update($scope.model.correos[i].email);
-                var hs = md.digest().toHex();
-                $scope.model.avatar = $scope.$parent.config.users_api_url + '/usuarios/' + $routeParams['uid'] + '/avatar/' + hs + '/contenido';
-              }
+        $scope._obtener_hash_avatar = function(correo) {
+          var md = forge.md.md5.create();
+          md.update(correo);
+          var hs = md.digest().toHex();
+          return hs
+        }
+
+        $scope._obtener_primer_correo = function() {
+          if ($scope.model.correos.length <= 0) {
+            return null;
+          }
+          for (var i = 0; i < $scope.model.correos.length; i++) {
+            if ($scope.esInstitucional($scope.model.correos[i])) {
+              return $scope.model.correos[i];
             }
           }
+          // si no tiene institucional entonces retorno uno de los alternativos
+          return $scope.model.correos[0];
         }
+
+        $scope._cargar_url_avatar = function() {
+          var correo = $scope._obtener_primer_correo();
+          if (correo == null) {
+            return;
+          }
+          var hs = $scope._obtener_hash_avatar(correo.email);
+          $scope.model.avatar = $scope.$parent.config.users_api_url + '/avatar/' + hs + '/contenido' + '?' + new Date().getTime();
+        }
+
+        $scope.upload_avatar = function(dataUrl, name) {
+          var correo = $scope._obtener_primer_correo();
+          if (correo == null) {
+            console.log('no tiene correo para asignarle algun avatar');
+            return;
+          }
+          var hs = $scope._obtener_hash_avatar(correo.email);
+          Upload.upload(
+            {
+              url: $scope.$parent.config.users_api_url + '/avatar/' + hs,
+              data: {
+                  fileName: name,
+                  file: Upload.dataUrltoBlob(dataUrl, name)
+              },
+            }).then(
+            function (response) {
+              console.log(response);
+              $scope.model.avatar = $scope.$parent.config.users_api_url + '/avatar/' + hs + '/contenido' + '?' + new Date().getTime();
+            },
+            function (err) {
+              console.log(err);
+              alert(err);
+            },
+            function (evt) {
+              console.log(parseInt(100.0 * evt.loaded / evt.total));
+            });
+        };
 
 
         $scope._inicializar = function() {
@@ -64,7 +111,7 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
           Correo.query({uid:$routeParams['uid']}, function(ms) {
             console.log(ms);
             $scope.model.correos = ms;
-            $scope._cargar_avatar();
+            $scope._cargar_url_avatar();
           });
         }
 
@@ -76,24 +123,6 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
 
 
 
-        $scope.upload = function (dataUrl, name) {
-            Upload.upload({
-                url: 'http://163.10.56.57:9001/files/api/v1.0/archivo/',
-                data: {
-                    fileName: name,
-                    file: Upload.dataUrltoBlob(dataUrl, name)
-                },
-            }).then(function (response) {
-                $timeout(function () {
-                    $scope.result = response.data;
-                });
-            }, function (response) {
-                if (response.status > 0) $scope.errorMsg = response.status
-                    + ': ' + response.data;
-            }, function (evt) {
-                $scope.progress = parseInt(100.0 * evt.loaded / evt.total);
-            });
-          };
 
         $scope.actualizarUsuario = function(usuario) {
           usuario.$save({uid:usuario.id}, function() {

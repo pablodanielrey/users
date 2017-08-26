@@ -65,6 +65,13 @@
 
 /* -------------------------------------------  */
 
+.perfil .area_de_corte {
+  height: 100px;
+  width: 100px;
+  border-color: blue;
+  background: red;
+}
+
 .perfil .contenedorPerfil {
   display: flex;
   flex-direction: row;
