@@ -19,19 +19,6 @@ app.debug = True
 register_encoder(app)
 reset.registrarApiReseteoClave(app)
 
-
-"""
-@app.route('/users/api/v1.0/avatar/<uid>', methods=['OPTIONS'])
-@app.route('/users/api/v1.0/usuarios/', methods=['OPTIONS'])
-@app.route('/users/api/v1.0/usuarios/<uid>', methods=['OPTIONS'])
-@app.route('/users/api/v1.0/usuarios/<uid>/claves/', methods=['OPTIONS'])
-@app.route('/users/api/v1.0/usuarios/<uid>/correos', methods=['OPTIONS'])
-@app.route('/users/api/v1.0/usuarios/<uid>/correos/', methods=['OPTIONS'])
-@app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>', methods=['OPTIONS'])
-@app.route('/users/api/v1.0/correos/', methods=['OPTIONS'])
-@app.route('/users/api/v1.0/enviar_confirmar_correo/<cid>', methods=['OPTIONS'])
-@app.route('/users/api/v1.0/confirmar_correo/<uid>/<code>', methods=['OPTIONS'])
-"""
 @app.route('/users/api/v1.0/usuarios/', methods=['OPTIONS'], defaults={'path':None})
 @app.route('/users/api/v1.0/usuarios/<string:path>', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/usuarios/<path:path>', methods=['OPTIONS'])
@@ -249,9 +236,6 @@ def correos(cid):
         return UsersModel.correos(session=session, historico=h, offset=offset, limit=limit)
     finally:
         session.close()
-
-
-
 
 
 @app.after_request

@@ -3,7 +3,7 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
    function ($scope, $location, $routeParams, $resource, $timeout, $window, Upload) {
 
         // -------------- manejo de pantallas y errores ------------------------------------------------------ //
-        $scope.$parent.errores_posibles = ['ErrorCorreo','ErrorEnviandoConfirmacion'];
+        $scope.$parent.errores_posibles = ['FormatoIncorrecto', 'ErrorCorreo', 'ErrorEnviandoConfirmacion'];
         $scope.$parent.mensajes = ['MensajeGuardadoConExito','MensajeCargando'];
 
         $scope.$parent.estados = ['EstadoPerfil'];
