@@ -33,6 +33,7 @@ reset.registrarApiReseteoClave(app)
 @app.route('/users/api/v1.0/confirmar_correo/<uid>/<code>', methods=['OPTIONS'])
 """
 @app.route('/users/api/v1.0/usuarios/', methods=['OPTIONS'], defaults={'path':None})
+@app.route('/users/api/v1.0/usuarios/<string:path>', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/usuarios/<path:path>', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/usuarios/<uid>/correos/', methods=['OPTIONS'], defaults={'cid':None})
 @app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>', methods=['OPTIONS'])

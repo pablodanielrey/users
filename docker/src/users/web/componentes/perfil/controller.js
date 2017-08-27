@@ -125,8 +125,13 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
 
 
         $scope.actualizarUsuario = function(usuario) {
-          usuario.$save({uid:usuario.id}, function() {
-          });
+          usuario.$save({uid:usuario.id},
+            function(r) {
+              console.log(r);
+            },
+            function(err) {
+              console.log(err);
+            });
         };
 
 
