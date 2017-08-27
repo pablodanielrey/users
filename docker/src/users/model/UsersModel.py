@@ -88,12 +88,21 @@ class UsersModel:
 
     @classmethod
     def actualizar_usuario(cls, session, uid, datos):
-        assert 'nombre' in datos and len(datos['nombre']) > 3
-        assert 'apellido' in datos and len(datos['apellido']) > 3
+        import re
+        g = re.match('((\w)*\s*)*', datos['nombre'])
+        if not g:
+            raise FormatoIncorrecto()
+        nombre = g.group()
+
+        g2 = re.match('((\w)*\s*)*', datos['apellido'])
+        if not g:
+            raise FormatoIncorrecto()
+        apellido = g2.group()
 
         usuario = session.query(Usuario).filter(Usuario.id == uid).one()
-        if 'nombre' in datos: usuario.nombre = datos['nombre']
-        if 'apellido' in datos: usuario.apellido = datos['apellido']
+        usuario.nombre = nombre
+        usuario.apellido = apellido
+
 
     @classmethod
     def usuarios(cls, session, usuario=None, dni=None, retornarClave=False, fecha_actualizado=None, offset=None, limit=None, fecha=None):
