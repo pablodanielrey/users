@@ -88,6 +88,9 @@ class UsersModel:
 
     @classmethod
     def actualizar_usuario(cls, session, uid, datos):
+        assert 'nombre' in datos and len(datos['nombre']) > 3
+        assert 'apellido' in datos and len(datos['apellido']) > 3
+
         usuario = session.query(Usuario).filter(Usuario.id == uid).one()
         if 'nombre' in datos: usuario.nombre = datos['nombre']
         if 'apellido' in datos: usuario.apellido = datos['apellido']

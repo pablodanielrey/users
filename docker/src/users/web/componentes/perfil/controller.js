@@ -1,6 +1,6 @@
 
-app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource", "$timeout", "Upload",
-   function ($scope, $location, $routeParams, $resource, $timeout, Upload) {
+app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource", "$timeout", "$window", "Upload",
+   function ($scope, $location, $routeParams, $resource, $timeout, $window, Upload) {
 
         // -------------- manejo de pantallas y errores ------------------------------------------------------ //
         $scope.$parent.errores_posibles = ['ErrorCorreo','ErrorEnviandoConfirmacion'];
@@ -128,9 +128,11 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
           usuario.$save({uid:usuario.id},
             function(r) {
               console.log(r);
+              $window.location.reload();
             },
             function(err) {
               console.log(err);
+              $window.location.reload();
             });
         };
 
