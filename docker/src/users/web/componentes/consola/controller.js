@@ -1,5 +1,9 @@
 app.controller("ConsolaCtrl", ["$scope", "$location", "$routeParams", "$resource", "$timeout", function ($scope, $location, $routeParams, $resource, $tiemout) {
 
+  $scope.cambiarConsola = function() {
+    $scope.mostrar = !$scope.mostrar;
+  }
+
   // -------------- manejo de pantallas y errores ------------------------------------------------------ //
 
   $scope.$parent.estado = '';

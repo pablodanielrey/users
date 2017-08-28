@@ -11,49 +11,44 @@
 
           <div class="titulo">PERFIL DE USUARIO</div><hr>
 
-          <!-- imagen -->
-          <div class='avatar'>
-              <!-- <div ngf-drop ng-model="picFile" ngf-pattern="image/*" class="cropArea">
+            <!-- imagen -->
+            <div class='avatar'>
+                <!-- <div ngf-drop ng-model="picFile" ngf-pattern="image/*" class="cropArea">
 
-              </div> -->
-              <div class='area_de_corte'>
-                <img-crop image="picFile | ngfDataUrl" result-image="croppedDataUrl" ng-init="croppedDataUrl=''"></img-crop>
-              </div>
-              <button ng-click="upload_avatar(croppedDataUrl, picFile.name); view.cambiandoImagen=false;">Cargar</button>
+                </div> -->
+                <div class='area_de_corte'>
+                  <img-crop image="picFile | ngfDataUrl" result-image="croppedDataUrl" ng-init="croppedDataUrl=''"></img-crop>
+                </div>
+                <button ng-click="upload_avatar(croppedDataUrl, picFile.name); view.cambiandoImagen=false;">Cargar</button>
 
-              <!-- <div ng-if='!view.cambiandoImagen'> -->
-              <div class='area_de_imagen'>
-                  <img ng-src='{{model.avatar}}'></img>
-                  <button ngf-select ng-model="picFile" accept="image/*" ng-click='view.cambiandoImagen=true;'>Cambiar</button>
-              </div>
-          </div>
-          <!--  -->
+                <!-- <div ng-if='!view.cambiandoImagen'> -->
+                <div class='area_de_imagen'>
+                    <img ng-src='{{model.avatar}}'></img>
+                    <button ngf-select ng-model="picFile" accept="image/*" ng-click='view.cambiandoImagen=true;'>Cambiar</button>
+                </div>
+            </div>
+            <!--  -->
 
-          <div>
-            <div><b>Nombre</b></div>
+            <b>Nombre</b>
             <input ng-model='model.usuario.nombre' class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
-          </div>
-          <div>
-            <div><b>Apellido</b></div>
-            <input ng-model='model.usuario.apellido' class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
-          </div>
-          <div>
-            <div><b>DNI</b></div>
-            <input ng-model='model.usuario.dni' readonly=true class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
-          </div>
-          <div>
-            <div><b>Legajo</b></div>
-            <input value='2806/4' readonly=true class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
-          </div>
 
-          <div>
-              <button ng-click='actualizarUsuario(model.usuario)' class="btn btnSave btnPrimario">GUARDAR CAMBIOS</button>
-          </div>
+            <b>Apellido</b>
+            <input ng-model='model.usuario.apellido' class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
+
+            <b>DNI</b>
+            <input ng-model='model.usuario.dni' readonly=true class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
+
+            <b>Legajo</b>
+            <input value='2806/4' readonly=true class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
+
+            <div>
+                <button ng-click='actualizarUsuario(model.usuario)' class="btn btnSave btnPrimario">GUARDAR CAMBIOS</button>
+            </div>
         </div>
 
         <div class="datos_mails">
           <div class="titulo">CORREOS DE CONTACTO</div><hr>
-          <div>
+          <div class='institucionales'>
             <div><b>Correo Institucional</b></div>
             <div ng-repeat='m in model.correos'>
                 <div ng-if='esInstitucional(m)' class="itemsMail">
@@ -68,10 +63,9 @@
                 </div>
             </div>
           </div>
-          <!-- CORREOS CONFIRMADOS -->
 
           <!-- CORREO NO CONFIRMADOS -->
-          <div>
+          <div class='alternativos'>
             <div><b>Correos Alternativos</b></div>
             <div class="contentSinCorreo" role="alert" ng-if='!tieneCuentasAlternativas()'>
               <strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> IMPORTANTE!!!<br>
@@ -115,7 +109,6 @@
           <!-- AGREGAR CORREO -->
 
           <div>
-            <hr>
             <div><b>Agregar Correo Alternativo</b></div>
           <!-- <input type='email' ng-model='emailAAgregar'></input>
             <button class="btn btn-success" ng-click='agregarCorreo()'>AGREGAR CORREO</button> -->

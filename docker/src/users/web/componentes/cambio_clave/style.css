@@ -30,9 +30,6 @@
 }
 
 
-
-
-
 .config_clave {
   width: 100%;
   height: calc(100vh - 70px);
@@ -50,24 +47,24 @@
 .config_clave .btnAcceder {
   width: 100%;
   background-image: -webkit-linear-gradient(top,#0069A6 0,#265a88 100%);
-      background-image: -o-linear-gradient(top,#0069A6 0,#265a88 100%);
-      background-image: -webkit-gradient(linear,left top,left bottom,from(#337ab7),to(#265a88));
-      background-image: linear-gradient(to bottom,#0069A6 0,#265a88 100%);
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff337ab7', endColorstr='#ff265a88', GradientType=0);
-      filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-      background-repeat: repeat-x;
-      border-color: #245580;
+  background-image: -o-linear-gradient(top,#0069A6 0,#265a88 100%);
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#337ab7),to(#265a88));
+  background-image: linear-gradient(to bottom,#0069A6 0,#265a88 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff337ab7', endColorstr='#ff265a88', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+  background-repeat: repeat-x;
+  border-color: #245580;
 }
 
 .config_clave .btnAcceder:hover {
-      background-image: -webkit-linear-gradient(top,#083e66 0,#265a88 100%);
-      background-image: -o-linear-gradient(top,#083e66 0,#265a88 100%);
-      background-image: -webkit-gradient(linear,left top,left bottom,from(#083e66),to(#265a88));
-      background-image: linear-gradient(to bottom,#083e66 0,#265a88 100%);
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff337ab7', endColorstr='#ff265a88', GradientType=0);
-      filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-      background-repeat: repeat-x;
-      border-color: #245580;
+  background-image: -webkit-linear-gradient(top,#083e66 0,#265a88 100%);
+  background-image: -o-linear-gradient(top,#083e66 0,#265a88 100%);
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#083e66),to(#265a88));
+  background-image: linear-gradient(to bottom,#083e66 0,#265a88 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff337ab7', endColorstr='#ff265a88', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+  background-repeat: repeat-x;
+  border-color: #245580;
 }
 
 .config_clave .direccionFlex {

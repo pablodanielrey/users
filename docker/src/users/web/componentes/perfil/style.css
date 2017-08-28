@@ -63,32 +63,77 @@
 
 .perfil .edicion_perfil {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  grid-row-gap: 0x;
-  grid-column-gap: 5vw;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: 1fr;
+  grid-row-gap: 0;
+  grid-column-gap: 0;
   grid-template-areas:
-    "perfil mails"
-    "perfil mails";
+    " perfil mails ";
+}
+
+@media screen and (max-width: 769px) {
+  .perfil .edicion_perfil {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    grid-row-gap: 0;
+    grid-column-gap: 0;
+    grid-template-areas:
+      " perfil "
+      " mails ";
+  }
+
 }
 
 .perfil .datos_perfil {
-  /*grid-column: 1/2;
-  grid-row: 1/3;*/
   grid-area: perfil;
-  align-self: center;
-  justify-self: end;
+  align-self: start;
+  justify-self: center;
   border-color: red;
 }
 
 .perfil .datos_mails {
-  /*grid-column: 2/3;
-  grid-row: 1/3;*/
   grid-area: mails;
-  align-self: center;
+  align-self: start;
   justify-self: start;
-  border-color: blue;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 30fr 30fr 2fr;
+  grid-row-gap: 0;
+  grid-column-gap: 0;
+  grid-template-areas:
+    "titulo"
+    "institucionales"
+    "alternativos"
+    "agregar";
 }
+
+.perfil .datos_mails .titulo {
+  grid-area: titulo;
+}
+
+.perfil .datos_mails .institucionales {
+  grid-area: institucionales;
+  align-self: start;
+  justify-self: start;
+  height: 100%;
+  border: 1px solid black;
+}
+
+.perfil .datos_mails .alternativos {
+  grid-area: alternativos;
+  align-self: start;
+  justify-self: start;
+  height: 100%;
+  border: 1px solid black;
+}
+
+.perfil .datos_mails .agregar {
+  grid-area: agregar;
+}
+
+
 
 .perfil .avatar {
   height: 300px;

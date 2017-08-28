@@ -35,10 +35,10 @@
   <script src="/libs/ng-file-upload-all.js"></script>
 
   <script src='/componentes/config_correo/controller.js'></script>
-  <link rel="stylesheet" type="text/css" href="componentes/config_correo/style.css">
+  <!-- <link rel="stylesheet" type="text/css" href="componentes/config_correo/style.css"> -->
 
   <script src='/componentes/cambio_clave/controller.js'></script>
-  <link rel="stylesheet" type="text/css" href="componentes/cambio_clave/style.css">
+  <!-- <link rel="stylesheet" type="text/css" href="componentes/cambio_clave/style.css"> -->
 
   <script src='/componentes/header/controller.js'></script>
   <link rel="stylesheet" type="text/css" href="/componentes/header/header.css">
@@ -46,8 +46,13 @@
 </head>
 
 <body ng-app="MainApp" ng-controller="IndexCtrl">
-  <div ng-include="'componentes/header/index.html'" ng-controller="HeaderCtrl"></div>
-  <div ng-view></div>
-  <div ng-include="'componentes/consola/index.html'" ng-controller="ConsolaCtrl"></div>
+  <div class='sistema'>
+    <header class='cabecera' ng-include="'componentes/header/index.html'" ng-controller="HeaderCtrl"></header>
+    <main class='main'>
+      <div ng-view></div>
+    </main>
+    <div class='consola' ng-include="'componentes/consola/index.html'" ng-controller="ConsolaCtrl"></div>
+    <footer class='footer'> <div style='height: 100%'>fooooottteeerrrgaaaa</div> </footer>
+  </div>
 </body>
 </html>

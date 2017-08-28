@@ -2,6 +2,7 @@
 app.controller("HeaderCtrl", ["$scope", "$location", "$routeParams", "$resource", "$timeout", "$window", function ($scope, $location, $routeParams, $resource, $tiemout, $window) {
 
   $scope.view = {
+    logo: '/img/usersico.gif',
     usuario: null
   };
 

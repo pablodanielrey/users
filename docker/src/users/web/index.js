@@ -13,8 +13,4 @@ app.controller("IndexCtrl", ["$scope", "$http", function ($scope, $http) {
     $scope.$broadcast('config', null);
   });
 
-
-
-
-
 }]);

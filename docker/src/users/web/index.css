@@ -1,40 +1,43 @@
-.users > div {
-  display: none;
+
+
+body {
+  margin: 0px;
+  padding: 0px;
 }
 
-.users .contenedorErrores > div {
-  display: none;
+.sistema {
+  /*overflow: hidden;*/
+  margin: 0 auto;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 50px auto 20px;
+  grid-row-gap: 0;
+  grid-column-gap: 0;
+  grid-template-areas:
+    "cabecera"
+    "contenido"
+    "pie";
 }
 
-.users.error .contenedorErrores {
-  display: flex;
-}
-
-.users.error .pantalla {
-  display: none;
-}
-
-
-/*----- estilos de la pantalla --*/
-
-html, body {
-  margin: 0 !important;
-  padding: 0 !important;
+/*body > div {
   height: 100%;
-  width: 100%;
-  font-family: 'Open Sans', sans-serif;
-  overflow: visible;
+}*/
+
+.sistema .cabecera {
+  grid-area: cabecera;
 }
 
-
-.users .pantalla {
-  width: 100%;
-  height: 100vh;
-  /*background-color: green;*/
+.sistema .main {
+  grid-area: contenido;
 }
 
-.users .pantalla_error {
-  width: 100%;
-  height: 100vh;
-  background-color: red;
+.sistema .footer {
+  grid-area: pie;
+  background-color: green;
+}
+
+.sistema .consola {
+  position: absolute;
+  bottom: 0;
 }

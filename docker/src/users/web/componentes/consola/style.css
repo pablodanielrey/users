@@ -1,8 +1,8 @@
-.consola {
-  padding: 10px;
-  background-color: #222222;
+.consolador {
+  /*background-color: #222222;*/
   color: white;
   position: fixed;
-bottom: 0;
-width:100%;
+  top: 90%;
+  width:90%;
+  height: 50px;
 }
