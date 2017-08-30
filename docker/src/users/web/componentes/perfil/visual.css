@@ -1,0 +1,177 @@
+
+
+.perfil img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.perfil img-crop {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+
+.perfil canvas {
+  /*width: 100%;
+  height: 100%;*/
+  margin: 0 !important;
+  display: block;
+}
+
+
+.perfil .datos_mails {
+  height: 100%;
+  border: 1px solid black;
+}
+
+
+
+/* ----------------------------------------------- */
+
+
+.perfil .btnSave {
+  margin-top: 5px;
+}
+
+
+/*---------------------------------------------------------*/
+
+
+.perfil .inputData {
+  width: 400px;
+  margin-bottom: 5px;
+}
+
+
+.perfil hr {
+  margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.perfil .titulo {
+  color: #9D9D98;
+}
+
+.perfil .statusMailConfirmed {
+  font-size: 12px;
+  font-style: normal;
+  font-weight: normal;
+}
+
+
+.perfil .a {
+  background-color: #EEEEEE;
+  margin-bottom: 20px;
+}
+.perfil .b {
+  background-color: red;
+  margin-bottom: 20px;
+}
+.perfil .c {
+  background-color: orange;
+  margin-bottom: 20px;
+}
+
+
+
+.perfil .flechaCode {
+  color: #E43E46;
+  margin-left: 10px;
+  margin-top: -10px;
+
+}
+
+.perfil .contentCode {
+  border-radius: 4px;
+  padding: 10px;
+  background-color: #E43E46;
+  color: white;
+  margin-top: -19px;
+}
+
+.perfil .contentSinCorreo {
+  border-radius: 4px;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-left: 5px solid #E43E46;
+  color: #E43E46;
+  background-color: #EEEEEE;
+}
+
+.perfil .inputCode {
+  margin-top: 5px;
+  padding: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  color: black;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+
+.perfil .itemsMail {
+  border: 1px solid #ccc;
+  padding-left:10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+
+.perfil .mail {
+  width: 400px;
+  height: 34px;
+}
+
+
+.perfil .btnConfirmar {
+  background-color: #222222;
+  color: white;
+  height: 32px;
+}
+
+.perfil .btnConfirmar:hover {
+  background-color: #383838;
+}
+
+.perfil .btnAgregarCorreo {
+  background-color: #92AD17;
+  color: white;
+}
+
+.perfil .inputMail {
+    width: 400px;
+}
+
+.perfil .iconosErrores {
+  font-size: 200px;
+  color: #c4c4c4;
+  border-right: 1px solid #ccc;
+  padding-right: 20px;
+  margin-right: 20px;
+}
+
+
+.perfil .btnVolver {
+  background-color: #adadad ;
+  color: white;
+  margin-bottom: 30px;
+}
+.perfil .btnVolver:hover {
+  background-color: #222222 ;
+  color: white;
+}

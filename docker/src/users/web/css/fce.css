@@ -1,0 +1,39 @@
+
+
+.btn {
+  background-color: #0066a6 ;
+  color: white;
+}
+
+.btn:hover {
+  background-color: #075382 ;
+}
+
+.btn2 {
+  background-color: #eee;
+  border-left: 1px solid #ccc;
+}
+
+.btn2:hover {
+  color: white;
+  background-color: #E43E46;
+}
+
+.btn3 {
+  background-color: #eee;
+  border-left: 1px solid #ccc;
+}
+
+.btn3:hover {
+  background-color: #92AD17;
+  color: white;
+}
+
+
+.labelConfirmed {
+  background-color: #92AD17;
+}
+
+.labelSinConfirmar {
+  background-color: #E43E46;
+}

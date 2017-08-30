@@ -1,0 +1,9 @@
+
+
+.fcr {
+  display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;  flex-direction: row;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+}
