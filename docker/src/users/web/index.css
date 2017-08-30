@@ -1,13 +1,14 @@
 
+* {
+  box-sizing: border-box;
+}
 
-body {
-  margin: 0px;
-  padding: 0px;
+html, body {
+  height: 100%;
 }
 
 .sistema {
   /*overflow: hidden;*/
-  margin: 0 auto;
   height: 100vh;
   display: grid;
   grid-template-columns: 1fr;
@@ -20,24 +21,14 @@ body {
     "pie";
 }
 
-/*body > div {
-  height: 100%;
-}*/
-
 .sistema .cabecera {
   grid-area: cabecera;
 }
 
-.sistema .main {
+.sistema .contenido {
   grid-area: contenido;
 }
 
-.sistema .footer {
+.sistema .pie {
   grid-area: pie;
-  background-color: green;
-}
-
-.sistema .consola {
-  position: absolute;
-  bottom: 0;
 }

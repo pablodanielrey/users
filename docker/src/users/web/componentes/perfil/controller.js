@@ -22,8 +22,9 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
         }
 
         $scope.view = {
-          cambiandoImagen: false
+          cambiando_imagen_estilo: ''
         }
+
 
         var Usuario = $resource($scope.$parent.config.users_api_url + '/usuarios/:uid',
               {
@@ -70,7 +71,11 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
           $scope.model.avatar = $scope.$parent.config.users_api_url + '/avatar/' + hs + '/contenido' + '?' + new Date().getTime();
         }
 
-        $scope.upload_avatar = function(dataUrl, name) {
+        $scope.subir_avatar = function(dataUrl, name) {
+
+          // escondo la imagen para cropear
+          $scope.view.cambiando_imagen_estilo = '';
+
           var correo = $scope._obtener_primer_correo();
           if (correo == null) {
             console.log('no tiene correo para asignarle algun avatar');
@@ -97,6 +102,10 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
               console.log(parseInt(100.0 * evt.loaded / evt.total));
             });
         };
+
+        $scope.cambiar_imagen = function() {
+          $scope.view.cambiando_imagen_estilo = 'cambiando_imagen';
+        }
 
 
         $scope._inicializar = function() {

@@ -1,9 +1,6 @@
 
 <div class="perfil {{estado}} {{mensaje.mensaje}} {{mensaje.codigo}} {{error.error}} {{error.codigo}}">
 
-    <div class='cambiar_clave'>
-    </div>
-
     <!-- estado EdicionPerfil --->
     <div class="pantalla edicion_perfil">
 
@@ -12,19 +9,17 @@
           <div class="titulo">PERFIL DE USUARIO</div><hr>
 
             <!-- imagen -->
-            <div class='avatar'>
-                <!-- <div ngf-drop ng-model="picFile" ngf-pattern="image/*" class="cropArea">
-
-                </div> -->
+            <div class='avatar {{view.cambiando_imagen_estilo}}'>
                 <div class='area_de_corte'>
                   <img-crop image="picFile | ngfDataUrl" result-image="croppedDataUrl" ng-init="croppedDataUrl=''"></img-crop>
                 </div>
-                <button ng-click="upload_avatar(croppedDataUrl, picFile.name); view.cambiandoImagen=false;">Cargar</button>
 
-                <!-- <div ng-if='!view.cambiandoImagen'> -->
                 <div class='area_de_imagen'>
                     <img ng-src='{{model.avatar}}'></img>
-                    <button ngf-select ng-model="picFile" accept="image/*" ng-click='view.cambiandoImagen=true;'>Cambiar</button>
+                </div>
+                <div class='acciones'>
+                  <button class='cortar_imagen' ng-click="subir_avatar(croppedDataUrl, picFile.name);">Cortar</button>
+                  <button class='cambiar_imagen' ngf-select ng-model="picFile" accept="image/*" ng-click="cambiar_imagen();">Cambiar</button>
                 </div>
             </div>
             <!--  -->

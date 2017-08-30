@@ -71,6 +71,96 @@
     " perfil mails ";
 }
 
+
+/* --------------------------------------------------- */
+
+.perfil .avatar {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: "contenido";
+  align-items: center;
+  justify-items: center;
+}
+
+.perfil img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.perfil img-crop {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+
+.perfil canvas {
+  /*width: 100%;
+  height: 100%;*/
+  margin: 0 !important;
+  display: block;
+}
+
+.perfil .area_de_corte {
+  grid-area: contenido;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+}
+
+.perfil .area_de_imagen {
+  grid-area: contenido;
+  width: 100%;
+  height: 100%;
+}
+
+
+.perfil .acciones {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: "contenido";
+}
+
+.perfil .acciones .cortar_imagen {
+  grid-area: contenido;
+  visibility: hidden;
+}
+
+.perfil .acciones .cambiar_imagen {
+  grid-area: contenido;
+}
+
+.perfil .cambiando_imagen .area_de_corte {
+  visibility: visible;
+}
+
+.perfil .cambiando_imagen .acciones .cortar_imagen {
+  visibility: visible;
+}
+
+.perfil .cambiando_imagen .acciones > .cambiar_imagen {
+  visibility: hidden;
+}
+
+
+.perfil .cambiando_imagen .area_de_imagen {
+  visibility: hidden;
+}
+
+/* ----------------------------------------------------- */
+
+
+
+
+
+
+
+
+
 @media screen and (max-width: 769px) {
   .perfil .edicion_perfil {
     display: grid;
@@ -132,18 +222,6 @@
 .perfil .datos_mails .agregar {
   grid-area: agregar;
 }
-
-
-
-.perfil .avatar {
-  height: 300px;
-  width: 300px;
-  border-color: blue;
-  background: red;
-}
-
-
-
 
 
 .perfil .btnSave {

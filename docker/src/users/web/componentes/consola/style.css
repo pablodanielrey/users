@@ -1,8 +1,8 @@
 .consolador {
   /*background-color: #222222;*/
+  position: absolute;
+  bottom: 0;
   color: white;
   position: fixed;
-  top: 90%;
-  width:90%;
   height: 50px;
 }
