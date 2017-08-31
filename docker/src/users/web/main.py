@@ -10,7 +10,7 @@ import os
 with open('/tmp/client_secrets.json','w') as f:
     import json
     json.dump({"web": {
-      "client_id":"some-consumer",
+      "client_id":"users",
       "client_secret":"consumer-secret",
       "auth_uri": os.environ['LOGIN_OIDC_URL'] + "/authorization",
       "token_uri": os.environ['LOGIN_OIDC_URL'] + "/token",
