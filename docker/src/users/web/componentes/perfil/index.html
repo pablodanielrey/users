@@ -1,230 +1,123 @@
 
-<div class="perfil {{estado}} {{mensaje.mensaje}} {{mensaje.codigo}} {{error.error}} {{error.codigo}}">
+<div class="pantalla edicion_perfil">
 
-    <!-- estado EdicionPerfil --->
-    <div class="pantalla edicion_perfil">
+    <button ng-click='guardado_con_exito()'>guardar_con_exito</button>
 
-        <div class='datos_perfil'>
+    <div class='datos_perfil'>
 
-          <div class="titulo">PERFIL DE USUARIO</div><hr>
+      <div class="titulo">PERFIL DE USUARIO</div><hr>
 
-            <!-- imagen -->
-            <div class='avatar {{view.cambiando_imagen_estilo}}'>
-                <div class='area_de_corte'>
-                  <img-crop image="picFile | ngfDataUrl" result-image="croppedDataUrl" ng-init="croppedDataUrl=''"></img-crop>
-                </div>
-
-                <div class='area_de_imagen'>
-                    <img ng-src='{{model.avatar}}'></img>
-                </div>
-                <div class='acciones'>
-                  <button class='cortar_imagen' ng-click="subir_avatar(croppedDataUrl, picFile.name);">Cortar</button>
-                  <button class='cambiar_imagen' ngf-select ng-model="picFile" accept="image/*" ng-click="cambiar_imagen();">Cambiar</button>
-                </div>
-            </div>
-            <!--  -->
-
-            <div>
-              <b>Nombre</b>
-              <input ng-model='model.usuario.nombre' class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
+        <!-- imagen -->
+        <div class='avatar {{view.cambiando_imagen_estilo}}'>
+            <div class='area_de_corte'>
+              <img-crop image="picFile | ngfDataUrl" result-image="croppedDataUrl" ng-init="croppedDataUrl=''"></img-crop>
             </div>
 
-            <b>Apellido</b>
-            <input ng-model='model.usuario.apellido' class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
-
-            <b>DNI</b>
-            <input ng-model='model.usuario.dni' readonly=true class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
-
-            <b>Legajo</b>
-            <input value='2806/4' readonly=true class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
-
-            <div>
-                <button ng-click='actualizarUsuario(model.usuario)' class="btn btnSave btnPrimario">GUARDAR CAMBIOS</button>
+            <div class='area_de_imagen'>
+                <img ng-src='{{model.avatar}}'></img>
+            </div>
+            <div class='acciones'>
+              <button class='cortar_imagen' ng-click="subir_avatar(croppedDataUrl, picFile.name);">Cortar</button>
+              <button class='cambiar_imagen' ngf-select ng-model="picFile" accept="image/*" ng-click="cambiar_imagen();">Cambiar</button>
             </div>
         </div>
+        <!--  -->
 
-        <div class="datos_mails fcr">
-          <div class="titulo">CORREOS DE CONTACTO</div><hr>
-          <div class='institucionales'>
-            <div><b>Correo Institucional</b></div>
-            <div ng-repeat='m in model.correos'>
-                <div ng-if='esInstitucional(m)' class="itemsMail">
-                  <div class="mail">
-                      <div>{{m.email}} &nbsp;</div>
-                      <div ng-if='estaConfirmado(m)' class="statusMailConfirmed label labelConfirmed"> confirmado</div>
-                  </div>
-                  <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
-                  <div ng-if='!esInstitucional(m)' title="Eliminar correo">
-                    <span><button class="btn btnTrash" ng-click='eliminarCorreo(m)'><i class="fa fa-trash-o" aria-hidden="true"></i></button></span>
-                  </div>
-                </div>
-            </div>
-          </div>
+        <div>
+          <b>Nombre</b>
+          <input ng-model='model.usuario.nombre' class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
+        </div>
 
-          <!-- CORREO NO CONFIRMADOS -->
-          <div class='alternativos'>
-            <div><b>Correos Alternativos</b></div>
-            <div class="contentSinCorreo" role="alert" ng-if='!tieneCuentasAlternativas()'>
-              <strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> IMPORTANTE!!!<br>
-                CORREO ALTERNATIVO SIN CONFIGURAR</strong> <br>
-                Es necesario contar con una cuenta de coreo alternativa<br>
-                para tener acceso a los sistemas infomaticos de la FCE,<br>
-                como tambien, para recuperar su contraseña en caso de <br>
-                olvido.
-            </div>
+        <b>Apellido</b>
+        <input ng-model='model.usuario.apellido' class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
 
-            <div ng-if='tieneCuentasAlternativas()' class="" ng-repeat='m in model.correos'>
-                <div ng-if='!esInstitucional(m)' class="itemsMail">
-                  <div class="mail">
-                      <div>{{m.email}} &nbsp;</div>
-                      <div ng-if='estaConfirmado(m)' class="statusMailConfirmed label labelConfirmed">confirmado</div>
-                      <div ng-if="!estaConfirmado(m)" class="statusMailConfirmed label labelSinConfirmar">sin confirmar</div>
-                  </div>
-                  <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
-                  <div class="actions">
-                    <div title="Reenviar Correo" ng-if='!seEnvioCodigo(m) && !estaConfirmado(m)'><button class="btn btnReenviar" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button></div>
-                    <div title="Eliminar correo"><button class="btn btnTrash" ng-click='eliminarCorreo(m)'><i class="fa fa-trash-o" aria-hidden="true"></i></button></div>
-                  </div>
+        <b>DNI</b>
+        <input ng-model='model.usuario.dni' readonly=true class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
 
-                </div>
+        <b>Legajo</b>
+        <input value='2806/4' readonly=true class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
 
-                <div ng-if='!estaConfirmado(m) && seEnvioCodigo(m)'>
-                  <!-- <div ng-if='m.hash != null && m.fecha_confirmado == null'> -->
-                  <i class="flechaCode fa fa-sort-asc fa-2x" aria-hidden="true"></i>
-                  <p class="contentCode">
-                    <span>
-                      Se ha enviado un correo a su casilla con un código de verificación. <b>¡Revise el correo!</b><br>
-                      <input type=text class="inputCode" ng-model='m.codigo' placeholder="INGRESE CÓDIGO"></input>
-                      <button class="btn btnConfirmar" ng-click='confirmarCorreo(m)'>Confirmar</button>
-                      <button class="btn btnReenviar2" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button>
-                    </span>
-                  </p>
-                </div>
-            </div>
-          </div>
-
-          <!-- AGREGAR CORREO -->
-
-          <div>
-            <div><b>Agregar Correo Alternativo</b></div>
-          <!-- <input type='email' ng-model='emailAAgregar'></input>
-            <button class="btn btn-success" ng-click='agregarCorreo()'>AGREGAR CORREO</button> -->
-
-            <form class="form-inline">
-                <div class="form-group">
-                  <input type="email" class="inputMail form-control" id="exampleInputEmail2" ng-model='model.emailAAgregar' placeholder="nombre@dominio.com">
-                </div>
-                <button type="submit" class="btn btnAgregarCorreo" ng-click='agregarCorreo()'>AGREGAR</button>
-              </form>
-          </div>
-
+        <div>
+            <button ng-click='actualizarUsuario(model.usuario)' class="btn btnSave btnPrimario">GUARDAR CAMBIOS</button>
         </div>
     </div>
 
-    <div class='fondo pantalla_error'>
-      <div class='error_actualizando_usuario'>
-        <div class="estiloError">
-          <div>
-            <i class="iconosErrores fa fa-server" aria-hidden="true"></i>
-          </div>
-          <div>
-              <h1>ERROR</h1>
-              <p>Encontramos un error actualizando los datos de la persona</p><br>
-              Por favor intente mas tarde.</p>
-            <button class="btn btnVolver" ng-click='cerrarErrorUsuario()'>Volver</button>
-          </div>
+    <div class="datos_mails fcr">
+      <div class="titulo">CORREOS DE CONTACTO</div><hr>
+      <div class='institucionales'>
+        <div><b>Correo Institucional</b></div>
+        <div ng-repeat='m in model.correos'>
+            <div ng-if='esInstitucional(m)' class="itemsMail">
+              <div class="mail">
+                  <div>{{m.email}} &nbsp;</div>
+                  <div ng-if='estaConfirmado(m)' class="statusMailConfirmed label labelConfirmed"> confirmado</div>
+              </div>
+              <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
+              <div ng-if='!esInstitucional(m)' title="Eliminar correo">
+                <span><button class="btn btnTrash" ng-click='eliminarCorreo(m)'><i class="fa fa-trash-o" aria-hidden="true"></i></button></span>
+              </div>
+            </div>
         </div>
       </div>
 
-      <div class='error_correo'>
-        <div class="estiloError">
-          <div>
-            <i class="iconosErrores fa fa-server" aria-hidden="true"></i>
-          </div>
-          <div>
-              <h1>ERROR EN EL SERVIDOR</h1>
-              <p>Se produjo un error al intentar enviar el correo.<br>
-                Por favor intente mas tarde.</p>
-            <button class="btn btnVolver" ng-click='limpiarError()'>Volver</button>
-          </div>
+      <!-- CORREO NO CONFIRMADOS -->
+      <div class='alternativos'>
+        <div><b>Correos Alternativos</b></div>
+        <div class="contentSinCorreo" role="alert" ng-if='!tieneCuentasAlternativas()'>
+          <strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> IMPORTANTE!!!<br>
+            CORREO ALTERNATIVO SIN CONFIGURAR</strong> <br>
+            Es necesario contar con una cuenta de coreo alternativa<br>
+            para tener acceso a los sistemas infomaticos de la FCE,<br>
+            como tambien, para recuperar su contraseña en caso de <br>
+            olvido.
+        </div>
+
+        <div ng-if='tieneCuentasAlternativas()' class="" ng-repeat='m in model.correos'>
+            <div ng-if='!esInstitucional(m)' class="itemsMail">
+              <div class="mail">
+                  <div>{{m.email}} &nbsp;</div>
+                  <div ng-if='estaConfirmado(m)' class="statusMailConfirmed label labelConfirmed">confirmado</div>
+                  <div ng-if="!estaConfirmado(m)" class="statusMailConfirmed label labelSinConfirmar">sin confirmar</div>
+              </div>
+              <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
+              <div class="actions">
+                <div title="Reenviar Correo" ng-if='!seEnvioCodigo(m) && !estaConfirmado(m)'><button class="btn btnReenviar" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button></div>
+                <div title="Eliminar correo"><button class="btn btnTrash" ng-click='eliminarCorreo(m)'><i class="fa fa-trash-o" aria-hidden="true"></i></button></div>
+              </div>
+
+            </div>
+
+            <div ng-if='!estaConfirmado(m) && seEnvioCodigo(m)'>
+              <!-- <div ng-if='m.hash != null && m.fecha_confirmado == null'> -->
+              <i class="flechaCode fa fa-sort-asc fa-2x" aria-hidden="true"></i>
+              <p class="contentCode">
+                <span>
+                  Se ha enviado un correo a su casilla con un código de verificación. <b>¡Revise el correo!</b><br>
+                  <input type=text class="inputCode" ng-model='m.codigo' placeholder="INGRESE CÓDIGO"></input>
+                  <button class="btn btnConfirmar" ng-click='confirmarCorreo(m)'>Confirmar</button>
+                  <button class="btn btnReenviar2" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button>
+                </span>
+              </p>
+            </div>
         </div>
       </div>
 
-      <div class='error_enviando_confirmacion'>
-          <div class="estiloError">
-            <div>
-              <i class="iconosErrores fa fa-server" aria-hidden="true"></i>
-            </div>
-            <div>
-                <h1>ERROR EN EL SERVIDOR</h1>
-                <p>Se produjo un error al intentar enviar el código de verifiacción.<br>
-                  Por favor intente mas tarde.</p>
-              <button class="btn btnVolver" ng-click='limpiarError()'>Volver</button>
-            </div>
-          </div>
-      </div>
-    </div>
+      <!-- AGREGAR CORREO -->
 
-    <div class='pantalla_mensaje'>
       <div>
-      </div>
-    </div>
+        <div><b>Agregar Correo Alternativo</b></div>
+      <!-- <input type='email' ng-model='emailAAgregar'></input>
+        <button class="btn btn-success" ng-click='agregarCorreo()'>AGREGAR CORREO</button> -->
 
-    <!-- pantalla cambiar clave ----->
-
-    <div class='pantalla cambio_clave'>
-    </div>
-
-    <!-- Errores generales -->
-
-    <div class='fondo pantalla_error'>
-      <div class='error_actualizando_usuario'>
-        <div class="estiloError">
-          <div>
-            <i class="iconosErrores fa fa-user-times" aria-hidden="true"></i>
-          </div>
-          <div>
-              <h1>ERROR</h1>
-              <p> Encontramos un error actualizando los datos del model.</p><br>
-              Por favor intente mas tarde.</p>
-            <button class="btn btnVolver" ng-click='cerrarErrorUsuario()'>Volver</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class='pantalla_error correo_bloqueado'>
-      Esa cuenta se encuentra bloqueada en nuestros sitemas debido a que ha indicado que el correo recibido de alguna de las áreas de
-      la facultad es "Correo No Deseado"
-      Para poder continuar debe indicar que todo el correo recibido de la facultad NO es spam y contactarse
-      con DiTeSI <a href='#'>aqui</a>
-    </div>
-
-
-    <!-- mensajes generales --->
-
-    <div class='fondo pantalla_mensaje'>
-      <div class='cambios_guardados_con_exito'>
-          <div class="estiloError">
-            <div>
-              <i class="iconosErrores fa fa-check-square" aria-hidden="true"></i>
+        <form class="form-inline">
+            <div class="form-group">
+              <input type="email" class="inputMail form-control" id="exampleInputEmail2" ng-model='model.emailAAgregar' placeholder="nombre@dominio.com">
             </div>
-            <div>
-                <h1>Cambios Guardados <br> con éxito</h1>
-              <button class="btn btnVolver">Volver</button>
-            </div>
-          </div>
+            <button type="submit" class="btn btnAgregarCorreo" ng-click='agregarCorreo()'>AGREGAR</button>
+          </form>
       </div>
-
-      <div class='mensaje_cargando'>
-        <div class="estiloError">
-          <div>
-            <img src="/img/preloader.gif"></img>
-          </div>
-        </div>
-      </div>
-
 
     </div>
+
 
 </div>

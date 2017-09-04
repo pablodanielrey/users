@@ -1,18 +1,20 @@
 
+app.controller('TemplateCtrl', ['$scope', '$window', '$timeout', function($scope, $window, $timeout) {
+
+  $scope.volver = function() {
+    $window.history.back();
+  }
+
+  $scope.timer = function() {
+    $timeout(function() {
+      $scope.volver();
+    },5000);
+  }
+
+}])
+
 app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource", "$timeout", "$window", "Upload",
    function ($scope, $location, $routeParams, $resource, $timeout, $window, Upload) {
-
-        // -------------- manejo de pantallas y errores ------------------------------------------------------ //
-        $scope.$parent.errores_posibles = ['FormatoIncorrecto', 'ErrorCorreo', 'ErrorEnviandoConfirmacion'];
-        $scope.$parent.mensajes = ['MensajeGuardadoConExito','MensajeCargando'];
-
-        $scope.$parent.estados = ['EstadoPerfil'];
-        $timeout(function() {
-          $scope.$parent.estado = 'EstadoPerfil';
-          $scope.$parent.mensaje = {mensaje:'', codigo:''};
-        });
-
-        //////////////////
 
         $scope.model = {
           avatar: '',
@@ -25,6 +27,11 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
           cambiando_imagen_estilo: ''
         }
 
+
+
+        $scope.guardado_con_exito = function() {
+          $location.path('/perfil_guardado_con_exito');
+        }
 
         var Usuario = $resource($scope.$parent.config.users_api_url + '/usuarios/:uid',
               {
