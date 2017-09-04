@@ -1,0 +1,74 @@
+<div class="datos_mails fcr">
+  <div class="titulo">CORREOS DE CONTACTO</div><hr>
+  <div class='institucionales'>
+    <div><b>Correo Institucional</b></div>
+    <div ng-repeat='m in model.correos'>
+        <div ng-if='esInstitucional(m)' class="itemsMail">
+          <div class="mail">
+              <div>{{m.email}} &nbsp;</div>
+              <div ng-if='estaConfirmado(m)' class="statusMailConfirmed label labelConfirmed"> confirmado</div>
+          </div>
+          <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
+          <div ng-if='!esInstitucional(m)' title="Eliminar correo">
+            <span><button class="btn btnTrash" ng-click='eliminarCorreo(m)'><i class="fa fa-trash-o" aria-hidden="true"></i></button></span>
+          </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- CORREO NO CONFIRMADOS -->
+  <div class='alternativos'>
+    <div><b>Correos Alternativos</b></div>
+    <div class="contentSinCorreo" role="alert" ng-if='!tieneCuentasAlternativas()'>
+      <strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> IMPORTANTE!!!<br>
+        CORREO ALTERNATIVO SIN CONFIGURAR</strong> <br>
+        Es necesario contar con una cuenta de coreo alternativa<br>
+        para tener acceso a los sistemas infomaticos de la FCE,<br>
+        como tambien, para recuperar su contraseña en caso de <br>
+        olvido.
+    </div>
+
+    <div ng-if='tieneCuentasAlternativas()' class="" ng-repeat='m in model.correos'>
+        <div ng-if='!esInstitucional(m)' class="itemsMail">
+          <div class="mail">
+              <div>{{m.email}} &nbsp;</div>
+              <div ng-if='estaConfirmado(m)' class="statusMailConfirmed label labelConfirmed">confirmado</div>
+              <div ng-if="!estaConfirmado(m)" class="statusMailConfirmed label labelSinConfirmar">sin confirmar</div>
+          </div>
+          <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
+          <div class="actions">
+            <div title="Reenviar Correo" ng-if='!seEnvioCodigo(m) && !estaConfirmado(m)'><button class="btn btnReenviar" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button></div>
+            <div title="Eliminar correo"><button class="btn btnTrash" ng-click='eliminarCorreo(m)'><i class="fa fa-trash-o" aria-hidden="true"></i></button></div>
+          </div>
+
+        </div>
+
+        <div ng-if='!estaConfirmado(m) && seEnvioCodigo(m)'>
+          <!-- <div ng-if='m.hash != null && m.fecha_confirmado == null'> -->
+          <i class="flechaCode fa fa-sort-asc fa-2x" aria-hidden="true"></i>
+          <p class="contentCode">
+            <span>
+              Se ha enviado un correo a su casilla con un código de verificación. <b>¡Revise el correo!</b><br>
+              <input type=text class="inputCode" ng-model='m.codigo' placeholder="INGRESE CÓDIGO"></input>
+              <button class="btn btnConfirmar" ng-click='confirmarCorreo(m)'>Confirmar</button>
+              <button class="btn btnReenviar2" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button>
+            </span>
+          </p>
+        </div>
+    </div>
+  </div>
+
+  <!-- AGREGAR CORREO -->
+
+  <div>
+    <div><b>Agregar Correo Alternativo</b></div>
+  <!-- <input type='email' ng-model='emailAAgregar'></input>
+    <button class="btn btn-success" ng-click='agregarCorreo()'>AGREGAR CORREO</button> -->
+
+    <form class="form-inline">
+        <div class="form-group">
+          <input type="email" class="inputMail form-control" id="exampleInputEmail2" ng-model='model.emailAAgregar' placeholder="nombre@dominio.com">
+        </div>
+        <button type="submit" class="btn btnAgregarCorreo" ng-click='agregarCorreo()'>AGREGAR</button>
+      </form>
+  </div>
