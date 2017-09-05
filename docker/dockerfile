@@ -13,7 +13,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 #RUN pip3 install -r /src/requirements.txt
 
-COPY entrypoint_linux.sh /
+COPY entrypoint.sh /
 COPY supervisor/scron.conf /etc/supervisor/conf.d
 COPY supervisor/srsyslog.conf /etc/supervisor/conf.d
 COPY supervisor/srest.conf /etc/supervisor/conf.d
@@ -26,4 +26,4 @@ WORKDIR /src
 
 #VOLUME /src
 
-ENTRYPOINT ["/entrypoint_linux.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
