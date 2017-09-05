@@ -3,9 +3,41 @@ app = angular.module('MainApp', ['ngRoute', 'ngResource','ngFileUpload', 'ngImgC
 app.config(['$routeProvider', function($routeProvider) {
 
   $routeProvider
+    .when('/preload', {templateUrl: '/componentes/preload/index.html', controller:'PreloadCtrl'})
+
+    /*
+      CONFIGURACION DE CORREO ALTERNATIVO
+    */
+
     .when('/config_correo/:uid', {templateUrl: '/componentes/config_correo/index.html', controller:'ConfigCorreoCtrl'})
-    .when('/config_clave/:uid', {templateUrl: '/componentes/cambio_clave/index.html', controller:'ConfigClaveCtrl'})
+
+    /*
+      RESETEO DE CLAVE TEMPORAL
+    */
+
+    .when('/config_clave/:uid', {
+          templateUrl: 'componentes/cambio_clave/index.html',
+          controller:'ConfigClaveCtrl'
+    })
+    .when('/config_clave_fin', {
+          templateUrl: 'componentes/cambio_clave/templates/mensaje_fin.html',
+          controller:'TemplateCtrl'
+    })
+    .when('/config_clave_error', {
+          templateUrl: 'componentes/cambio_clave/templates/error_sistema.html',
+          controller:'TemplateCtrl'
+    })
+
+    /*
+      RESETEO DE CLAVE
+    */
+
     .when('/reset_clave', {templateUrl: '/componentes/reseteo_clave/index.html', controller:'ReseteoClaveCtrl'})
+
+
+    /*
+      DATOS DE PERFIL
+    */
 
     .when('/perfil/:uid', {
           templateUrl: '/componentes/perfil/index.html',
@@ -32,7 +64,8 @@ app.config(['$routeProvider', function($routeProvider) {
           controller:'TemplateCtrl'
     })
 
-    .when('/preload', {templateUrl: '/componentes/preload/index.html', controller:'PreloadCtrl'})
+
+
     .otherwise({ redirectTo: '/preload' });
 
 }]);
