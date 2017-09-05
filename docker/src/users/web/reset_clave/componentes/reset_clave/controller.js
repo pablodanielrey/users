@@ -2,26 +2,26 @@
 app.controller("ResetClaveCtrl", ["$scope", "$location", "$routeParams", "$resource", "$timeout", function ($scope, $location, $routeParams, $resource, $timeout) {
 
   // -------------- manejo de pantallas y errores ------------------------------------------------------ //
-  $scope.$parent.errores_posibles = [
-                    'TokenExpiradoError',
-                    'UsuarioNoEncontradoError',
-                    'SeguridadError',
-                    'NoTieneCuentaAlternativaError',
-                    'EnvioCodigoError',
-                    'LimiteDeEnvioError',
-                    'CodigoIncorrectoError',
-                    'LimiteDeVerificacionError',
-                    'ClaveError',
-                    'FormatoDeClaveIncorrectoError',
-                    'CorreoBloqueadoError'
-                  ];
-  $scope.$parent.mensajes = [];
-
-  $scope.$parent.estados = ['EstadoIngreseSuDNI','EstadoAvisoDeEnvio','EstadoIngreseCodigo','EstadoIngreseClave','EstadoOK'];
-  $timeout(function() {
-    $scope.$parent.estado = 'EstadoIngreseSuDNI';
-    $scope.$parent.mensaje = {mensaje:'', codigo:''};
-  });
+  // $scope.$parent.errores_posibles = [
+  //                   'TokenExpiradoError',
+  //                   'UsuarioNoEncontradoError',
+  //                   'SeguridadError',
+  //                   'NoTieneCuentaAlternativaError',
+  //                   'EnvioCodigoError',
+  //                   'LimiteDeEnvioError',
+  //                   'CodigoIncorrectoError',
+  //                   'LimiteDeVerificacionError',
+  //                   'ClaveError',
+  //                   'FormatoDeClaveIncorrectoError',
+  //                   'CorreoBloqueadoError'
+  //                 ];
+  // $scope.$parent.mensajes = [];
+  //
+  // $scope.$parent.estados = ['EstadoIngreseSuDNI','EstadoAvisoDeEnvio','EstadoIngreseCodigo','EstadoIngreseClave','EstadoOK'];
+  // $timeout(function() {
+  //   $scope.$parent.estado = 'EstadoIngreseSuDNI';
+  //   $scope.$parent.mensaje = {mensaje:'', codigo:''};
+  // });
   //////////////////
 
 

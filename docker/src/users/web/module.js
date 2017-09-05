@@ -28,12 +28,6 @@ app.config(['$routeProvider', function($routeProvider) {
           controller:'TemplateCtrl'
     })
 
-    /*
-      RESETEO DE CLAVE
-    */
-
-    .when('/reset_clave', {templateUrl: '/componentes/reseteo_clave/index.html', controller:'ReseteoClaveCtrl'})
-
 
     /*
       DATOS DE PERFIL

@@ -1,0 +1,8 @@
+<div class='pantalla aviso_de_envio'>
+  Bienvenido {{view.usuario.nombre}} {{view.usuario.apellido}}
+  Vamos a enviar un código de confirmación a su cuenta alternativa de correo,
+  antes de completar este paso asegúrese de poder acceder a la cuenta : {{view.usuario.correo.email}}
+  Si no puede acceder a su cuenta alternativa de correo por favor comuníquese con DiTeSI usando el siguiente <a href='#'>enlace</a> para que podamos ayudarlo a registrar otra cuenta.
+  <button ng-click='pasoAnterior()'>Anterior</button>
+  <button ng-click='enviarCodigo()'>Enviar Código</button>
+</div>

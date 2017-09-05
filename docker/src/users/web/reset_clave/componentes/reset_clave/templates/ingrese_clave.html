@@ -1,0 +1,24 @@
+<div class='pantalla clave'>
+  Verificación Exitosa.
+  Por favor ingrese una clave nueva.
+  El formato de clave aceptada es :
+  - mayor o igual a 8 caracteres
+  - al menos un dígito
+  - debe comenzar con una letra
+
+  <div>
+    Clave Nueva
+    <input type='{{view.tipo}}' ng-model='view.clave1'></input>
+    <button ng-click='cambiarTipo()'>
+      <div ng-if='view.tipo == "password"'>ver</div>
+      <div ng-if='view.tipo == "text"'>ocultar</div>
+    </button>
+    <div ng-if='view.clave1 != view.clave2' class='error'>Claves no son iguales</div>
+  </div>
+  <div>
+    Reingresar Clave Nueva
+    <input type='{{view.tipo}}' ng-model='view.clave2'></input>
+    <div ng-if='view.clave1 != view.clave2' class='error'>Claves no son iguales</div>
+  </div>
+  <button ng-click='cambiarClave()'>Siguiente</button>
+</div>

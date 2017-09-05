@@ -1,0 +1,10 @@
+
+  <div class='pantalla codigo'>
+    Se ha enviado el código de confirmación a {{view.usuario.correo.email}}
+    Tenga en cuenta que la recepción del correo puede demorarse algunos minutos.
+    Chequee también los correos clasificados como "Correo Basura" o "Spam",
+    En el caso de que haya llegado como basura, por favor indique que es correo requerido y NO es basura.
+    A continuación ingrese el código recibido
+    <input type='text' ng-model='view.codigo'></input>
+    <button ng-click='verificarCodigo()'>Verificar</button>
+  </div>
