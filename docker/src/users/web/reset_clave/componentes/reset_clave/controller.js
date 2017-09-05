@@ -1,5 +1,5 @@
 
-app.controller("ResetClaveCtrl", ["$scope", "$location", "$routeParams", "$resource", "$timeout", function ($scope, $location, $routeParams, $resource, $timeout) {
+app.controller("ResetClaveCtrl", ["$scope", "$location", "$resource", "$timeout", "$state", function ($scope, $location, $resource, $timeout, $state) {
 
   // -------------- manejo de pantallas y errores ------------------------------------------------------ //
   // $scope.$parent.errores_posibles = [
@@ -24,8 +24,52 @@ app.controller("ResetClaveCtrl", ["$scope", "$location", "$routeParams", "$resou
   // });
   //////////////////
 
+  var Reset = null;
 
+  $scope.model = {
+    users_api_url: ''
+  };
 
+  console.log($state.$current);
+
+  $scope.config().then(
+    function(d) {
+      console.log(d.data);
+      $scope.model.users_api_url = d.data.users_api_url;
+
+      Reset = $resource('', {},
+                      {
+                          'obtener_token': {
+                              method:'GET',
+                              url: $scope.model.users_api_url + '/reset/obtener_token'
+                          },
+                          'obtener_usuario': {
+                              method:'GET',
+                              url: $scope.model.users_api_url + '/reset/obtener_usuario/:dni',
+                              headers: { Authorization: getTokenHeader }
+                          },
+                          'enviar_codigo': {
+                              method:'POST',
+                              url: $scope.model.users_api_url + '/reset/enviar_codigo',
+                              headers: { Authorization: getTokenHeader }
+                          },
+                          'verificar_codigo': {
+                              method:'POST',
+                              url: $scope.model.users_api_url + '/reset/verificar_codigo',
+                              headers: { Authorization: getTokenHeader }
+                          },
+                          'cambiar_clave': {
+                              method:'POST',
+                              url: $scope.model.users_api_url + '/reset/cambiar_clave',
+                              headers: { Authorization: getTokenHeader }
+                          },
+                      });
+
+      $scope.iniciarProceso();
+    },
+    function(err) {
+      console.log(err);
+    });
 
   $scope.token = '';
 
@@ -55,36 +99,6 @@ app.controller("ResetClaveCtrl", ["$scope", "$location", "$routeParams", "$resou
     return 'Basic ' + btoa(tk + ':' + 'ignorado');
   }
 
-  var Reset = $resource('', {},
-                  {
-                      'obtener_token': {
-                          method:'GET',
-                          url: 'http://127.0.0.1:7001/users/api/v1.0/reset/obtener_token'
-                      },
-                      'obtener_usuario': {
-                          method:'GET',
-                          url: 'http://127.0.0.1:7001/users/api/v1.0/reset/obtener_usuario/:dni',
-                          headers: { Authorization: getTokenHeader }
-                      },
-                      'enviar_codigo': {
-                          method:'POST',
-                          url: 'http://127.0.0.1:7001/users/api/v1.0/reset/enviar_codigo',
-                          headers: { Authorization: getTokenHeader }
-                      },
-                      'verificar_codigo': {
-                          method:'POST',
-                          url: 'http://127.0.0.1:7001/users/api/v1.0/reset/verificar_codigo',
-                          headers: { Authorization: getTokenHeader }
-                      },
-                      'cambiar_clave': {
-                          method:'POST',
-                          url: 'http://127.0.0.1:7001/users/api/v1.0/reset/cambiar_clave',
-                          headers: { Authorization: getTokenHeader }
-                      },
-
-
-                  });
-
   $scope.cambiarTipo = function() {
     $scope.view.indice = ($scope.view.indice + 1) % $scope.view.tipos.length;
     $scope.view.tipo = $scope.view.tipos[$scope.view.indice];
@@ -94,7 +108,8 @@ app.controller("ResetClaveCtrl", ["$scope", "$location", "$routeParams", "$resou
   $scope.iniciarProceso = function() {
     Reset.obtener_token(function(resp) {
       $scope.token = resp.token;
-      $scope.pasoSiguiente();
+      $state.go('reset_clave.ingrese_dni');
+
     }, function(e) {
       console.log(e);
       $scope.setearError(e.data);
@@ -108,7 +123,8 @@ app.controller("ResetClaveCtrl", ["$scope", "$location", "$routeParams", "$resou
     Reset.obtener_usuario({dni:$scope.view.dni}, function(resp) {
       $scope.token = resp.token;
       $scope.view.usuario = resp.usuario;
-      $scope.pasoSiguiente();
+      $state.go('reset_clave.aviso_de_envio');
+
     }, function(e) {
       console.log(e);
       $scope.setearError(e.data);
@@ -118,11 +134,14 @@ app.controller("ResetClaveCtrl", ["$scope", "$location", "$routeParams", "$resou
   $scope.enviarCodigo = function() {
     Reset.enviar_codigo(function(resp) {
       $scope.token = resp.token;
-      $scope.pasoSiguiente();
+      $state.go('reset_clave.ingresar_codigo');
+
     }, function(e) {
       console.log(e);
-      $scope.setearError(e.data);
+      $state.go('reset_clave.' + e.data.error);
+
     })
+
   }
 
   $scope.verificarCodigo = function() {
@@ -132,7 +151,8 @@ app.controller("ResetClaveCtrl", ["$scope", "$location", "$routeParams", "$resou
     var r = new Reset({codigo:$scope.view.codigo})
     r.$verificar_codigo(function(resp) {
       $scope.token = resp.token;
-      $scope.pasoSiguiente();
+      $state.go('reset_clave.ingrese_clave');
+
     }, function(e) {
       console.log(e);
       $scope.setearError(e.data);
@@ -145,7 +165,8 @@ app.controller("ResetClaveCtrl", ["$scope", "$location", "$routeParams", "$resou
     }
     var r = new Reset({clave:$scope.view.clave1})
     r.$cambiar_clave(function(resp) {
-      $scope.pasoSiguiente();
+      $state.go('reset_clave.cambio_de_clave_exitoso');
+
     }, function(e) {
       console.log(e);
       $scope.setearError(e.data);

@@ -55,6 +55,13 @@ def configuracion():
         'users_api_url': os.environ['USERS_API_URL']
     }
 
+@app.route('/reset_clave/config.json', methods=['GET'])
+@jsonapi
+def configuracion_reset_clave():
+    return {
+        'users_api_url': os.environ['USERS_API_URL']
+    }
+
 @app.route('/usuario', methods=['GET'])
 @oidc.require_login
 def usuario():
