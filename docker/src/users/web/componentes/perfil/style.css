@@ -1,15 +1,15 @@
-
-/* -------------------------------------------  */
-
-.perfil .edicion_perfil {
+.perfil {
+  height: 100%;
+  padding: 20px;
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
   grid-template-rows: 1fr;
-  grid-row-gap: 0;
-  grid-column-gap: 0;
+  grid-row-gap: 20px;
+  grid-column-gap: 40px;
   grid-template-areas:
     " perfil mails ";
 }
+
 
 
 /* --------------------------------------------------- */
@@ -73,55 +73,8 @@
 
 }
 
-.perfil .datos_perfil {
-  grid-area: perfil;
-  align-self: start;
-  justify-self: center;
-  border-color: red;
-}
-
-.perfil .datos_mails {
-  grid-area: mails;
-  align-self: start;
-  justify-self: start;
-
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto 30fr 30fr 2fr;
-  grid-row-gap: 0;
-  grid-column-gap: 0;
-  grid-template-areas:
-    "titulo"
-    "institucionales"
-    "alternativos"
-    "agregar";
-}
-
-.perfil .datos_mails .titulo {
-  grid-area: titulo;
-}
-
-.perfil .datos_mails .institucionales {
-  grid-area: institucionales;
-  align-self: start;
-  justify-self: start;
-}
-
-.perfil .datos_mails .alternativos {
-  grid-area: alternativos;
-  align-self: start;
-  justify-self: start;
-}
-
-.perfil .datos_mails .agregar {
-  grid-area: agregar;
-}
 
 
-/*.perfil .ontentItemMail {
-  align-items: center;
-  justify-content: space-between;
-}*/
 
 .perfil .itemsMail {
   display: flex;
