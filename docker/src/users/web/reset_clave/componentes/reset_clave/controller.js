@@ -93,6 +93,9 @@ app.controller("ResetClaveCtrl", ["$scope", "$location", "$resource", "$timeout"
     indice: 0
   }
 
+  $scope.setearError = function(e) {
+    $state.go('reset_clave.' + e.error);
+  }
 
   function getTokenHeader(requestConfig) {
     var tk = $scope.token;
@@ -138,8 +141,7 @@ app.controller("ResetClaveCtrl", ["$scope", "$location", "$resource", "$timeout"
 
     }, function(e) {
       console.log(e);
-      $state.go('reset_clave.' + e.data.error);
-
+      $scope.setearError(e.data);
     })
 
   }

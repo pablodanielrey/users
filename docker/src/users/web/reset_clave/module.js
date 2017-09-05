@@ -36,10 +36,42 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 
   // Errores del sistema y sus templates
 
+  .state('reset_clave.TokenExpiradoError', {
+    templateUrl: 'componentes/reset_clave/templates/error_expirado.html'
+  })
+  .state('reset_clave.SeguridadError', {
+    templateUrl: 'componentes/reset_clave/templates/error_expirado.html'
+  })
+  .state('reset_clave.UsuarioNoEncontradoError', {
+    templateUrl: 'componentes/reset_clave/templates/error_dni_inexistente.html'
+  })
+  .state('reset_clave.NoTieneCuentaAlternativaError', {
+    templateUrl: 'componentes/reset_clave/templates/error_dni_sin_cuenta_alternativa.html'
+  })
   .state('reset_clave.EnvioCodigoError', {
-    url:'/error_envio_codigo',
     templateUrl: 'componentes/reset_clave/templates/error_envio.html'
   })
+  .state('reset_clave.LimiteDeEnvioError', {
+    templateUrl: 'componentes/reset_clave/templates/error_limite_de_envios.html'
+  })
+  .state('reset_clave.CodigoIncorrectoError', {
+    templateUrl: 'componentes/reset_clave/templates/error_de_codigo.html'
+  })
+  .state('reset_clave.LimiteDeVerificacionError', {
+    templateUrl: 'componentes/reset_clave/templates/error_limite_de_verificacion.html'
+  })
+  .state('reset_clave.ClaveError', {
+    templateUrl: 'componentes/reset_clave/templates/error_cambiando_clave.html'
+  })
+  .state('reset_clave.FormatoDeClaveIncorrectoError', {
+    templateUrl: 'componentes/reset_clave/templates/error_formato_de_clave.html'
+  })
+  .state('reset_clave.CorreoBloqueadoError', {
+    templateUrl: 'componentes/reset_clave/templates/error_correo_bloqueado_spam.html'
+  })
+
+
+
 
 
 }]);
