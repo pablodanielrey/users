@@ -1,4 +1,6 @@
-
+.contenedor {
+  height: 100%;
+}
 
 .btn {
   background-color: #0066a6 ;
@@ -36,4 +38,12 @@
 
 .labelSinConfirmar {
   background-color: #E43E46;
+}
+
+.iconoXL {
+  font-size: 200px;
+  color: #c4c4c4;
+  /*border-right: 1px solid #ccc;*/
+  /*padding-right: 20px;
+  margin-right: 20px;*/
 }
