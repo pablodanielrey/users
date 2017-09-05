@@ -40,6 +40,8 @@
 
   <!-- componentes -->
 
+  <link rel="stylesheet" type="text/css" href="/css/fce.css">
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
 
   <script src='/componentes/perfil/controller.js'></script>
   <!-- <link rel="stylesheet" type="text/css" href="/componentes/perfil/flow.css"> -->
@@ -63,13 +65,9 @@
 <body ng-app="MainApp" ng-controller="IndexCtrl">
   <div class='sistema'>
     <header class='cabecera' ng-include="'componentes/header/index.html'" ng-controller="HeaderCtrl"></header>
-    <main class='main'>
-      <div ng-view></div>
-    </main>
-    <footer class='pie' ng-include="'componentes/footer/index.html'" ng-controller="FooterCtrl"></header>
+    <main class='contenido' ng-view></main>
+    <footer class='pie fdr fac' ng-include="'componentes/footer/index.html'" ng-controller="FooterCtrl"></header>
   </div>
-
-  <div class='consola' ng-include="'componentes/consola/index.html'" ng-controller="ConsolaCtrl"></div>
 
 </body>
 </html>

@@ -1,9 +1,34 @@
-
-
-.fcr {
+/*Flex Direction Row*/
+.fdr {
   display: flex;
   display: -webkit-flex;
   display: -moz-flex;  flex-direction: row;
+  flex-direction: row;
   -webkit-flex-direction: row;
   -moz-flex-direction: row;
+}
+
+/*Flex Direction Column*/
+.fdc {
+  display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;  flex-direction: row;
+  flex-direction: column;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+}
+
+/*aling Center  */
+.fac {
+  align-items: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+}
+
+
+/*Justify Center*/
+.fjc {
+  justify-content: center;
+  justify-content: center;
+  justify-content: center;
 }
