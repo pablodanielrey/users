@@ -13,8 +13,8 @@ app.controller('TemplateCtrl', ['$scope', '$window', '$timeout', function($scope
 
 }])
 
-app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource", "$timeout", "$window", "Upload",
-   function ($scope, $location, $routeParams, $resource, $timeout, $window, Upload) {
+app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$window", "Upload", "$state",
+   function ($scope, $location, $resource, $timeout, $window, Upload, $state) {
 
         $scope.model = {
           avatar: '',
@@ -33,20 +33,20 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
           $location.path('/perfil_guardado_con_exito');
         }
 
-        var Usuario = $resource($scope.$parent.config.users_api_url + '/usuarios/:uid',
-              {
-                uid:$routeParams['uid']
-              }
-          );
-        var Correo = $resource($scope.$parent.config.users_api_url + '/usuarios/:uid/correos/:cid',
-              {
-                uid:$routeParams['uid']
-              },
-              {
-                'enviar_confirmar': {method:'GET', url: $scope.$parent.config.users_api_url + '/usuarios/:uid/correos/:cid/enviar_confirmar'},
-                'confirmar': {method:'POST', url: $scope.$parent.config.users_api_url + '/usuarios/:uid/correos/:cid/confirmar'}
-              }
-          );
+        // var Usuario = $resource($scope.$parent.config.users_api_url + '/usuarios/:uid',
+        //       {
+        //         uid:$routeParams['uid']
+        //       }
+        //   );
+        // var Correo = $resource($scope.$parent.config.users_api_url + '/usuarios/:uid/correos/:cid',
+        //       {
+        //         uid:$routeParams['uid']
+        //       },
+        //       {
+        //         'enviar_confirmar': {method:'GET', url: $scope.$parent.config.users_api_url + '/usuarios/:uid/correos/:cid/enviar_confirmar'},
+        //         'confirmar': {method:'POST', url: $scope.$parent.config.users_api_url + '/usuarios/:uid/correos/:cid/confirmar'}
+        //       }
+        //   );
 
 
         $scope._obtener_hash_avatar = function(correo) {
@@ -116,24 +116,23 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$routeParams", "$resource"
 
 
         $scope._inicializar = function() {
+
+          //$state.go('perfil.editar_perfil');
+
           if ($scope.$parent.config.users_api_url == undefined) {
             return;
           }
-          Usuario.get({uid:$routeParams['uid']}, function(u) {
-            console.log(u);
-            $scope.model.usuario = u;
-          });
-
-          Correo.query({uid:$routeParams['uid']}, function(ms) {
-            console.log(ms);
-            $scope.model.correos = ms;
-            $scope._cargar_url_avatar();
-          });
+          // Usuario.get({uid:$routeParams['uid']}, function(u) {
+          //   console.log(u);
+          //   $scope.model.usuario = u;
+          // });
+          //
+          // Correo.query({uid:$routeParams['uid']}, function(ms) {
+          //   console.log(ms);
+          //   $scope.model.correos = ms;
+          //   $scope._cargar_url_avatar();
+          // });
         }
-
-        $scope.$on('config', function(e) {
-          $scope._inicializar();
-        });
 
         $scope._inicializar();
 

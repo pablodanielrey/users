@@ -5,8 +5,9 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script> -->
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-resource.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
 
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-aria.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.js"></script>
@@ -35,9 +36,6 @@
   <script src='/componentes/preload/controller.js'></script>
   <link rel="stylesheet" type="text/css" href="/componentes/preload/style.css">
 
-  <script src='/componentes/consola/controller.js'></script>
-  <link rel="stylesheet" type="text/css" href="/componentes/consola/style.css">
-
   <!-- componentes -->
 
   <link rel="stylesheet" type="text/css" href="/css/fce.css">
@@ -65,7 +63,7 @@
 <body ng-app="MainApp" ng-controller="IndexCtrl">
   <div class='sistema'>
     <header class='cabecera' ng-include="'componentes/header/index.html'" ng-controller="HeaderCtrl"></header>
-    <main class='contenido' ng-view></main>
+    <main class='contenido' ui-view></main>
     <footer class='pie fdr fac' ng-include="'componentes/footer/index.html'" ng-controller="FooterCtrl"></header>
   </div>
 
