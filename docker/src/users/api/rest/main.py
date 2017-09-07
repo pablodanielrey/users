@@ -143,19 +143,34 @@ def crear_clave(uid):
         session.close()
 
 
-@app.route('/users/api/v1.0/usuarios/<uid>/clave_temporal', methods=['GET'])
+'''
+    para los chequeos de precondiciones
+'''
+
+@app.route('/users/api/v1.0/usuarios/<uid>/precondiciones', methods=['GET'])
 @jsonapi
-def clave_temporal(uid):
+def precondiciones(uid):
+    precondiciones = {}
+
     session = Session()
     try:
+        precondiciones['clave'] = {'debe_cambiarla':False}
         claves = UsersModel.claves(session, uid)
         for c in claves:
             if c.debe_cambiarla:
-                return {'debe_cambiarla':True}
-        return {'debe_cambiarla':False}
+                precondiciones['clave']['debe_cambiarla'] = True
+                break
+
+        precondiciones['correos'] = {'tiene_alternativo':False}
+        correos = UsersModel.correos(session, usuario=uid)
+        for c in correos:
+            if 'econo.unlp.edu.ar' not in c.email and c.confirmado and c.fecha_confirmado and not c.eliminado:
+                precondiciones['correos']['tiene_alternativo'] = True
+                break
     finally:
         session.close()
 
+    return precondiciones
 
 """
 @app.route('/users/api/v1.0/usuarios/<uid>/claves', methods=['GET'])

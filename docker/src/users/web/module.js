@@ -77,7 +77,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
   })
 
 
-  // --- cambio de clave forzado ---
+  // --- cambio de clave temporal ---
 
   $stateProvider
   .state('cambio_clave_temporal', {
@@ -106,6 +106,55 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
   })
 
 
+  // --- config correo alternativo ----
+
+  $stateProvider
+  .state('config_correo_alternativo', {
+    url:'/config_correo_alternativo/:uid',
+    params: {
+      uid: ''
+    },
+    templateUrl: 'componentes/config_correo_alternativo/index.html',
+    controller:'ConfigCorreoAlternativoCtrl'
+  })
+  .state('config_correo_alternativo.terminos_y_condiciones_alumnos', {
+    url:'/terminos_y_condiciones_alumnos',
+    templateUrl: 'componentes/config_correo_alternativo/templates/terminos_y_condiciones_alumnos.html'
+  })
+  .state('config_correo_alternativo.terminos_y_condiciones', {
+    url:'/terminos_y_condiciones',
+    templateUrl: 'componentes/config_correo_alternativo/templates/terminos_y_condiciones.html'
+  })
+  .state('config_correo_alternativo.ingresar_correo', {
+    url:'/ingresar_correo',
+    templateUrl: 'componentes/config_correo_alternativo/templates/ingresar_correo.html'
+  })
+  .state('config_correo_alternativo.ingresar_codigo', {
+    url:'/ingrar_codigo',
+    templateUrl: 'componentes/config_correo_alternativo/templates/ingresar_codigo.html'
+  })
+  .state('config_correo_alternativo.verificado_correctamente', {
+    url:'/verificado_correctamente',
+    templateUrl: 'componentes/config_correo_alternativo/templates/verificado_correctamente.html'
+  })
+
+
+  .state('config_correo_alternativo.EnvioCodigoError', {
+    url:'/error_envio_codigo',
+    templateUrl: 'componentes/config_correo_alternativo/templates/error_envio_codigo.html'
+  })
+  .state('config_correo_alternativo.CodigoIncorrectoError', {
+    url:'/error_codigo_incorrecto',
+    templateUrl: 'componentes/config_correo_alternativo/templates/error_codigo_incorrecto.html'
+  })
+  .state('config_correo_alternativo.CorreoBloqueadoError', {
+    url:'/error_correo_bloqueado',
+    templateUrl: 'componentes/config_correo_alternativo/templates/error_correo_bloqueado.html'
+  })
+  .state('config_correo_alternativo.SistemaError', {
+    url:'/error',
+    templateUrl: 'componentes/config_correo_alternativo/templates/error.html'
+  })
 
 }]);
 

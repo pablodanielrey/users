@@ -1,0 +1,8 @@
+<div class='pantalla codigo'>
+  Se ha enviado un código de confirmación a la cuenta. {{view.correo}}
+  Por favor ingrese el código recibido
+  Recuerde chequear "Correo no Deseado" y en caso de haber llegado a esa carpeta indicar que el correo NO es "Correo no Deseado".
+  <input type='text' ng-model='view.codigo'></input>
+  <button ng-click='estadoAnterior()'>Anterior</button>
+  <button ng-click='verificarCorreo()'>Verificar</button>
+</div>

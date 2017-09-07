@@ -1,16 +1,5 @@
 
-app.controller("ConfigCorreoCtrl", ["$scope", "$location", "$routeParams", "$resource", "$timeout", function ($scope, $location, $routeParams, $resource, $timeout) {
-
-    // -------------- manejo de pantallas y errores ------------------------------------------------------ //
-    $scope.$parent.errores_posibles = ['EnvioCodigoError', 'CodigoIncorrectoError', 'CorreoBloqueadoError', 'SistemaError'];
-    $scope.$parent.mensajes = [];
-
-    $scope.$parent.estados = ['EstadoMensajeAlumnos','EstadoMensajeDocentes','EstadoConfigCorreo','EstadoIngreseCodigo','EstadoOK'];
-    $timeout(function() {
-      $scope.$parent.estado = 'EstadoMensajeAlumnos';
-      $scope.$parent.mensaje = {mensaje:'', codigo:''};
-    });
-    //////////////////
+app.controller("ConfigCorreoAlternativoCtrl", ["$scope", "$resource", "$timeout", function ($scope, $resource, $timeout) {
 
 
   // var Correo = $resource('http://127.0.0.1:7001/users/api/v1.0/correos/:id', {id:null},

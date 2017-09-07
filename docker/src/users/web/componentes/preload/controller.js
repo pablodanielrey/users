@@ -11,23 +11,19 @@ app.controller("PreloadCtrl", ["$scope", "$http", '$timeout', '$state', function
     var api = $scope.config.users_api_url;
 
     // chequeo la clave
-    $scope.view.progreso = 10;
-    $http.get(api + '/usuarios/' + $scope.config.usuario.sub + '/clave_temporal')
+    $scope.view.progreso = 30;
+    $http.get(api + '/usuarios/' + $scope.config.usuario.sub + '/precondiciones')
     .then(function(d) {
         $scope.view.progreso = 50;
-        if (d.data.debe_cambiarla) {
+        if (d.data.clave.debe_cambiarla) {
           $state.go('cambio_clave_temporal');
-        } else {
-          return $http.get(api + '/usuarios/' + $scope.config.usuario.sub + '/correos/');
+          return;
         }
-      }
 
-    // chequeo los correos
-    ).then(function(d) {
-        $scope.view.progreso = 90;
-        var correos = d.data;
-        for (var i = 0; i < correos.length; i++) {
-          console.log(correos[i]);
+        $scope.view.progreso = 80;
+        if (!d.data.correos.tiene_alternativo) {
+          $state.go('config_correo_alternativo');
+          return;
         }
 
         // voy al perfil
