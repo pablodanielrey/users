@@ -60,13 +60,17 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     templateUrl: 'componentes/cambio_clave_temporal/index.html',
     controller:'CambioClaveTempCtrl'
   })
-  .state('cambio_clave_temporal.editar_perfil', {
-    url:'/editar_perfil',
-    templateUrl: 'componentes/perfil/templates/editar_perfil.html'
+  .state('cambio_clave_temporal.ingresar_clave', {
+    url:'/ingresar_clave',
+    templateUrl: 'componentes/cambio_clave_temporal/templates/ingresar_clave.html'
   })
-  .state('perfil.errorActualizandoUsuario', {
-    url:'/error_actualizando_usuario',
-    templateUrl: 'componentes/perfil/templates/error_actualizando_usuario.html'
+  .state('cambio_clave_temporal.cambio_exitoso', {
+    url:'/cambio_exitoso',
+    templateUrl: 'componentes/cambio_clave_temporal/templates/cambio_exitoso.html'
+  })
+  .state('cambio_clave_temporal.FormatoDeClaveIncorrectoError', {
+    url:'/formato_incorrecto',
+    templateUrl: 'componentes/cambio_clave_temporal/templates/formato_incorrecto.html'
   })
 
 

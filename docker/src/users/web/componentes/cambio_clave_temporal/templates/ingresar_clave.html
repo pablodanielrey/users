@@ -1,0 +1,34 @@
+<h1>Cambio de clave</h1><hr>
+<div>
+    <form>
+        <div class="form-group direccionFlex"><input class="form-control" placeholder="Ingrese nueva clave" type='{{view.tipo}}' ng-model='view.clave1'></input>
+          <button class="btn btn-info  btnVerClave" ng-click='cambiarTipo()'>
+              <div ng-if='view.tipo == "password"'><i class="fa fa-eye" aria-hidden="true"></i> </div>
+              <div ng-if='view.tipo == "text"'><i class="fa fa-eye-slash" aria-hidden="true"></i></div>
+          </button>
+        </div>
+        <div class="form-group direccionFlex"><input class="form-control" placeholder="Repita la nueva clave" type='{{view.tipo}}' ng-model='view.clave2'></input>
+          <button class="btn btn-info btnVerClave" ng-click='cambiarTipo()'>
+              <div ng-if='view.tipo == "password"'><i class="fa fa-eye" aria-hidden="true"></i></div>
+              <div ng-if='view.tipo == "text"'><i class="fa fa-eye-slash" aria-hidden="true"></i></div>
+          </button>
+        </div>
+        <div class=""><button class="btn btn-primary btnAcceder" ng-click='cambiarClave()'>Guardar</button></div>
+   </form>
+   <div class="contenedorErrorInterno" ng-if='view.clave1 != view.clave2' class='error'>
+     <b><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></b> La contraseña no coincide
+   </div>
+   <div class="contenedorErrorInterno" ng-if='view.clave1 != view.clave2' class='error'>
+     <b><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></b> La contraseña no cumple con los <br> requisitos
+   </div>
+   <hr>
+</div>
+<div>
+    <b><i class="fa fa-info-circle" aria-hidden="true"></i></b> Requisitos de contraseña:<br>
+    <div class=requisitosContrasena>
+      <i class="fa fa-angle-right" aria-hidden="true"></i> Tener una longitud mínima de 8 caracteres.<br>
+      <i class="fa fa-angle-right" aria-hidden="true"></i> Estar compuesta de forma alfanumérica<br>
+      (letras y números)
+    </div>
+
+</div>
