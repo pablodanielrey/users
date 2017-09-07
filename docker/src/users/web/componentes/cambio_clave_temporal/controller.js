@@ -1,7 +1,6 @@
 
 app.controller("CambioClaveTempCtrl", ["$scope", "$resource", "$timeout", '$state', '$stateParams', function ($scope, $resource, $timeout, $state, $stateParams) {
 
-  $scope.uid = $stateParams['uid']
   $scope.res = { };
   $scope.view = {
       tipos_de_inputs:['password','text'],
@@ -32,7 +31,7 @@ app.controller("CambioClaveTempCtrl", ["$scope", "$resource", "$timeout", '$stat
       return;
     }
     var c = new $scope.res.Clave({clave:$scope.view.clave1});
-    c.$save({uid:$scope.uid}, function(c2) {
+    c.$save({uid:$scope.config.usuario.sub}, function(c2) {
       $scope.view.clave1 = '';
       $scope.view.clave2 = '';
       $state.go('cambio_clave_temporal.cambio_exitoso');
@@ -45,8 +44,9 @@ app.controller("CambioClaveTempCtrl", ["$scope", "$resource", "$timeout", '$stat
   // inicializar
   $scope.$parent.obtener_config().then(
     function(c) {
-      var api = c.data.users_api_url;
-      $scope.res.Clave = $resource(api + '/usuarios/:uid/claves/', {uid:$scope.uid});
+      $scope.config = c.data;
+      var api = $scope.config.users_api_url;
+      $scope.res.Clave = $resource(api + '/usuarios/:uid/claves/', {uid:$scope.config.usuario.sub});
       $state.go('cambio_clave_temporal.ingresar_clave');
     },
     function(err) {
