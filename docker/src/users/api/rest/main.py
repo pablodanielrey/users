@@ -2,6 +2,7 @@ import logging
 logging.getLogger().setLevel(logging.INFO)
 import sys
 import base64
+import hashlib
 
 from flask import Flask, abort, make_response, jsonify, url_for, request, json, send_from_directory, send_file
 from users.model import UsersModel
@@ -22,14 +23,15 @@ reset.registrarApiReseteoClave(app)
 @app.route('/users/api/v1.0/usuarios/', methods=['OPTIONS'], defaults={'path':None})
 @app.route('/users/api/v1.0/usuarios/<string:path>', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/usuarios/<path:path>', methods=['OPTIONS'])
-@app.route('/users/api/v1.0/usuarios/<uid>/correos/', methods=['OPTIONS'], defaults={'cid':None})
-@app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>', methods=['OPTIONS'])
-@app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>/enviar_confirmar', methods=['OPTIONS'])
-@app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>/confirmar', methods=['OPTIONS'])
-@app.route('/users/api/v1.0/usuarios/<uid>/avatar/', methods=['OPTIONS'], defaults={'hash':None})
-@app.route('/users/api/v1.0/usuarios/<uid>/avatar/<hash>', methods=['OPTIONS'])
-@app.route('/users/api/v1.0/usuarios/<uid>/avatar/<hash>/contenido', methods=['OPTIONS'])
-@app.route('/users/api/v1.0/usuarios/<uid>/claves/', methods=['OPTIONS'])
+# @app.route('/users/api/v1.0/usuarios/<uid>/correos/', methods=['OPTIONS'], defaults={'cid':None})
+# @app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>', methods=['OPTIONS'])
+# @app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>/enviar_confirmar', methods=['OPTIONS'])
+# @app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>/confirmar', methods=['OPTIONS'])
+# @app.route('/users/api/v1.0/usuarios/<uid>/avatar/', methods=['OPTIONS'], defaults={'hash':None})
+# @app.route('/users/api/v1.0/usuarios/<uid>/avatar/.json', methods=['OPTIONS'], defaults={'hash':None})
+# @app.route('/users/api/v1.0/usuarios/<uid>/avatar/<hash>', methods=['OPTIONS'])
+# @app.route('/users/api/v1.0/usuarios/<uid>/avatar/<hash>.json', methods=['OPTIONS'])
+# @app.route('/users/api/v1.0/usuarios/<uid>/claves/', methods=['OPTIONS'])
 def options(*args, **kwargs):
     '''
         para autorizar el CORS
@@ -48,13 +50,13 @@ def options(*args, **kwargs):
 
 import requests
 
-@app.route('/users/api/v1.0/avatar/', methods=['GET'], defaults={'hash':None})
-@app.route('/users/api/v1.0/avatar/<hash>', methods=['GET'])
+@app.route('/users/api/v1.0/avatar/<hash>.json', methods=['GET'])
 @jsonapi
 def obtener_avatar(hash):
     return UsersModel.obtener_avatar(hash=hash)
 
-@app.route('/users/api/v1.0/avatar/<hash>/contenido', methods=['GET'])
+@app.route('/users/api/v1.0/avatar/', methods=['GET'], defaults={'hash':None})
+@app.route('/users/api/v1.0/avatar/<hash>', methods=['GET'])
 def obtener_avatar_binario(hash):
     avatar = obtener_avatar(hash)
     r = make_response()
@@ -71,15 +73,23 @@ def agregar_avatar(hash):
     UsersModel.actualizar_avatar(hash, contenido)
     return {'status':'OK','status_code':200}, 200
 
-@app.route('/users/api/v1.0/usuarios/<uid>/avatar/', methods=['GET'], defaults={'hash':None})
-@app.route('/users/api/v1.0/usuarios/<uid>/avatar/<hash>', methods=['GET'])
+@app.route('/users/api/v1.0/usuarios/<uid>/avatar/', methods=['PUT','POST'])
 @jsonapi
-def obtener_avatar_por_usuario(uid, hash):
-    return obtener_avatar(hash)
+def agregar_avatar_por_usuario(uid):
+    h = hashlib.md5(uid.encode()).hexdigest()
+    return agregar_avatar(h)
 
-@app.route('/users/api/v1.0/usuarios/<uid>/avatar/<hash>/contenido', methods=['GET'])
-def obtener_avatar_binario_por_usuario(uid, hash):
-    return obtener_avatar_binario(hash)
+@app.route('/users/api/v1.0/usuarios/<uid>/avatar/.json', methods=['GET'])
+@jsonapi
+def obtener_avatar_por_usuario(uid):
+    h = hashlib.md5(uid.encode()).hexdigest()
+    return obtener_avatar(h)
+
+@app.route('/users/api/v1.0/usuarios/<uid>/avatar/', methods=['GET'])
+def obtener_avatar_binario_por_usuario(uid):
+    h = hashlib.md5(uid.encode()).hexdigest()
+    return obtener_avatar_binario(h)
+
 
 
 

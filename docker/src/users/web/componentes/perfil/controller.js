@@ -16,6 +16,12 @@ app.controller('TemplateCtrl', ['$scope', '$window', '$timeout', function($scope
 app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$window", "Upload", "$state", '$stateParams',
    function ($scope, $location, $resource, $timeout, $window, Upload, $state, $stateParams) {
 
+
+        $scope.res = {
+          Usuario: null,
+          Correo: null
+        };
+
         $scope.model = {
           avatar: '',
           usuario: {},
@@ -27,65 +33,19 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
           cambiando_imagen_estilo: ''
         }
 
-        var Usuario = $resource($scope.$parent.config.users_api_url + '/usuarios/:uid',
-               {
-                 uid:$stateParams['uid']
-               }
-           );
-        var Correo = $resource($scope.$parent.config.users_api_url + '/usuarios/:uid/correos/:cid',
-               {
-                 uid:$stateParams['uid']
-               },
-               {
-                 'enviar_confirmar': {method:'GET', url: $scope.$parent.config.users_api_url + '/usuarios/:uid/correos/:cid/enviar_confirmar'},
-                 'confirmar': {method:'POST', url: $scope.$parent.config.users_api_url + '/usuarios/:uid/correos/:cid/confirmar'}
-               }
-           );
-
-
-        $scope._obtener_hash_avatar = function(correo) {
-          var md = forge.md.md5.create();
-          md.update(correo);
-          var hs = md.digest().toHex();
-          return hs
-        }
-
-        $scope._obtener_primer_correo = function() {
-          if ($scope.model.correos.length <= 0) {
-            return null;
-          }
-          for (var i = 0; i < $scope.model.correos.length; i++) {
-            if ($scope.esInstitucional($scope.model.correos[i])) {
-              return $scope.model.correos[i];
-            }
-          }
-          // si no tiene institucional entonces retorno uno de los alternativos
-          return $scope.model.correos[0];
-        }
-
         $scope._cargar_url_avatar = function() {
-          var correo = $scope._obtener_primer_correo();
-          if (correo == null) {
-            return;
-          }
-          var hs = $scope._obtener_hash_avatar(correo.email);
-          $scope.model.avatar = $scope.$parent.config.users_api_url + '/avatar/' + hs + '/contenido' + '?' + new Date().getTime();
+          var uid = $stateParams['uid'];
+          $scope.model.avatar = $scope.config.users_api_url + '/usuarios/' + uid + '/avatar/?' + new Date().getTime();
         }
 
         $scope.subir_avatar = function(dataUrl, name) {
-
           // escondo la imagen para cropear
           $scope.view.cambiando_imagen_estilo = '';
 
-          var correo = $scope._obtener_primer_correo();
-          if (correo == null) {
-            console.log('no tiene correo para asignarle algun avatar');
-            return;
-          }
-          var hs = $scope._obtener_hash_avatar(correo.email);
+          var uid = $stateParams['uid'];
           Upload.upload(
             {
-              url: $scope.$parent.config.users_api_url + '/avatar/' + hs,
+              url: $scope.$parent.config.users_api_url + '/usuarios/' + uid + '/avatar/',
               data: {
                   fileName: name,
                   file: Upload.dataUrltoBlob(dataUrl, name)
@@ -93,7 +53,7 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
             }).then(
             function (response) {
               console.log(response);
-              $scope.model.avatar = $scope.$parent.config.users_api_url + '/avatar/' + hs + '/contenido' + '?' + new Date().getTime();
+              $state.reload();
             },
             function (err) {
               console.log(err);
@@ -109,51 +69,16 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
         }
 
 
-        $scope._inicializar = function() {
-
-          if ($stateParams.uid == '') {
-            $scope.$parent.obtener_config().then(
-              function(c) {
-                console.log(c.data.usuario);
-                $state.go('perfil', {uid: c.data.usuario.sub}, {reload: true});
-              },
-              function(err) {
-                console.log(err);
-                $scope.setearError(err.data);
-              }
-            );
-            return;
-          }
-
-          if ($scope.$parent.config.users_api_url == undefined) {
-            return;
-          }
-          Usuario.get({uid:$stateParams['uid']}, function(u) {
-             console.log(u);
-             $scope.model.usuario = u;
-           });
-
-          Correo.query({uid:$stateParams['uid']}, function(ms) {
-             console.log(ms);
-             $scope.model.correos = ms;
-             $scope._cargar_url_avatar();
-          });
-
-          $state.go('perfil.editar_perfil', {uid:$stateParams['uid']});
-        }
-
-        $scope._inicializar();
 
 
         $scope.actualizarUsuario = function(usuario) {
           usuario.$save({uid:usuario.id},
             function(r) {
-              console.log(r);
-              $window.location.reload();
+              $state.reload();
             },
             function(err) {
               console.log(err);
-              $window.location.reload();
+              $state.reload();
             });
         };
 
@@ -186,7 +111,7 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
         $scope.eliminarCorreo = function(correo) {
           correo.$delete({cid:correo.id, uid:correo.usuario_id},
             function(correo) {
-              Correo.query({uid:$scope.model.usuario.id}, function(cs) {
+              $scope.res.Correo.query({uid:$scope.model.usuario.id}, function(cs) {
                 $scope.model.correos = cs;
               });
             },
@@ -198,7 +123,7 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
         $scope.enviarConfirmarCorreo = function(correo) {
           correo.$enviar_confirmar({cid:correo.id, uid:correo.usuario_id},
             function() {
-              Correo.query({uid:$scope.model.usuario.id}, function(cs) {
+              $scope.res.Correo.query({uid:$scope.model.usuario.id}, function(cs) {
                 $scope.model.correos = cs;
               });
             },
@@ -210,7 +135,7 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
         $scope.confirmarCorreo = function(correo) {
           correo.$confirmar({cid:correo.id, uid:correo.usuario_id, codigo:correo.codigo},
             function() {
-              Correo.query({uid:$scope.model.usuario.id}, function(cs) {
+              $scope.res.Correo.query({uid:$scope.model.usuario.id}, function(cs) {
                 $scope.model.correos = cs;
               });
             },
@@ -224,14 +149,14 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
           if ($scope.model.emailAAgregar == null) {
             return;
           }
-          var correo = new Correo({
+          var correo = new $scope.res.Correo({
               email: $scope.model.emailAAgregar,
               confirmado: false
           });
           correo.$save({uid:$scope.model.usuario.id},
             function(c) {
               $scope.model.emailAAgregar = '';
-              Correo.query({uid:$scope.model.usuario.id}, function(cs) {
+              $scope.res.Correo.query({uid:$scope.model.usuario.id}, function(cs) {
                 $scope.model.correos = cs;
               });
             },
@@ -241,4 +166,76 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
             });
 
         }
+
+
+        $scope._inicializar = function() {
+
+          if ($scope.inicializando) {
+            return;
+          }
+
+          // chequeo si tengo cargada la config del sistema.
+          if ($scope.config.usuario == undefined) {
+            $scope.$parent.obtener_config().then(
+              function(c) {
+                console.log(c.data.usuario);
+                $scope.config = c.data;
+
+                $scope.inicializando = false;
+                $state.go('perfil', {uid: $scope.config.usuario.sub}, {reload: true});
+              },
+              function(err) {
+                console.log(err);
+                $scope.inicializando = false;
+                $scope.setearError(err.data);
+              }
+            );
+            return;
+          }
+
+          // el estado debe tener el uid como parámetro
+          if ($stateParams.uid == '') {
+            $state.go('perfil', {uid: $scope.config.usuario.sub}, {reload: true});
+            return;
+          }
+
+          // defino los recursos a usar
+          $scope.res = {
+            Usuario: $resource(
+              $scope.$parent.config.users_api_url + '/usuarios/:uid',
+              {
+                uid:$stateParams['uid']
+              }
+            ),
+            Correo: $resource($scope.$parent.config.users_api_url + '/usuarios/:uid/correos/:cid',
+              {
+               uid:$stateParams['uid'],
+               cid:null
+              },
+              {
+               'enviar_confirmar': {method:'GET', url: $scope.config.users_api_url + '/usuarios/:uid/correos/:cid/enviar_confirmar'},
+               'confirmar': {method:'POST', url: $scope.config.users_api_url + '/usuarios/:uid/correos/:cid/confirmar'}
+              }
+           )
+         };
+
+         // cargo los recursos.
+        $scope.res.Usuario.get({uid:$stateParams['uid']}, function(u) {
+           console.log(u);
+           $scope.model.usuario = u;
+         });
+
+
+        $scope.res.Correo.query({uid:$stateParams['uid']}, function(ms) {
+           console.log(ms);
+           $scope.model.correos = ms;
+        });
+
+        $scope._cargar_url_avatar();
+        $state.go('perfil.editar_perfil', {uid:$stateParams['uid']});
+      }
+
+      $scope._inicializar();
+
+
 }]);
