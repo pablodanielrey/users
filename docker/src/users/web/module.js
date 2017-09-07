@@ -19,6 +19,14 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     templateUrl: 'componentes/preload/index.html',
     controller:'PreloadCtrl'
   })
+  .state('preload.bienvenido', {
+    url:'/bienvenido',
+    templateUrl: 'componentes/preload/templates/bienvenido.html',
+  })
+  .state('preload.error', {
+    url:'/error',
+    templateUrl: 'componentes/preload/templates/error.html',
+  })
 
 
   // ---- perfil ----
