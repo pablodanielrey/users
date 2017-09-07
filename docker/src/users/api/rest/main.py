@@ -50,13 +50,13 @@ def options(*args, **kwargs):
 
 import requests
 
-@app.route('/users/api/v1.0/avatar/<hash>.json', methods=['GET'])
-@jsonapi
+# @app.route('/users/api/v1.0/avatar/<hash>.json', methods=['GET'])
+# @jsonapi
 def obtener_avatar(hash):
     return UsersModel.obtener_avatar(hash=hash)
 
-@app.route('/users/api/v1.0/avatar/', methods=['GET'], defaults={'hash':None})
-@app.route('/users/api/v1.0/avatar/<hash>', methods=['GET'])
+# @app.route('/users/api/v1.0/avatar/', methods=['GET'], defaults={'hash':None})
+# @app.route('/users/api/v1.0/avatar/<hash>', methods=['GET'])
 def obtener_avatar_binario(hash):
     avatar = obtener_avatar(hash)
     r = make_response()
@@ -89,7 +89,6 @@ def obtener_avatar_por_usuario(uid):
 def obtener_avatar_binario_por_usuario(uid):
     h = hashlib.md5(uid.encode()).hexdigest()
     return obtener_avatar_binario(h)
-
 
 
 
@@ -144,6 +143,20 @@ def crear_clave(uid):
         session.close()
 
 
+@app.route('/users/api/v1.0/usuarios/<uid>/clave_temporal', methods=['GET'])
+@jsonapi
+def clave_temporal(uid):
+    session = Session()
+    try:
+        claves = UsersModel.claves(session, uid)
+        for c in claves:
+            if c.debe_cambiarla:
+                return {'debe_cambiarla':True}
+        return {'debe_cambiarla':False}
+    finally:
+        session.close()
+
+
 """
 @app.route('/users/api/v1.0/usuarios/<uid>/claves', methods=['GET'])
 @app.route('/users/api/v1.0/usuarios/<uid>/claves/', methods=['GET'])
@@ -154,7 +167,9 @@ def obtener_claves(uid):
         return UsersModel.claves(session, uid)
     finally:
         session.close()
+"""
 
+"""
 @app.route('/users/api/v1.0/claves/', methods=['GET'], defaults={'cid':None})
 @app.route('/users/api/v1.0/claves/<cid>', methods=['GET'])
 @jsonapi
