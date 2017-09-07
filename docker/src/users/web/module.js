@@ -82,6 +82,9 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
   $stateProvider
   .state('cambio_clave_temporal', {
     url:'/cambio_clave_temporal',
+    params: {
+      uid: ''
+    },
     templateUrl: 'componentes/cambio_clave_temporal/index.html',
     controller:'CambioClaveTempCtrl'
   })

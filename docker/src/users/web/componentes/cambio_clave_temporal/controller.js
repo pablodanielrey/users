@@ -1,5 +1,5 @@
 
-app.controller("ConfigClaveCtrl", ["$scope", "$location", "$routeParams", "$resource", "$timeout", "$window", function ($scope, $location, $routeParams, $resource, $timeout, $window) {
+app.controller("ConfigClaveCtrl", ["$scope", "$resource", "$timeout", '$state', '$stateParams', function ($scope, $resource, $timeout, $state, $stateParams) {
 
   // var Clave = $resource('http://127.0.0.1:7001/users/api/v1.0/usuarios/:uid/claves/', {uid:null});
 
@@ -12,7 +12,7 @@ app.controller("ConfigClaveCtrl", ["$scope", "$location", "$routeParams", "$reso
                                 });
 */
 
-  $scope.uid = $routeParams['uid']
+  $scope.uid = $stateParams['uid']
   $scope.view = {
       tipos_de_inputs:['password','text'],
       tipo: 'password',
