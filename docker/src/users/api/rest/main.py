@@ -29,6 +29,7 @@ reset.registrarApiReseteoClave(app)
 @app.route('/users/api/v1.0/usuarios/<uid>/avatar/', methods=['OPTIONS'], defaults={'hash':None})
 @app.route('/users/api/v1.0/usuarios/<uid>/avatar/<hash>', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/usuarios/<uid>/avatar/<hash>/contenido', methods=['OPTIONS'])
+@app.route('/users/api/v1.0/usuarios/<uid>/claves/', methods=['OPTIONS'])
 def options(*args, **kwargs):
     '''
         para autorizar el CORS

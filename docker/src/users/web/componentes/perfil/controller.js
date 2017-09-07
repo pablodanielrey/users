@@ -111,6 +111,20 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
 
         $scope._inicializar = function() {
 
+          if ($stateParams.uid == '') {
+            $scope.$parent.obtener_config().then(
+              function(c) {
+                console.log(c.data.usuario);
+                $state.go('perfil', {uid: c.data.usuario.sub}, {reload: true});
+              },
+              function(err) {
+                console.log(err);
+                $scope.setearError(err.data);
+              }
+            );
+            return;
+          }
+
           if ($scope.$parent.config.users_api_url == undefined) {
             return;
           }

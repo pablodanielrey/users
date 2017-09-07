@@ -81,7 +81,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 
   $stateProvider
   .state('cambio_clave_temporal', {
-    url:'/cambio_clave_temporal',
+    url:'/cambio_clave_temporal/:uid',
     params: {
       uid: ''
     },

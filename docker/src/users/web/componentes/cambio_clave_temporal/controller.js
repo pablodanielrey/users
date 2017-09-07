@@ -1,18 +1,8 @@
 
-app.controller("ConfigClaveCtrl", ["$scope", "$resource", "$timeout", '$state', '$stateParams', function ($scope, $resource, $timeout, $state, $stateParams) {
-
-  // var Clave = $resource('http://127.0.0.1:7001/users/api/v1.0/usuarios/:uid/claves/', {uid:null});
-
-  /*
-  var Usuario = $resource('http://127.0.0.1:7001/users/api/v1.0/usuarios/:id', {id:null});
-  var Correo = $resource('http://127.0.0.1:7001/users/api/v1.0/correos/:id', {id:null},
-                                {
-                                    'enviar_confirmar': { method:'POST', url: 'http://127.0.0.1:7001/users/api/v1.0/enviar_confirmar_correo/:id' },
-                                    'confirmar': { method:'POST', url: 'http://127.0.0.1:7001/users/api/v1.0/confirmar_correo/:id/:code' }
-                                });
-*/
+app.controller("CambioClaveTempCtrl", ["$scope", "$resource", "$timeout", '$state', '$stateParams', function ($scope, $resource, $timeout, $state, $stateParams) {
 
   $scope.uid = $stateParams['uid']
+  $scope.res = { };
   $scope.view = {
       tipos_de_inputs:['password','text'],
       tipo: 'password',
@@ -20,6 +10,7 @@ app.controller("ConfigClaveCtrl", ["$scope", "$resource", "$timeout", '$state', 
       clave1: '',
       clave2: '',
   };
+
 
   $scope.cambiarTipo = function() {
     $scope.view.indice = ($scope.view.indice + 1) % $scope.view.tipos_de_inputs.length;
@@ -30,19 +21,39 @@ app.controller("ConfigClaveCtrl", ["$scope", "$resource", "$timeout", '$state', 
     $window.location.href = '/';
   }
 
+  $scope.setearError = function(err) {
+    $state.go('cambio_clave_temporal.' + err.error);
+  }
+
   $scope.cambiarClave = function() {
     if ($scope.view.clave1 != $scope.view.clave2) {
-      alert('las claves no son iguales');
+      // no debería ocurrir pero por las dudas lo chequeo
+      console.log('las claves no son iguales');
       return;
     }
-    // var c = new Clave({clave:$scope.view.clave1});
-    // c.$save({uid:$scope.uid}, function(c2) {
-    //   $scope.view.clave1 = '';
-    //   $scope.view.clave2 = '';
-    //   $scope.pasoSiguiente();
-    // }, function(err) {
-    //   alert(err);
-    // })
+    var c = new $scope.res.Clave({clave:$scope.view.clave1});
+    c.$save({uid:$scope.uid}, function(c2) {
+      $scope.view.clave1 = '';
+      $scope.view.clave2 = '';
+      $state.go('cambio_clave_temporal.cambio_exitoso');
+    }, function(err) {
+      console.log(err);
+      $scope.setearError(err.data);
+    })
   }
+
+  // inicializar
+  $scope.$parent.obtener_config().then(
+    function(c) {
+      var api = c.data.users_api_url;
+      $scope.res.Clave = $resource(api + '/usuarios/:uid/claves/', {uid:$scope.uid});
+      $state.go('cambio_clave_temporal.ingresar_clave');
+    },
+    function(err) {
+      console.log(err);
+      $scope.setearError(err.data);
+    }
+  );
+
 
 }]);
