@@ -72,6 +72,10 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     url:'/formato_incorrecto',
     templateUrl: 'componentes/cambio_clave_temporal/templates/formato_incorrecto.html'
   })
+  .state('cambio_clave_temporal.SistemaError', {
+    url:'/error',
+    templateUrl: 'componentes/cambio_clave_temporal/templates/error_sistema.html'
+  })
 
 
 
