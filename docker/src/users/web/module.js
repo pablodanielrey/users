@@ -9,7 +9,7 @@ app.config(function($mdThemingProvider) {
 
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
-  $urlRouterProvider.otherwise("/perfil/");
+  $urlRouterProvider.otherwise("/preload");
 
   // --- preload ----
 
@@ -25,12 +25,18 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 
   $stateProvider
   .state('perfil', {
-    url:'/perfil/:uid',
+    url:'/perfil',
+    params: {
+      uid: ''
+    },
     templateUrl: 'componentes/perfil/index.html',
     controller:'PerfilCtrl'
   })
   .state('perfil.editar_perfil', {
-    url:'/editar_perfil',
+    url:'/editar_perfil/:uid',
+    // params: {
+    //   uid: ''
+    // },
     templateUrl: 'componentes/perfil/templates/editar_perfil.html'
   })
   .state('perfil.errorActualizandoUsuario', {

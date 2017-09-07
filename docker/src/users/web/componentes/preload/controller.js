@@ -1,9 +1,10 @@
 
-app.controller("PreloadCtrl", ["$scope", "$http", '$location', function ($scope, $http, $location) {
+app.controller("PreloadCtrl", ["$scope", "$http", '$state', function ($scope, $http, $state) {
 
   $scope._inicializar = function() {
     if ($scope.$parent.config != null && $scope.$parent.config.usuario != null) {
-      $location.path('/perfil/' + $scope.$parent.config.usuario['sub']);
+      var uid = $scope.$parent.config.usuario['sub']
+      $state.go('perfil', {uid: uid});
     }
   }
 

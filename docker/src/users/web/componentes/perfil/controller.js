@@ -125,12 +125,10 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
              $scope._cargar_url_avatar();
           });
 
-          $state.go('perfil.editar_perfil');
+          $state.go('perfil.editar_perfil', {uid:$stateParams['uid']});
         }
 
         $scope._inicializar();
-
-
 
 
         $scope.actualizarUsuario = function(usuario) {
