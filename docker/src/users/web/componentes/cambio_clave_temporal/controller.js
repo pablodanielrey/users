@@ -1,18 +1,6 @@
 
 app.controller("ConfigClaveCtrl", ["$scope", "$location", "$routeParams", "$resource", "$timeout", "$window", function ($scope, $location, $routeParams, $resource, $timeout, $window) {
 
-  // -------------- manejo de pantallas y errores ------------------------------------------------------ //
-  $scope.$parent.errores_posibles = ['FormatoDeClaveIncorrectoError', 'SistemaError'];
-  $scope.$parent.mensajes = [];
-
-  $scope.$parent.estados = ['EstadoClaveVencida','EstadoCambioClave','EstadoOK'];
-  $timeout(function() {
-    $scope.$parent.estado = 'EstadoClaveVencida';
-    $scope.$parent.mensaje = {mensaje:'', codigo:''};
-  });
-  //////////////////
-
-
   // var Clave = $resource('http://127.0.0.1:7001/users/api/v1.0/usuarios/:uid/claves/', {uid:null});
 
   /*

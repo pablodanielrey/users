@@ -11,9 +11,21 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 
   $urlRouterProvider.otherwise("/perfil/");
 
+  // --- preload ----
+
+  $stateProvider
+  .state('preload', {
+    url:'/preload',
+    templateUrl: 'componentes/preload/index.html',
+    controller:'PreloadCtrl'
+  })
+
+
+  // ---- perfil ----
+
   $stateProvider
   .state('perfil', {
-    url:'/perfil',
+    url:'/perfil/:uid',
     templateUrl: 'componentes/perfil/index.html',
     controller:'PerfilCtrl'
   })
@@ -45,7 +57,6 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     url:'/cargando',
     templateUrl: 'componentes/perfil/templates/preload.html'
   })
-
   .state('perfil.FormatoIncorrecto', {
     url:'/prueba2',
     templateUrl: 'componentes/perfil/templates/error_servidor.html'
