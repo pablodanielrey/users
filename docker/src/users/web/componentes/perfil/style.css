@@ -42,6 +42,7 @@
   top:0;
   left: 0;
   display: none;
+  z-index: 999;
 }
 
 .perfil .cambiando_imagen .contenedorAreaDeCorte {
@@ -72,12 +73,6 @@
 }
 
 
-.perfil .acciones {
-  /*display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
-  grid-template-areas: "contenido";*/
-}
 
 .perfil .cortar_imagen {
   margin-top: 5px;
