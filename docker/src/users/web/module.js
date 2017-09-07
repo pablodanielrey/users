@@ -52,6 +52,25 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
   })
 
 
+  // --- cambio de clave forzado ---
+
+  $stateProvider
+  .state('cambio_clave_temporal', {
+    url:'/cambio_clave_temporal',
+    templateUrl: 'componentes/cambio_clave_temporal/index.html',
+    controller:'CambioClaveTempCtrl'
+  })
+  .state('cambio_clave_temporal.editar_perfil', {
+    url:'/editar_perfil',
+    templateUrl: 'componentes/perfil/templates/editar_perfil.html'
+  })
+  .state('perfil.errorActualizandoUsuario', {
+    url:'/error_actualizando_usuario',
+    templateUrl: 'componentes/perfil/templates/error_actualizando_usuario.html'
+  })
+
+
+
 }]);
 
 
