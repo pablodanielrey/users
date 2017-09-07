@@ -4,6 +4,26 @@
 
     <!-- imagen -->
     <div class='avatar {{view.cambiando_imagen_estilo}}'>
+        <div class="contenedorAreaDeCorte fdr fac">
+          <div class='area_de_corte'>
+            <img-crop class="imgAreaDeCorte" image="picFile | ngfDataUrl" result-image="croppedDataUrl" ng-init="croppedDataUrl=''"></img-crop>
+          </div>
+          <div class="fdr fjc"><button class='btn btnPrimary cortar_imagen' ng-click="subir_avatar(croppedDataUrl, picFile.name);"><i class="fa fa-scissors" aria-hidden="true"></i>
+ Cortar Imagen</button></div>
+
+        </div>
+
+
+        <div class='area_de_imagen'>
+            <img ng-src='{{model.avatar}}'></img>
+        </div>
+        <div class='acciones'>
+          <button class='cambiar_imagen' ngf-select ng-model="picFile" accept="image/*" ng-click="cambiar_imagen();">Cambiar</button>
+        </div>
+    </div>
+
+
+    <!-- <div class='avatar {{view.cambiando_imagen_estilo}}'>
         <div class='area_de_corte'>
           <img-crop image="picFile | ngfDataUrl" result-image="croppedDataUrl" ng-init="croppedDataUrl=''"></img-crop>
         </div>
@@ -15,7 +35,7 @@
           <button class='cortar_imagen' ng-click="subir_avatar(croppedDataUrl, picFile.name);">Cortar</button>
           <button class='cambiar_imagen' ngf-select ng-model="picFile" accept="image/*" ng-click="cambiar_imagen();">Cambiar</button>
         </div>
-    </div>
+    </div> -->
     <!--  -->
 
     <div>
