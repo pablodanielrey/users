@@ -3,7 +3,8 @@ app = angular.module('MainApp', ['ui.router', 'ngResource','ngFileUpload', 'ngIm
 app.config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('blue')
-    .accentPalette('deep-purple');
+    .warnPalette('red')
+    .accentPalette('cyan');
 });
 
 
@@ -51,7 +52,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     url:'/cargando',
     templateUrl: 'componentes/perfil/templates/cargando.html'
   })
-  
+
   .state('perfil.errorActualizandoUsuario', {
     url:'/error_actualizando_usuario',
     templateUrl: 'componentes/perfil/templates/error_actualizando_usuario.html'

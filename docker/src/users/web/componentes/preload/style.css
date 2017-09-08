@@ -81,3 +81,7 @@ clip-path: circle(50% at 50% 50%);
   height: 99%;
   /*background-color: red;*/
 }
+
+.preload h1 {
+  margin-top: -5px;
+}

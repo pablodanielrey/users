@@ -5,8 +5,8 @@
     <div ng-repeat='m in model.correos'>
         <div ng-if='esInstitucional(m)' class="itemsMail">
           <div class="mail">
+              <div ng-if='estaConfirmado(m)' class="statusMailConfirmed label labelConfirmed" title="Correo confirmado"> <i class="fa fa-check" aria-hidden="true"></i></div>
               <div>{{m.email}} &nbsp;</div>
-              <div ng-if='estaConfirmado(m)' class="statusMailConfirmed label labelConfirmed"> confirmado</div>
           </div>
           <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
           <div ng-if='!esInstitucional(m)' title="Eliminar correo">
@@ -31,14 +31,16 @@
     <div ng-if='tieneCuentasAlternativas()' class="" ng-repeat='m in model.correos'>
         <div ng-if='!esInstitucional(m)' class="itemsMail">
           <div class="mail">
+              <div ng-if='estaConfirmado(m)' class="statusMailConfirmed label labelConfirmed" title="Correo confirmado"><i class="fa fa-check" aria-hidden="true"></i></div>
+              <div ng-if="!estaConfirmado(m)" class="statusMailConfirmed label labelSinConfirmar" title="Correo sin confirmar"><i class="fa fa-exclamation-circle fa-2x" aria-hidden="true"></i></div>
               <div>{{m.email}} &nbsp;</div>
-              <div ng-if='estaConfirmado(m)' class="statusMailConfirmed label labelConfirmed">confirmado</div>
-              <div ng-if="!estaConfirmado(m)" class="statusMailConfirmed label labelSinConfirmar">sin confirmar</div>
           </div>
           <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
           <div class="actions">
             <div title="Reenviar Correo" ng-if='!seEnvioCodigo(m) && !estaConfirmado(m)'><button class="btn btnReenviar" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button></div>
-            <div title="Eliminar correo"><button class="btn btnTrash" ng-click='eliminarCorreo(m)'><i class="fa fa-trash-o" aria-hidden="true"></i></button></div>
+            <md-button class="md-icon-button md-primary " ng-if='!seEnvioCodigo(m) && !estaConfirmado(m)' ng-click='enviarConfirmarCorreo(m)' title="Reenviar Correo"><i class="material-icons">refresh</i></md-button>
+            <md-button class="md-icon-button md-warn " ng-click='eliminarCorreo(m)' title="Eliminar Correo"><i class="material-icons">delete</i></md-button>
+
           </div>
 
         </div>
