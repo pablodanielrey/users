@@ -1,16 +1,12 @@
-<div>
-  <div class=tamanoPreload>
-      <div class="subContenedorPreloadRedireccionando">
-          <div>
+<div class="contenedor">
+    <md-progress-linear md-mode="determinate" value="{{vm.determinateValue}}"></md-progress-linear>
+    <div class="contenedorUsuario fdc fac fjc">
+        <div>
+          <img class="imgUsuario" ng-src="http://usuarios.econo.unlp.edu.ar:5006/users/api/v1.0/usuarios/205de802-2a15-4652-8fde-f23c674a1246/avatar/?1504891394589" src="http://usuarios.econo.unlp.edu.ar:5006/users/api/v1.0/usuarios/205de802-2a15-4652-8fde-f23c674a1246/avatar/?1504891394589">
+          <img ng-src='{{model.avatar}}'></img>
             <img class="imgAvatar" src="{{view.usuario.picture}}"></img>
-          </div><br>
-          <div>Bienvenido</div>
-          <div class="nombreUsuario">{{view.usuario.name}}</div>
-          <div>
-            <img class="imgCargando" src="img/preloader.gif"></img>
-          </div>
-      </div>
-  </div>
-  <div>
-  </div>
+        </div><br>
+        <div>¡Hola!</div>
+        <h1 class="nombreUsuario">{{view.usuario.name}}</h1>
+    </div>
 </div>
