@@ -20,37 +20,40 @@ app.debug = True
 register_encoder(app)
 reset.registrarApiReseteoClave(app)
 
-"""
-@app.route('/users/api/v1.0/usuarios/', methods=['OPTIONS'], defaults={'path':None})
-@app.route('/users/api/v1.0/usuarios/<string:path>', methods=['OPTIONS'])
-@app.route('/users/api/v1.0/usuarios/<path:path>', methods=['OPTIONS'])
-@app.route('/users/api/v1.0/usuarios/<uid>/correos/', methods=['OPTIONS'], defaults={'cid':None})
-@app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>', methods=['OPTIONS'])
-@app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>/enviar_confirmar', methods=['OPTIONS'])
-@app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>/confirmar', methods=['OPTIONS'])
-# @app.route('/users/api/v1.0/usuarios/<uid>/avatar/', methods=['OPTIONS'], defaults={'hash':None})
-# @app.route('/users/api/v1.0/usuarios/<uid>/avatar/.json', methods=['OPTIONS'], defaults={'hash':None})
-# @app.route('/users/api/v1.0/usuarios/<uid>/avatar/<hash>', methods=['OPTIONS'])
-# @app.route('/users/api/v1.0/usuarios/<uid>/avatar/<hash>.json', methods=['OPTIONS'])
-@app.route('/users/api/v1.0/usuarios/<uid>/claves/', methods=['OPTIONS'])
-"""
-@app.route('/', methods=['OPTIONS'],defaults={'path':None})
-@app.route('/<path:path>', methods=['OPTIONS'])
-def options(*args, **kwargs):
-    '''
-        para autorizar el CORS
-        https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
-    '''
-    o = request.headers.get('Origin')
-    rm = request.headers.get('Access-Control-Request-Method')
-    rh = request.headers.get('Access-Control-Request-Headers')
+#@app.route('/users/api/v1.0/usuarios/', methods=['OPTIONS'], defaults={'path':None})
+#@app.route('/users/api/v1.0/usuarios/<string:path>', methods=['OPTIONS'])
+#@app.route('/users/api/v1.0/usuarios/<path:path>', methods=['OPTIONS'])
+#@app.route('/users/api/v1.0/usuarios/<uid>/correos/', methods=['OPTIONS'], defaults={'cid':None})
+#@app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>', methods=['OPTIONS'])
+#@app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>/enviar_confirmar', methods=['OPTIONS'])
+#@app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>/confirmar', methods=['OPTIONS'])
+#@app.route('/users/api/v1.0/usuarios/<uid>/claves/', methods=['OPTIONS'])
+# def options(*args, **kwargs):
+#     '''
+#         para autorizar el CORS
+#         https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
+#     '''
+#     o = request.headers.get('Origin')
+#     rm = request.headers.get('Access-Control-Request-Method')
+#     rh = request.headers.get('Access-Control-Request-Headers')
+#
+#     r = make_response()
+#     r.headers['Access-Control-Allow-Methods'] = 'PUT,POST,GET,HEAD,DELETE'
+#     r.headers['Access-Control-Allow-Origin'] = '*'
+#     r.headers['Access-Control-Allow-Headers'] = rh
+#     r.headers['Access-Control-Max-Age'] = 1
+#     import pprint
+#     pprint(r.headers)
+#     return r
 
-    r = make_response()
-    r.headers['Access-Control-Allow-Methods'] = 'PUT,POST,GET,HEAD,DELETE'
-    r.headers['Access-Control-Allow-Origin'] = '*'
-    r.headers['Access-Control-Allow-Headers'] = rh
-    r.headers['Access-Control-Max-Age'] = 1
-    return r
+@app.after_request
+def cors_after_request(response):
+    print('ddddd')
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+    return response
+
 
 import requests
 
@@ -293,8 +296,6 @@ def add_header(r):
     r.headers["Pragma"] = "no-cache"
     r.headers["Expires"] = "0"
     r.headers['Cache-Control'] = 'public, max-age=0'
-
-    r.headers['Access-Control-Allow-Origin'] = '*'
     return r
 
 
