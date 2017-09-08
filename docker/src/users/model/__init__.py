@@ -9,6 +9,9 @@ from sqlalchemy.orm import sessionmaker
 from model_utils import Base
 from .entities import *
 
+
+EMAILS_API_URL = os.environ['EMAILS_API_URL']
+
 engine = create_engine('postgresql://{}:{}@{}:5432/{}'.format(
     os.environ['USERS_DB_USER'],
     os.environ['USERS_DB_PASSWORD'],
@@ -29,7 +32,7 @@ def obtener_template(template, nombre, codigo):
 def enviar_correo(de, para, asunto, cuerpo):
     ''' https://developers.google.com/gmail/api/guides/sending '''
     bcuerpo = base64.urlsafe_b64encode(cuerpo.encode('utf-8')).decode()
-    r = requests.post('http://163.10.56.57:8001/emails/api/v1.0/correos/', json={'sistema':'users', 'de':de, 'para':para, 'asunto':asunto, 'cuerpo':bcuerpo})
+    r = requests.post(EMAILS_API_URL + '/correos/', json={'sistema':'users', 'de':de, 'para':para, 'asunto':asunto, 'cuerpo':bcuerpo})
     return r
 
 def crear_tablas():
