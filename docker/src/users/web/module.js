@@ -47,6 +47,11 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     // },
     templateUrl: 'componentes/perfil/templates/editar_perfil.html'
   })
+  .state('perfil.cargando', {
+    url:'/cargando',
+    templateUrl: 'componentes/perfil/templates/cargando.html'
+  })
+  
   .state('perfil.errorActualizandoUsuario', {
     url:'/error_actualizando_usuario',
     templateUrl: 'componentes/perfil/templates/error_actualizando_usuario.html'
@@ -66,10 +71,6 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
   .state('perfil.Mensaje_guardado_con_exito', {
     url:'/mensaje_guardado_con_exito',
     templateUrl: 'componentes/perfil/templates/mensaje_guardado_con_exito.html'
-  })
-  .state('perfil.cargando', {
-    url:'/cargando',
-    templateUrl: 'componentes/perfil/templates/preload.html'
   })
   .state('perfil.FormatoIncorrecto', {
     url:'/prueba2',

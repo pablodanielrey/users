@@ -16,7 +16,6 @@ app.controller('TemplateCtrl', ['$scope', '$window', '$timeout', function($scope
 app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$window", "Upload", "$state", '$stateParams',
    function ($scope, $location, $resource, $timeout, $window, Upload, $state, $stateParams) {
 
-
         $scope.res = {
           Usuario: null,
           Correo: null
@@ -32,6 +31,19 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
         $scope.view = {
           cambiando_imagen_estilo: ''
         }
+
+        $scope.setearError = function(e) {
+          $state.go('perfil.' + e.error);
+        }
+
+        $scope.cargando = function() {
+          $state.go('perfil.cargando');
+        }
+
+        $scope.recargar = function() {
+          $state.go('perfil.editar_perfil', $stateParams);
+        }
+
 
         $scope._cargar_url_avatar = function() {
           var uid = $stateParams['uid'];
@@ -55,9 +67,9 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
               console.log(response);
               $state.reload();
             },
-            function (err) {
-              console.log(err);
-              alert(err);
+            function (e) {
+              console.log(e);
+              $scope.setearError(e);
             },
             function (evt) {
               console.log(parseInt(100.0 * evt.loaded / evt.total));
@@ -69,16 +81,15 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
         }
 
 
-
-
         $scope.actualizarUsuario = function(usuario) {
+          $scope.cargando();
           usuario.$save({uid:usuario.id},
             function(r) {
-              $state.reload();
+              $scope.recargar();
             },
             function(err) {
               console.log(err);
-              $state.reload();
+              $scope.recargar();
             });
         };
 
@@ -109,38 +120,44 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
         }
 
         $scope.eliminarCorreo = function(correo) {
+          $scope.cargando();
           correo.$delete({cid:correo.id, uid:correo.usuario_id},
             function(correo) {
               $scope.res.Correo.query({uid:$scope.model.usuario.id}, function(cs) {
                 $scope.model.correos = cs;
+                $scope.recargar();
               });
             },
             function(err) {
-              alert(err);
+              $scope.setearError(err);
             });
         };
 
         $scope.enviarConfirmarCorreo = function(correo) {
+          $scope.cargando();
           correo.$enviar_confirmar({cid:correo.id, uid:correo.usuario_id},
             function() {
               $scope.res.Correo.query({uid:$scope.model.usuario.id}, function(cs) {
                 $scope.model.correos = cs;
+                $scope.recargar();
               });
             },
             function(err) {
-              alert(err);
+              $scope.setearError(err);
             });
         }
 
         $scope.confirmarCorreo = function(correo) {
+          $scope.cargando();
           correo.$confirmar({cid:correo.id, uid:correo.usuario_id, codigo:correo.codigo},
             function() {
               $scope.res.Correo.query({uid:$scope.model.usuario.id}, function(cs) {
                 $scope.model.correos = cs;
+                $scope.recargar();
               });
             },
             function(err) {
-              alert(err);
+              $scope.setearError(err);
             });
         }
 
@@ -149,6 +166,8 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
           if ($scope.model.emailAAgregar == null) {
             return;
           }
+
+          $scope.cargando();
           var correo = new $scope.res.Correo({
               email: $scope.model.emailAAgregar,
               confirmado: false
@@ -158,11 +177,12 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
               $scope.model.emailAAgregar = '';
               $scope.res.Correo.query({uid:$scope.model.usuario.id}, function(cs) {
                 $scope.model.correos = cs;
+                $scope.recargar();
               });
             },
             function(err) {
               console.log(err);
-              alert(err);
+              $scope.setearError(err);
             });
 
         }
@@ -173,6 +193,8 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
           if ($scope.inicializando) {
             return;
           }
+
+          $scope.cargando();
 
           // chequeo si tengo cargada la config del sistema.
           if ($scope.config.usuario == undefined) {
