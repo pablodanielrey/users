@@ -37,7 +37,7 @@
           </div>
           <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
           <div class="actions">
-            <div title="Reenviar Correo" ng-if='!seEnvioCodigo(m) && !estaConfirmado(m)'><button class="btn btnReenviar" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button></div>
+            <!-- <div title="Reenviar Correo" ng-if='!seEnvioCodigo(m) && !estaConfirmado(m)'><button class="btn btnReenviar" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button></div> -->
             <md-button class="md-icon-button md-primary " ng-if='!seEnvioCodigo(m) && !estaConfirmado(m)' ng-click='enviarConfirmarCorreo(m)' title="Reenviar Correo"><i class="material-icons">refresh</i></md-button>
             <md-button class="md-icon-button md-warn " ng-click='eliminarCorreo(m)' title="Eliminar Correo"><i class="material-icons">delete</i></md-button>
 
