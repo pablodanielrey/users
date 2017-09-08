@@ -20,18 +20,22 @@ app.debug = True
 register_encoder(app)
 reset.registrarApiReseteoClave(app)
 
+"""
 @app.route('/users/api/v1.0/usuarios/', methods=['OPTIONS'], defaults={'path':None})
 @app.route('/users/api/v1.0/usuarios/<string:path>', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/usuarios/<path:path>', methods=['OPTIONS'])
-# @app.route('/users/api/v1.0/usuarios/<uid>/correos/', methods=['OPTIONS'], defaults={'cid':None})
-# @app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>', methods=['OPTIONS'])
-# @app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>/enviar_confirmar', methods=['OPTIONS'])
-# @app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>/confirmar', methods=['OPTIONS'])
+@app.route('/users/api/v1.0/usuarios/<uid>/correos/', methods=['OPTIONS'], defaults={'cid':None})
+@app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>', methods=['OPTIONS'])
+@app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>/enviar_confirmar', methods=['OPTIONS'])
+@app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>/confirmar', methods=['OPTIONS'])
 # @app.route('/users/api/v1.0/usuarios/<uid>/avatar/', methods=['OPTIONS'], defaults={'hash':None})
 # @app.route('/users/api/v1.0/usuarios/<uid>/avatar/.json', methods=['OPTIONS'], defaults={'hash':None})
 # @app.route('/users/api/v1.0/usuarios/<uid>/avatar/<hash>', methods=['OPTIONS'])
 # @app.route('/users/api/v1.0/usuarios/<uid>/avatar/<hash>.json', methods=['OPTIONS'])
 @app.route('/users/api/v1.0/usuarios/<uid>/claves/', methods=['OPTIONS'])
+"""
+@app.route('/', methods=['OPTIONS'],defaults={'path':None})
+@app.route('/<path:path>', methods=['OPTIONS'])
 def options(*args, **kwargs):
     '''
         para autorizar el CORS

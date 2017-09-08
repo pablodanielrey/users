@@ -1,5 +1,5 @@
 
-app.controller("ConfigCorreoAlternativoCtrl", ["$scope", "$resource", "$timeout", function ($scope, $resource, $timeout) {
+app.controller("ConfigCorreoAlternativoCtrl", ["$scope", "$resource", "$timeout", '$stateParams', function ($scope, $resource, $timeout, $stateParams) {
 
 
   // var Correo = $resource('http://127.0.0.1:7001/users/api/v1.0/correos/:id', {id:null},
