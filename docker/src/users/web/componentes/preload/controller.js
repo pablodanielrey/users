@@ -20,18 +20,16 @@ app.controller("PreloadCtrl", ["$scope", "$http", '$timeout', '$state', function
           return;
         }
 
-        $scope.view.progreso = 90;
-        // if (!d.data.correos.tiene_alternativo) {
-        //   $state.go('config_correo_alternativo');
-        //   return;
-        // }
+        $scope.view.progreso = 80;
+        if (!d.data.correos.tiene_alternativo) {
+          $state.go('config_correo_alternativo');
+          return;
+        }
 
         // voy al perfil
-        $timeout(function() {
-            $scope.view.progreso = 100;
-            var uid = $scope.config.usuario['sub'];
-            $state.go('perfil', {uid: uid});
-        }, 3000);
+        $scope.view.progreso = 100;
+        var uid = $scope.config.usuario['sub'];
+        $state.go('perfil', {uid: uid});
 
       }
     ).catch(function(err) {
