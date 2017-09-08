@@ -1,18 +1,3 @@
-
-app.controller('TemplateCtrl', ['$scope', '$window', '$timeout', function($scope, $window, $timeout) {
-
-  $scope.volver = function() {
-    $window.history.back();
-  }
-
-  $scope.timer = function() {
-    $timeout(function() {
-      $scope.volver();
-    },5000);
-  }
-
-}])
-
 app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$window", "Upload", "$state", '$stateParams',
    function ($scope, $location, $resource, $timeout, $window, Upload, $state, $stateParams) {
 
