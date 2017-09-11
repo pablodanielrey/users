@@ -32,13 +32,13 @@
         <div ng-if='!esInstitucional(m)' class="itemsMail">
           <div class="mail">
               <div ng-if='estaConfirmado(m)' class="statusMailConfirmed label labelConfirmed" title="Correo confirmado"><i class="fa fa-check" aria-hidden="true"></i></div>
-              <div ng-if="!estaConfirmado(m)" class="statusMailConfirmed label labelSinConfirmar" title="Correo sin confirmar"><i class="fa fa-exclamation-circle fa-2x" aria-hidden="true"></i></div>
+              <div ng-if="!estaConfirmado(m)" class="statusMailConfirmed label labelSinConfirmar" title="Correo sin confirmar"><i class="material-icons md-warn">error</i></div>
               <div>{{m.email}} &nbsp;</div>
           </div>
           <!-- <span>{{m.id}}</span> --> <!-- <span>{{m.fecha_confirmado}}</span> --> <!-- <span>{{m.hash}}</span> -->
           <div class="actions">
             <!-- <div title="Reenviar Correo" ng-if='!seEnvioCodigo(m) && !estaConfirmado(m)'><button class="btn btnReenviar" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button></div> -->
-            <md-button class="md-icon-button md-primary " ng-if='!seEnvioCodigo(m) && !estaConfirmado(m)' ng-click='enviarConfirmarCorreo(m)' title="Reenviar Correo"><i class="material-icons">refresh</i></md-button>
+            <md-button class="md-icon-button md-primary " ng-if='!seEnvioCodigo(m) && !estaConfirmado(m)' ng-click='enviarConfirmarCorreo(m)' title="Reenviar Código"><i class="material-icons">refresh</i></md-button>
             <md-button class="md-icon-button md-warn " ng-click='eliminarCorreo(m)' title="Eliminar Correo"><i class="material-icons">delete</i></md-button>
 
           </div>
@@ -48,14 +48,16 @@
         <div ng-if='!estaConfirmado(m) && seEnvioCodigo(m)'>
           <!-- <div ng-if='m.hash != null && m.fecha_confirmado == null'> -->
           <i class="flechaCode fa fa-sort-asc fa-2x" aria-hidden="true"></i>
-          <p class="contentCode">
+          <div class="contentCode">
             <span>
-              Se ha enviado un correo a su casilla con un código de verificación. <b>¡Revise el correo!</b><br>
-              <input type=text class="inputCode" ng-model='m.codigo' placeholder="INGRESE CÓDIGO"></input>
+              Se ha enviado un código de verificación a su casilla de correo. <b>¡Revise el correo!</b><br>
+              <input type=text class="inputCode" ng-model='m.codigo' placeholder="Ingrese Código"></input>
               <button class="btn btnConfirmar" ng-click='confirmarCorreo(m)'>Confirmar</button>
-              <button class="btn btnReenviar2" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button>
+              <!-- <button class="btn btnReenviar2" ng-click='enviarConfirmarCorreo(m)'>reenviar correo</button> -->
+              <md-button class="md-icon-button md-primary" ng-click='enviarConfirmarCorreo(m)' title="Reenviar Código"><i class="material-icons">refresh</i></md-button>
+
             </span>
-          </p>
+          </div>
         </div>
     </div>
   </div><hr>
@@ -69,6 +71,9 @@
         <div class="form-group">
           <input type="email" class="inputMail form-control" id="exampleInputEmail2" ng-model='model.emailAAgregar' placeholder="nombre@dominio.com">
         </div>
-        <button type="submit" class="btn btnAgregarCorreo" ng-click='agregarCorreo()'>AGREGAR</button>
-      </form>
+        <button class="btn btnAgregarCorreo" ng-click='agregarCorreo()'>Agregar</button>
+    </form>
+
+
   </div>
+</div>

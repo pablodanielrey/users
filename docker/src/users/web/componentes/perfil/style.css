@@ -235,7 +235,7 @@
 
 
 .perfil .flechaCode {
-  color: #E43E46;
+  color: #F44336;
   margin-left: 10px;
   margin-top: -10px;
 
@@ -244,9 +244,12 @@
 .perfil .contentCode {
   border-radius: 4px;
   padding: 10px;
-  background-color: #E43E46;
-  color: white;
-  margin-top: -19px;
+  background-color: #EEEEEE;
+  color: #F44336;
+  margin-top: -18px;
+  border:1px solid #F44336;
+  margin-bottom: 10px;
+
 }
 
 .perfil .contentSinCorreo {
@@ -306,9 +309,17 @@
 }
 
 .perfil .btnAgregarCorreo {
-  background-color: #92AD17;
+  margin-top: 5px;
+  background-color: #222222;
   color: white;
+  height: 32px;
+  margin-bottom: 20px;
 }
+
+.perfil .btnAgregarCorreo:hover {
+  background-color: #383838;
+}
+
 
 .perfil .inputMail {
     width: 400px;
