@@ -8,3 +8,7 @@
 .cambioDeclave .form-group {
  margin-bottom: 5px !important;
 }
+
+.cambioDeclave .contenedorErrorInterno {
+  color: #F44336;
+}

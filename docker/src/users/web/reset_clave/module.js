@@ -15,7 +15,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 
   .state('reset_clave.ingrese_dni', {
     url:'/ingrese_dni',
-    templateUrl: 'componentes/reset_clave/templates/ingrese_dni.html'
+    templateUrl: '/reset_clave/componentes/reset_clave/templates/ingrese_dni.html'
   })
   .state('reset_clave.aviso_de_envio', {
     url:'/aviso_de_envio',
