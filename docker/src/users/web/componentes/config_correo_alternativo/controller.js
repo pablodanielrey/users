@@ -14,8 +14,6 @@ app.controller("ConfigCorreoAlternativoCtrl", ["$scope", "$resource", "$timeout"
       codigo: ''
     };
 
-  $scope.uid = $routeParams['uid'];
-
 
   ////////////// chequea las precondiciones y si esta ok entonces pasa al paso1. en caso contrario es redirigido al perfil ////////////
 

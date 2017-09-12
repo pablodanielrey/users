@@ -10,7 +10,7 @@ app.config(function($mdThemingProvider) {
 
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
-  $urlRouterProvider.otherwise("/preload");
+  //$urlRouterProvider.otherwise("/preload");
 
   // --- preload ----
 
@@ -113,10 +113,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
   $stateProvider
   .state('config_correo_alternativo', {
     url:'/config_correo_alternativo/:uid',
-    params: {
-      uid: ''
-    },
-    templateUrl: 'componentes/config_correo_alternativo/index.html',
+    templateUrl: '/componentes/config_correo_alternativo/index.html',
     controller:'ConfigCorreoAlternativoCtrl'
   })
   .state('config_correo_alternativo.terminos_y_condiciones_alumnos', {
@@ -129,10 +126,10 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
   })
   .state('config_correo_alternativo.ingresar_correo', {
     url:'/ingresar_correo',
-    templateUrl: 'componentes/config_correo_alternativo/templates/ingresar_correo.html'
+    templateUrl: 'componentes/config_correo_alternativo/templates/ingresar_correo_alternativo.html'
   })
   .state('config_correo_alternativo.ingresar_codigo', {
-    url:'/ingrar_codigo',
+    url:'/ingresar_codigo',
     templateUrl: 'componentes/config_correo_alternativo/templates/ingresar_codigo.html'
   })
   .state('config_correo_alternativo.verificado_correctamente', {
