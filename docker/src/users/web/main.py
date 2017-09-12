@@ -96,7 +96,7 @@ def send_libs(path):
 @oidc.require_login
 def send(path):
     if not path:
-        return redirect('/index.html'), 303
+        return redirect('/perfil/index.html'), 303
     return send_from_directory(app.static_url_path, path)
 
 

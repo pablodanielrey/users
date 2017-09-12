@@ -10,7 +10,7 @@ app.config(function($mdThemingProvider) {
 
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
-  //$urlRouterProvider.otherwise("/preload");
+  $urlRouterProvider.otherwise("/preload");
 
   // --- preload ----
 
