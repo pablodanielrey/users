@@ -113,7 +113,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
   $stateProvider
   .state('config_correo_alternativo', {
     url:'/config_correo_alternativo/:uid',
-    templateUrl: '/componentes/config_correo_alternativo/index.html',
+    templateUrl: 'componentes/config_correo_alternativo/index.html',
     controller:'ConfigCorreoAlternativoCtrl'
   })
   .state('config_correo_alternativo.terminos_y_condiciones_alumnos', {
