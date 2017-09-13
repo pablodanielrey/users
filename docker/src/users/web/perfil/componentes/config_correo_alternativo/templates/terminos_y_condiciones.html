@@ -1,12 +1,30 @@
-<div class='pantalla mensaje_institucional'>
-  MENSAJE A PERSONAL DE LA FACULTAD
-  Para poder acceder a los sistemas debe tener configurado una cuenta alternativa de contacto.
-  Solamente se contactará a esta cuenta para confirmar operaciones que reinicen el acceso a la cuenta institucional.
-  Tenga en cuenta que TODAS las notificaciones que realiza la facultad serán dirigidas a la cuenta institucional y NO a esta cuenta
-  alternativa de contacto. Por lo que debe leer frecuentemente la cuenta institucional.
-  En el caso de recibir informes de que ha marcado como "Correo no Deseado" spam, correo originado de los sistemas de la facultad, se procedera
-  a desactivar esta cuenta alternativa en nuestros sistemas y NO se enviará ningún correo adicional desde la facultad.
-  Al configurar la cuenta alternativa ACEPTA recibir el correo referido arriba.
-  Atte. bla bla bla bla
-  <button ng-click='estadoSiguiente()'>Siguiente</button>
+<div class='terminos_y_condiciones fdc fac'>
+  <div class="subContenedor">
+  <h1>Configurar correo alternativo.</h1>
+  <p>No tienes una cuenta de correo alternatica configurada. <b>¡Debes configurar una!.</b></p>
+
+  <md-toolbar class="md-warn">
+  <div class="md-toolbar-tools">
+    <h3 class="md-flex">Términos y condiciones</h3>
+  </div>
+  </md-toolbar>
+
+  <div class=TyC>
+    MENSAJE A PERSONAL DE LA FACULTAD
+    Para poder acceder a los sistemas debe tener configurado una cuenta alternativa de contacto.
+    Solamente se contactará a esta cuenta para confirmar operaciones que reinicen el acceso a la cuenta institucional.
+    Tenga en cuenta que TODAS las notificaciones que realiza la facultad serán dirigidas a la cuenta institucional y NO a esta cuenta
+    alternativa de contacto. Por lo que debe leer frecuentemente la cuenta institucional.
+    En el caso de recibir informes de que ha marcado como "Correo no Deseado" spam, correo originado de los sistemas de la facultad, se procedera
+    a desactivar esta cuenta alternativa en nuestros sistemas y NO se enviará ningún correo adicional desde la facultad.
+    Al configurar la cuenta alternativa ACEPTA recibir el correo referido arriba.
+    Atte. bla bla bla bla
+</div>
+  <div class="fdr fac fjb">
+    <md-checkbox class="md-warn" ng-model='acepto'>Acepto Términos y condiciones</md-checkbox>
+    <md-button class="md-raised md-primary" ng-click='estadoSiguiente()' ng-disabled="!acepto" >Siguiente</md-button>
+  </div>
+
+
+  </div>
 </div>

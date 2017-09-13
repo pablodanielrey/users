@@ -1,9 +1,13 @@
-
-  <div class='pantalla_error correo_bloqueado'>
-    La cuenta {{view.correo}} se encuentra bloqueada en nuestros sitemas debido a que ha indicado que el correo recibido de alguna de las áreas de
-    la facultad es "Correo No Deseado".
-    Este proceso nos obliga a no enviar mas correo desde cuentas de la facultad.
-    Para poder continuar debe indicar que todo el correo recibido de la facultad NO es "Correo no Deseado" y contactarse
-    con DiTeSI <a href='#'>aqui</a>
-    Caso contrario la cuenta {{view.correo}} seguirá bloqueada y no se enviará correo desde cuentas institucionales de la facultad.
+<div class='error_correo_bloqueado fdc fac'>
+  <div class="subContenedor">
+    <h1><i class="fa fa-meh-o" aria-hidden="true"></i> Oops! Usuario Bloqueado.</h1>
+    <p>La cuenta <b>{{view.correo}}</b> se encuentra bloqueada en nuestros sitemas debido a que ha indicado que el correo recibido de alguna de las áreas de
+      la facultad es "Correo No Deseado".</p>
+    <p>
+      Este proceso nos obliga a no enviar mas correo desde cuentas de la facultad.<br>
+      Para poder continuar debe indicar que todo el correo recibido de la facultad NO es "Correo no Deseado" y contactarse
+      con DiTeSI <a href='#'>aqui</a>
+    </p>
+    <md-button class="md-raised md-primary" ng-click='estadoAnterior()' >Volver</md-button>
   </div>
+</div>

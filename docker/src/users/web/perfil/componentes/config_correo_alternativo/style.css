@@ -1,47 +1,39 @@
-
-.config_correo > div {
-  display: none;
+.config_correo_alternativo {
+  height: 100%;
 }
 
-
-.config_correo.EstadoMensajeAlumnos .mensaje_alumnos {
-  display: block;
+.config_correo_alternativo .terminos_y_condiciones_alumnos,
+.config_correo_alternativo .terminos_y_condiciones,
+.config_correo_alternativo .ingresar_correo_alternativo,
+.config_correo_alternativo .ingresar_codigo,
+.config_correo_alternativo .verificado_correctamente,
+.config_correo_alternativo .error,
+.config_correo_alternativo .error_envio_codigo,
+.config_correo_alternativo .error_codigo_incorrecto,
+.config_correo_alternativo .error_correo_bloqueado {
+  height: 100%;
 }
 
-.config_correo.EstadoMensajeDocentes .mensaje_institucional {
-  display: block;
+.config_correo_alternativo .subContenedor {
+  width: 40%;
 }
 
-.config_correo.EstadoConfigCorreo .correo {
-  display: block;
+.config_correo_alternativo .TyC {
+  height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 5px;
 }
 
-.config_correo.EstadoIngreseCodigo .codigo {
-  display: block;
+.config_correo_alternativo .correo,
+.config_correo_alternativo .codigo {
+  padding: 10px;
 }
 
-.config_correo.EstadoOK .fin {
-  display: block;
-}
-
-
-
-.config_correo.error .pantalla {
-  display: none;
-}
-
-.config_correo.error.EnvioCodigoError .error_envio {
-  display: block;
-}
-
-.config_correo.error.CorreoBloqueadoError .correo_bloqueado {
-  display: block;
-}
-
-.config_correo.error.CodigoIncorrectoError .error_codigo {
-  display: block;
-}
-
-.config_correo.error.SistemaError .sistema_error {
-  display: block;
+@media screen and (max-width: 720px) {
+  .config_correo_alternativo .subContenedor {
+    width: 100%;
+    padding: 20px;
+  }
 }

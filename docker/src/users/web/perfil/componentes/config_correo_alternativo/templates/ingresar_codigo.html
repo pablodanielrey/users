@@ -1,8 +1,20 @@
-<div class='pantalla codigo'>
-  Se ha enviado un código de confirmación a la cuenta. {{view.correo}}
-  Por favor ingrese el código recibido
-  Recuerde chequear "Correo no Deseado" y en caso de haber llegado a esa carpeta indicar que el correo NO es "Correo no Deseado".
-  <input type='text' ng-model='view.codigo'></input>
-  <button ng-click='estadoAnterior()'>Anterior</button>
-  <button ng-click='verificarCorreo()'>Verificar</button>
+<div class='ingresar_codigo fdc fac '>
+  <div class="subContenedor">
+      <h1>Configurar correo alternativo.</h1>
+      <p><b>Paso 2 - </b>  Por favor ingrese el código recibido</p>
+      <p>Se ha enviado un código de confirmación a la cuenta <b>{{view.correo}}</b></p>
+        <div class="alert alert-info" role="alert">
+          <strong>Importante!</strong> Recuerde chequear "Correo no Deseado" y en caso de haber llegado a esa carpeta indicar que el correo NO es "Correo no Deseado".
+        </div>
+      <div class=correo>
+        <md-input-container class="md-block">
+            <md-icon><i class="material-icons">copyright</i></md-icon>
+            <input ng-model='view.codigo' type="text" placeholder="Código de verificación" ng-required="false">
+        </md-input-container>
+      </div>
+      <div class="fdr">
+        <md-button class="md-raised md-primary" ng-click='verificarCorreo()' >Siguiente</md-button>
+        <md-button md-no-ink class="md-primary" ng-click='estadoAnterior()'>Volver</md-button>
+      </div>
+  </div>
 </div>

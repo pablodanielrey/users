@@ -29,6 +29,18 @@
 /*Justify Center*/
 .fjc {
   justify-content: center;
-  justify-content: center;
-  justify-content: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+}
+
+.fja {
+  justify-content: space-around;
+  -webkit-justify-content: space-around;
+  -moz-justify-content: space-around;
+}
+
+.fjb {
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+  -moz-justify-content: space-between;
 }
