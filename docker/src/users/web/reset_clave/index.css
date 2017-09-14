@@ -1,40 +1,36 @@
-.users > div {
-  display: none;
+* {
+  box-sizing: border-box;
 }
-
-.users .contenedorErrores > div {
-  display: none;
-}
-
-.users.error .contenedorErrores {
-  display: flex;
-}
-
-.users.error .pantalla {
-  display: none;
-}
-
-
-/*----- estilos de la pantalla --*/
 
 html, body {
-  margin: 0 !important;
-  padding: 0 !important;
   height: 100%;
-  width: 100%;
-  font-family: 'Open Sans', sans-serif;
-  overflow: visible;
 }
 
-
-.users .pantalla {
-  width: 100%;
+.sistema {
+  overflow: hidden;
   height: 100vh;
-  /*background-color: green;*/
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 50px auto 20px;
+  grid-row-gap: 0;
+  grid-column-gap: 0;
+  grid-template-areas:
+    "cabecera"
+    "contenido"
+    "pie";
 }
 
-.users .pantalla_error {
-  width: 100%;
-  height: 100vh;
-  background-color: red;
+.sistema .cabecera {
+  z-index: 999;
+  grid-area: cabecera;
+}
+
+.sistema .contenido {
+  overflow-y: auto;
+  grid-area: contenido;
+}
+
+.sistema .pie {
+  grid-area: pie;
+
 }

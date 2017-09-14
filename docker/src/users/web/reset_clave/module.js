@@ -1,4 +1,11 @@
-app = angular.module('MainApp', ['ui.router', 'ngResource'])
+app = angular.module('MainApp', ['ui.router', 'ngResource', 'ngMaterial'])
+
+app.config(function($mdThemingProvider) {
+  $mdThemingProvider.theme('default')
+    .primaryPalette('blue')
+    .warnPalette('red')
+    .accentPalette('cyan');
+});
 
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 

@@ -1,10 +1,40 @@
+<div class="ingrese_codigo fdc fac">
+  <div class="subContenedor fdc fac">
+      <div class="fdc fac">
+          <div>
+              <p>¿Haz olvidado tu contraseña?</p>
+              <h2>Recuperar contraseña</h2>
+          </div>
+      </div>
+      <div class="fdr fac">
+        <div class="linea colorActivo"></div>
+        <i class="material-icons colorActivo2">looks_one</i>
+        <div class="linea colorDesactivado"></div>
+        <i class="material-icons colorDesactivado2">looks_two</i>
+        <div class="linea colorDesactivado"></div>
+        <i class="material-icons colorDesactivado2">looks_3</i>
+        <div class="linea colorDesactivado"></div>
+        <i class="material-icons colorDesactivado2">looks_4</i>
+        <div class="linea colorDesactivado"></div>
+      </div>
 
-  <div class='pantalla codigo'>
-    Se ha enviado el código de confirmación a {{view.usuario.correo.email}}
-    Tenga en cuenta que la recepción del correo puede demorarse algunos minutos.
-    Chequee también los correos clasificados como "Correo Basura" o "Spam",
-    En el caso de que haya llegado como basura, por favor indique que es correo requerido y NO es basura.
-    A continuación ingrese el código recibido
-    <input type='text' ng-model='view.codigo'></input>
-    <button ng-click='verificarCodigo()'>Verificar</button>
+      <div class="parrafo">
+        <p>
+          ¡Hola! <b>{{view.usuario.nombre}} {{view.usuario.apellido}}</b>,<br>
+          Hemos enviado un código a su cuenta de correo <b>lllw*****@gmail.com</b><br>
+        </p>
+        <p class="textoParrafo">
+            <i class="fa fa-caret-right" aria-hidden="true"></i> Recuerda revisar la bandeja de correo no deseado (Spam),
+            si te llego como spam, ábrelo y marca el correo como seguro o elimina la etiqueta de Spam.<br>
+            <i class="fa fa-caret-right" aria-hidden="true"></i> Si no tienes acceso a tu correo personal y/o deseas cambiarlo <b><a href='#'>click aquí</a></b>
+        </p>
+      </div>
+
+      <div class="formularioCodigo fdc fac">
+              <h4>Ingrese Código</h4>
+        <input class="inputResetClave"  ng-model='view.codigo' type="text" >
+        <md-button class="md-raised md-primary btnSistema" ng-click='verificarCodigo()'>Siguiente</md-button>
+      </div>
+
   </div>
+</div>
