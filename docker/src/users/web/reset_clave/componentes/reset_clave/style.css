@@ -3,7 +3,9 @@
 }
 
 .reset_clave .ingrese_dni,
-.reset_clave .ingrese_codigo {
+.reset_clave .ingrese_codigo,
+.reset_clave .ingrese_clave,
+.reset_clave .cambio_de_clave_exitoso {
   height: 100%;
 }
 
@@ -52,6 +54,11 @@
 .reset_clave .parrafo {
   width: 95%;
   margin-top: 20px;
+  text-align: justify;
+    text-justify: inter-word;
+}
+
+.reset_clave .parrafoError {
   text-align: justify;
     text-justify: inter-word;
 }

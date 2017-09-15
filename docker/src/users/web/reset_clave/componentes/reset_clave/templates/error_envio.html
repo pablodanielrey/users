@@ -1,5 +1,9 @@
-<div class='pantalla_error error_de_envio'>
-  No se pudo enviar el código a la cuenta {{view.usuario.correo.email}}
-  Por favor intente nuevamente en unos minutos.
-  Si el problema se reitera por favor comuníquese con DiTeSI usando el siguiente <a href='#'>enlace</a>
+<div class='contenedor fdc fac'>
+  <div class="subContenedor">
+    <h1><i class="fa fa-meh-o" aria-hidden="true"></i> Oops! Error al enviar código.</h1>
+    <p class="parrafoError">   No se pudo enviar el código a la cuenta <b>{{view.usuario.correo.email}}</b>,
+      por favor intente nuevamente en unos minutos.
+      Si el problema se reitera comuníquese con DiTeSI haciendo <a href='#'>clic aquí</a></p>.<br>
+    <md-button class="md-raised md-primary" ng-click='limpiarError()' >Volver</md-button>
+  </div>
 </div>
