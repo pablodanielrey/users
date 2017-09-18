@@ -1,10 +1,10 @@
-
-
-
-
-<div class='pantalla_error dni_sin_cuenta'>
-  Estimado {{view.usuario.nombre}} {{view.usuario.apellido}}
-  No tenemos registrada ninguna cuenta alternativa de contacto, por lo que es imposible enviar el código de verificación.
-  Por favor comuníquese con DiTeSI usando el siguiente <a href='#'>enlace</a>
-  Atte Equipo de desarrollo de DiTeSI
+<div class='contenedor fdc fac'>
+  <div class="subContenedor">
+    <h1><i class="fa fa-meh-o" aria-hidden="true"></i> Oops! Imposible continuar.</h1>
+    <p class="parrafoError"> Estimado <b>{{view.usuario.nombre}} {{view.usuario.apellido}}</b>, <br>
+    No tenemos registrada ninguna cuenta alternativa de contacto, por lo que es imposible enviar el código de verificación.
+    Por favor comuníquese con DiTeSI haciendo <a href='#'>clic aquí</a>.<br>
+    Atte.<br> Equipo de desarrollo de DiTeSI.</p><br>
+    <md-button class="md-raised md-primary" ng-click='limpiarError()' >Finalizar</md-button>
+  </div>
 </div>
