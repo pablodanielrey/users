@@ -43,7 +43,8 @@ app.config['OIDC_ID_TOKEN_COOKIE_NAME'] = 'users_oidc'
 app.config['OIDC_USER_INFO_ENABLED'] = True
 app.config['OIDC_SCOPES'] = ['openid','email','phone','profile','address','econo']
 
-r = redis.StrictRedis(host='192.168.0.3', port=6379, db=0)
+REDIS_HOST = os.environ['REDIS_HOST']
+r = redis.StrictRedis(host=REDIS_HOST, port=6379, db=0)
 oidc = MyOpenIDConnect(app, credentials_store=RedisWrapper(r))
 
 @app.route('/config.json', methods=['GET'])
