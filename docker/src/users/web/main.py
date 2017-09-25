@@ -21,11 +21,12 @@ with open('/tmp/client_secrets.json','w') as f:
 
 
 
+import redis
 import flask
 from flask import Flask, request, send_from_directory, jsonify, redirect, url_for
 from flask_jsontools import jsonapi
 #from flask_oidc import OpenIDConnect
-from auth_utils import MyOpenIDConnect, DictWrapper
+from auth_utils import MyOpenIDConnect, RedisWrapper
 
 # set the project root directory as the static folder, you can set others.
 app = Flask(__name__, static_url_path='/src/users/web')
@@ -42,7 +43,8 @@ app.config['OIDC_ID_TOKEN_COOKIE_NAME'] = 'users_oidc'
 app.config['OIDC_USER_INFO_ENABLED'] = True
 app.config['OIDC_SCOPES'] = ['openid','email','phone','profile','address','econo']
 
-oidc = MyOpenIDConnect(app, credentials_store=DictWrapper('credentials_store'))
+r = redis.StrictRedis(host='192.168.0.3', port=6379, db=0)
+oidc = MyOpenIDConnect(app, credentials_store=RedisWrapper(r))
 
 @app.route('/config.json', methods=['GET'])
 @oidc.require_login
