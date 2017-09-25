@@ -48,7 +48,6 @@ reset.registrarApiReseteoClave(app)
 
 @app.after_request
 def cors_after_request(response):
-    print('ddddd')
     response.headers.add('Access-Control-Allow-Origin', '*')
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
@@ -115,6 +114,9 @@ def usuarios(uid):
     try:
         if not uid:
             dni = request.args.get('dni',None,str)
+            dni = dni.strip()
+            if dni == '':
+                return []
             return UsersModel.usuarios(session=session, dni=dni, retornarClave=mostrarClave, offset=offset, limit=limit, fecha=fecha)
         else:
             us = UsersModel.usuarios(session=session, usuario=uid, retornarClave=mostrarClave)
