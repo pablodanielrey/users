@@ -37,7 +37,8 @@ setup(name='users',
                             'google-api-python-client',
                             'httplib2',
                             'pyjwt',
-                            'redis'],
+                            'redis',
+                            'microservices_common'],
           entry_points={
             'console_scripts': [
                 'wamp=users.api.wamp.main:main',
