@@ -103,12 +103,28 @@ class UsersModel:
         usuario.nombre = nombre
         usuario.apellido = apellido
 
+    @classmethod
+    def usuario(cls, session, uid, retornarClave=False):
+        q = session.query(Usuario).filter(Usuario.id == uid)
+        q = q.options(joinedload('claves')) if retornarClave else q
+        q = q.options(joinedload('mails'), joinedload('telefonos'))
+        return q.one()
 
     @classmethod
-    def usuarios(cls, session, usuario=None, dni=None, retornarClave=False, fecha_actualizado=None, offset=None, limit=None, fecha=None):
+    def usuarios(cls, session, search=None, retornarClave=False, fecha_actualizado=None, offset=None, limit=None, fecha=None):
+        if search is None and fecha_actualizado is None:
+            return []
+
+        if not offset and not limit:
+            offset = 0
+            limit = 10
+
         q = session.query(Usuario)
-        q = q.filter(Usuario.id == usuario) if usuario else q
-        q = q.filter(Usuario.dni == dni) if dni else q
+        q = q.filter(or_(\
+            Usuario.dni.op('~*')(search),\
+            Usuario.nombre.op('~*')(search),\
+            Usuario.apellido.op('~*')(search)\
+        )) if search else q
         q = q.filter(or_(Usuario.actualizado >= fecha, Usuario.creado >= fecha)) if fecha else q
         q = q.options(joinedload('claves')) if retornarClave else q
         q = q.options(joinedload('mails'), joinedload('telefonos'))

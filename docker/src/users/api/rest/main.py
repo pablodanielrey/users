@@ -103,24 +103,22 @@ def obtener_avatar_binario_por_usuario(uid):
 @app.route('/users/api/v1.0/usuarios/<uid>', methods=['GET'])
 @jsonapi
 def usuarios(uid):
+    search = request.args.get('q', None)
     offset = request.args.get('offset',None,int)
     limit = request.args.get('limit',None,int)
     mostrarClave = request.args.get('c',False,bool)
 
-    fecha_str = request.args.get('f', None)
-    fecha = parser.parse(fecha_str) if fecha_str else None
 
     session = Session()
     try:
-        if not uid:
-            dni = request.args.get('dni',None,str)
-            dni = dni.strip()
-            if dni == '':
-                return []
-            return UsersModel.usuarios(session=session, dni=dni, retornarClave=mostrarClave, offset=offset, limit=limit, fecha=fecha)
-        else:
-            us = UsersModel.usuarios(session=session, usuario=uid, retornarClave=mostrarClave)
+        if uid:
+            us = UsersModel.usuario(session=session, uid=uid, retornarClave=mostrarClave)
             return None if len(us) == 0 else us[0]
+
+        else:
+            fecha_str = request.args.get('f', None)
+            fecha = parser.parse(fecha_str) if fecha_str else None
+            return UsersModel.usuarios(session=session, search=search, retornarClave=mostrarClave, offset=offset, limit=limit, fecha=fecha)
 
     finally:
         session.close()
