@@ -49,6 +49,11 @@ class UsersModel:
 
 
     @classmethod
+    def login(cls, session, usuario, clave):
+         return session.query(UsuarioClave).filter(UsuarioClave.nombre_de_usuario == usuario, UsuarioClave.clave == clave).one()
+
+
+    @classmethod
     def claves(cls, session, uid=None, cid=None, limit=None, offset=None):
         q = session.query(UsuarioClave)
         q = q.filter(UsuarioClave.id == cid) if cid else q

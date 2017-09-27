@@ -97,6 +97,18 @@ def obtener_avatar_binario_por_usuario(uid):
     return obtener_avatar_binario(h)
 
 
+@app.route('/users/api/v1.0/auth', methods=['POST'])
+@jsonapi
+def auth():
+    data = json.loads(request.data)
+    usuario = data['usuario']
+    clave = data['clave']
+    s = Session()
+    try:
+        return UsersModel.login(s, usuario, clave)
+    finally:
+        s.close()
+
 
 @app.route('/users/api/v1.0/usuarios', methods=['GET'], defaults={'uid':None})
 @app.route('/users/api/v1.0/usuarios/', methods=['GET'], defaults={'uid':None})
@@ -108,12 +120,11 @@ def usuarios(uid):
     limit = request.args.get('limit',None,int)
     mostrarClave = request.args.get('c',False,bool)
 
-
     session = Session()
     try:
         if uid:
             us = UsersModel.usuario(session=session, uid=uid, retornarClave=mostrarClave)
-            return None if len(us) == 0 else us[0]
+            return us
 
         else:
             fecha_str = request.args.get('f', None)
