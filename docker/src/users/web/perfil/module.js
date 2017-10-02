@@ -1,4 +1,4 @@
-app = angular.module('MainApp', ['ui.router', 'ngResource','ngFileUpload', 'ngImgCrop' ,'ngMaterial'])
+app = angular.module('MainApp', ['ui.router', 'ngResource','ngFileUpload', 'ngImgCrop' ,'ngMaterial', 'ui.bootstrap'])
 
 app.config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')

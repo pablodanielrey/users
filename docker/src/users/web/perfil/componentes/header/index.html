@@ -11,8 +11,15 @@
       </div>
       <div class="collapse navbar-collapse" ng-class="!navCollapsed &amp;&amp; 'in'">
         <ul class="nav navbar-nav navbar-right">
-          <li><a class="btnUSer" ><i class="fa fa-user-circle" aria-hidden="true"></i>  {{view.usuario.name}} {{view.usuario.family_name}}</a></li>
-          <li><a class="btnOut" ng-click="salir()"><span class="glyphicon glyphicon-log-out"></span> Salir</a></li>
+          <li uib-dropdown="" class="dropdown">
+            <a uib-dropdown-toggle="" href="#" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-circle" aria-hidden="true"></i> {{view.usuario.name}} {{view.usuario.family_name}} <span class="caret"></span></a>
+            <ul uib-dropdown-menu="" class="dropdown-menu">
+              <li ng-click=""><i class="fa fa-key" aria-hidden="true"></i> Cambiar Contraseña</li>
+              <li ng-click="salir()"><i class="fa fa-sign-out" aria-hidden="true"></i> Salir</a></li>
+            </ul>
+          </li>
+          <!-- <li><a class="btnUSer" ><i class="fa fa-user-circle" aria-hidden="true"></i>  {{view.usuario.name}} {{view.usuario.family_name}}</a></li>
+          <li><a class="btnOut" ng-click="salir()"><span class="glyphicon glyphicon-log-out"></span> Salir</a></li> -->
         </ul>
       </div>
 </div>
