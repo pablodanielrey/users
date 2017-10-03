@@ -3,7 +3,7 @@
     <h4>PERFIL DE USUARIO</h4><hr>
 
     <!-- imagen -->
-    <div class='avatar {{view.cambiando_imagen_estilo}}'>
+    <!-- <div class='avatar {{view.cambiando_imagen_estilo}}'>
         <div class="fdr">
             <div class='area_de_imagen'>
                 <img ng-src='{{model.avatar}}'></img>
@@ -21,14 +21,32 @@
               <button class='btn btnPrimary cortar_imagen' ng-click="subir_avatar(croppedDataUrl, picFile.name);"><i class="fa fa-scissors" aria-hidden="true"></i> Cortar Imagen</button>
           </div>
         </div>
-    </div><hr>
+    </div><hr> -->
 
-    <b>Nombre</b><input ng-model='model.usuario.nombre' class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
+
+    <div class="form-group fdr fac">
+      <div class="NombreInput">Nombre</div>
+      <input type="text" class="inputFormulario form-control" ng-model="model.usuario.nombre" required>
+    </div>
+    <div class="form-group fdr fac">
+      <div class="NombreInput">Apellido</div>
+      <input type="text" class="inputFormulario form-control" ng-model="model.usuario.apellido" required>
+    </div>
+    <div class="form-group fdr fac">
+      <div class="NombreInput">DNI</div>
+      <input type="text" class="inputFormulario form-control" ng-model="model.usuario.dni" required>
+    </div>
+    <div class="form-group fdr fac">
+      <div class="NombreInput">Legajo</div>
+      <input type="text" class="inputFormulario form-control" ng-model="" value='2806/4' required>
+    </div>
+
+    <!-- <b>Nombre</b><input ng-model='model.usuario.nombre' class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
     <b>Apellido</b><input ng-model='model.usuario.apellido' class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
     <b>DNI</b><input ng-model='model.usuario.dni' readonly=true class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
-    <b>Legajo</b><input value='2806/4' readonly=true class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input>
+    <b>Legajo</b><input value='2806/4' readonly=true class="inputData form-control ng-pristine ng-valid ng-empty ng-touched"></input> -->
 
-    <md-button class="md-raised md-primary" ng-click='actualizarUsuario(model.usuario)'>GUARDAR CAMBIOS</md-button>
+    <!-- <md-button class="md-raised md-primary" ng-click='actualizarUsuario(model.usuario)'>GUARDAR CAMBIOS</md-button> -->
 
 
 </div>
