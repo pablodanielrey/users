@@ -1,5 +1,5 @@
 <div>
-    <div class="fdr">
+    <div class="contenedorNombre fdr">
       <h4>Hola {{config.usuario.name}} {{cnofig.usuario.lastname}} </h4>
       <!-- <h4>&nbsp; Walter</h4> -->
     </div>
@@ -10,9 +10,9 @@
             <div class='area_de_imagen'>
                 <img ng-src='{{model.avatar}}'></img>
             </div>
-            <div>
+            <div class="btnCambiarImagen">
               <!-- <md-button class="md-raised md-button" ng-click="cambiar_imagen();" ngf-select ng-model="picFile" accept="image/*">Cambiar imagen</md-button> -->
-              <md-button md-no-ink class="md-primary" ng-click="cambiar_imagen();" ngf-select ng-model="picFile" accept="image/*">Cambiar Imagen</md-button>
+              <md-button md-no-ink class="md-primary " ng-click="cambiar_imagen();" ngf-select ng-model="picFile" accept="image/*">Cambiar Imagen</md-button>
             </div>
         </div>
 

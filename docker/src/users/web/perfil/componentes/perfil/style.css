@@ -440,6 +440,31 @@ padding-left: 5px;
     /*grid-area: contenido;*/
     width: 50%;
     height: 50%;
+    margin: 0 auto;
   }
+
+  .perfil .btnCambiarImagen {
+    margin: 0 auto;
+  }
+
+  .perfil .contendorLinks {
+    display: none;
+  }
+
+  .perfil h4 {
+    margin: 0 auto;
+  }
+
+ .perfil .mailInput {
+   background-color: #EFF0F1;
+   padding: 6px;
+   border-right: 1px solid #ccc;
+   border-radius: 4px 0 0 4px;
+   width: 80px;
+   font-size: 12px;
+ }
+ .perfil .miCorreo {
+   font-size: 12px;
+ }
 
 }
