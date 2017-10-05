@@ -1,55 +1,9 @@
 <div class='editarPerfil'>
 
-      <div class="contenedorFoto">
-          <div>
-              <div class="fdr">
-                <h4>Hola! </h4>
-                <!-- <h4>&nbsp; Walter</h4> -->
-              </div>
-
-              <!-- imagen -->
-              <div class='avatar {{view.cambiando_imagen_estilo}}'>
-                  <div class="fdc">
-                      <div class='area_de_imagen'>
-                          <img ng-src='{{model.avatar}}'></img>
-                      </div>
-                      <div>
-                        <!-- <md-button class="md-raised md-button" ng-click="cambiar_imagen();" ngf-select ng-model="picFile" accept="image/*">Cambiar imagen</md-button> -->
-                        <md-button md-no-ink class="md-primary" ng-click="cambiar_imagen();" ngf-select ng-model="picFile" accept="image/*">Cambiar Imagen</md-button>
-                      </div>
-                  </div>
-
-                  <div class="contenedorAreaDeCorte fdr fac">
-                      <div class='area_de_corte'>
-                        <img-crop class="imgAreaDeCorte" image="picFile | ngfDataUrl" result-image="croppedDataUrl" ng-init="croppedDataUrl=''"></img-crop>
-                      </div>
-                      <div class="fdr fjc">
-                        <button class='btn btnPrimary cortar_imagen' ng-click="subir_avatar(croppedDataUrl, picFile.name);"><i class="fa fa-scissors" aria-hidden="true"></i> Cortar Imagen</button>
-                    </div>
-                  </div>
-              </div>
-          </div>
-
-          <div>
-            <md-button class="md-raised md-primary btnGuardar" ng-click='actualizarUsuario(model.usuario)'>GUARDAR CAMBIOS</md-button><br>
-            <div class="contendorLinks">
-                <a ng-href="" class="md-accent"> Acerca de Usuarios FCE</a><br>
-                <a ng-href="" class="md-accent" > Términos y condiciones</a><br>
-                <a ng-href="" class="md-accent" > ¿Necesitas ayuda?</a><br>
-            </div>
-
-
-          </div>
-
-
-
-      </div>
-
+      <div class="contenedorFoto" ng-include="'componentes/perfil/templates/foto.html'"></div>
 
       <div class="contendorDatos" ng-include="'componentes/perfil/templates/perfil.html'"></div>
 
-      <div class="contenedorMails"ng-include="'componentes/perfil/templates/correos.html'"></div>
-
-      <!-- <button ng-click='guardado_con_exito()'>guardar_con_exito</button> -->
+      <div class="contenedorMails" ng-include="'componentes/perfil/templates/correos.html'"></div>
 
 </div>
