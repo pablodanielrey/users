@@ -1,10 +1,14 @@
 
-app.controller("HeaderCtrl", ["$scope", "$location", "$resource", "$timeout", "$window", function ($scope, $location, $resource, $tiemout, $window) {
+app.controller("HeaderCtrl", ["$scope", "$location", "$resource", "$timeout", "$window", "$state", function ($scope, $location, $resource, $tiemout, $window, $state) {
 
   $scope.view = {
     logo: '/img/usersico.gif',
     usuario: null
   };
+
+  $scope.cambiarClave = function() {
+    $state.go('cambio_clave',{uid:$scope.view.usuario.sub});
+  }
 
   $scope.salir = function() {
     $window.location.href = '/logout';

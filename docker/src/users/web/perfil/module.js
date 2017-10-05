@@ -107,6 +107,35 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     templateUrl: 'componentes/cambio_clave_temporal/templates/error_sistema.html'
   })
 
+  // --- cambio de clave ---
+
+  $stateProvider
+  .state('cambio_clave', {
+    url:'/cambio_clave/:uid',
+    params: {
+      uid: ''
+    },
+    templateUrl: 'componentes/cambio_clave/index.html',
+    controller:'CambioClaveCtrl'
+  })
+  .state('cambio_clave.ingresar_clave', {
+    url:'/ingresar_nueva_clave',
+    templateUrl: 'componentes/cambio_clave/templates/ingresar_clave.html'
+  })
+  .state('cambio_clave.cambio_exitoso', {
+    url:'/cambio_clave_exitoso',
+    templateUrl: 'componentes/cambio_clave/templates/cambio_exitoso.html'
+  })
+  .state('cambio_clave.FormatoDeClaveIncorrectoError', {
+    url:'/formato_clave_incorrecto',
+    templateUrl: 'componentes/cambio_clave/templates/formato_incorrecto.html'
+  })
+  .state('cambio_clave.SistemaError', {
+    url:'/error_clave',
+    templateUrl: 'componentes/cambio_clave/templates/error_sistema.html'
+  })
+
+
 
   // --- config correo alternativo ----
 
