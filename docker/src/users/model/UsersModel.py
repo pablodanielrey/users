@@ -132,7 +132,6 @@ class UsersModel:
         )) if search else q
         q = q.filter(or_(Usuario.actualizado >= fecha, Usuario.creado >= fecha)) if fecha else q
 
-        #q = q.options(joinedload('claves')) if retornarClave else q
         if retornarClave:
             q = q.join(UsuarioClave).filter(UsuarioClave.eliminada == None).options(contains_eager(Usuario.claves))
 
