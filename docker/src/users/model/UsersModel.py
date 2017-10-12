@@ -134,7 +134,7 @@ class UsersModel:
         q = q.options(joinedload('claves')) if retornarClave else q
         #q = q.options(joinedload('mails'), joinedload('telefonos'))
         q = q.options(joinedload('telefonos'))
-        q = q.join(Mail, Mail.eliminado is None)
+        q = q.join(Mail).filter(Mail.eliminado is None)
         q = q.options(contains_eager('mails'))
         q = cls._aplicar_filtros_comunes(q, offset, limit)
         return q.all()
