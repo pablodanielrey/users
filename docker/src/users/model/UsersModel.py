@@ -5,7 +5,7 @@ import base64
 import requests
 
 from sqlalchemy import or_
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import joinedload, contains_eager
 
 from . import Session, obtener_template, enviar_correo
 from .exceptions import *
@@ -132,7 +132,10 @@ class UsersModel:
         )) if search else q
         q = q.filter(or_(Usuario.actualizado >= fecha, Usuario.creado >= fecha)) if fecha else q
         q = q.options(joinedload('claves')) if retornarClave else q
-        q = q.options(joinedload('mails'), joinedload('telefonos'))
+        #q = q.options(joinedload('mails'), joinedload('telefonos'))
+        q = q.options(joinedload('telefonos'))
+        q = q.join(Mail, Mail.eliminado is None)
+        q = q.options(contains_eager('mails'))
         q = cls._aplicar_filtros_comunes(q, offset, limit)
         return q.all()
 
