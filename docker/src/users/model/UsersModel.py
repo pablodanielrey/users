@@ -116,8 +116,8 @@ class UsersModel:
         return q.one()
 
     @classmethod
-    def usuarios(cls, session, search=None, retornarClave=False, fecha_actualizado=None, offset=None, limit=None, fecha=None):
-        if search is None and fecha_actualizado is None:
+    def usuarios(cls, session, search=None, retornarClave=False, offset=None, limit=None, fecha=None):
+        if search is None and fecha is None:
             return []
 
         if not offset and not limit:

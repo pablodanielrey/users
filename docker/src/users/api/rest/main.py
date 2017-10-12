@@ -129,8 +129,6 @@ def usuarios(uid):
         else:
             fecha_str = request.args.get('f', None)
             fecha = parser.parse(fecha_str) if fecha_str else None
-            print(fecha_str)
-            print(fecha)
             return UsersModel.usuarios(session=session, search=search, retornarClave=mostrarClave, offset=offset, limit=limit, fecha=fecha)
 
     finally:
