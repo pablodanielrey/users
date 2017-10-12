@@ -121,10 +121,6 @@ class UsersModel:
         if search is None and fecha is None:
             return []
 
-        if not offset and not limit:
-            offset = 0
-            limit = 10
-
         q = session.query(Usuario)
         q = q.filter(or_(\
             Usuario.dni.op('~*')(search),\
