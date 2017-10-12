@@ -111,7 +111,8 @@ class UsersModel:
     @classmethod
     def usuario(cls, session, uid, retornarClave=False):
         q = session.query(Usuario).filter(Usuario.id == uid)
-        q = q.options(joinedload('claves')) if retornarClave else q
+        if retornarClave:
+            q = q.join(UsuarioClave).filter(UsuarioClave.eliminada == None).options(contains_eager(Usuario.claves))
         q = q.options(joinedload('mails'), joinedload('telefonos'))
         return q.one()
 
@@ -131,16 +132,14 @@ class UsersModel:
             Usuario.apellido.op('~*')(search)\
         )) if search else q
         q = q.filter(or_(Usuario.actualizado >= fecha, Usuario.creado >= fecha)) if fecha else q
+        q = cls._aplicar_filtros_comunes(q, offset, limit)
+        q = q.options(joinedload('telefonos'))
 
         if retornarClave:
             q = q.join(UsuarioClave).filter(UsuarioClave.eliminada == None).options(contains_eager(Usuario.claves))
 
-        q = q.options(joinedload('telefonos'))
+        q = q.join(Mail).filter(Mail.eliminado == None).options(contains_eager(Usuario.mails))
 
-        q = q.join(Mail).filter(Mail.eliminado == None)
-        q = q.options(contains_eager(Usuario.mails))
-
-        q = cls._aplicar_filtros_comunes(q, offset, limit)
         return q.all()
 
     @classmethod
