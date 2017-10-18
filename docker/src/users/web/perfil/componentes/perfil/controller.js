@@ -30,6 +30,7 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
         }
 
         $scope.cancelar_cambiar_imagen = function() {
+          $scope.view.cambiando_imagen_estilo = '';
           $scope.recargar();
         }
 
