@@ -29,6 +29,10 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
           $state.go('perfil.editar_perfil', $stateParams);
         }
 
+        $scope.cancelar_cambiar_imagen = function() {
+          $scope.recargar();
+        }
+
 
         $scope._cargar_url_avatar = function() {
           var uid = $stateParams['uid'];
