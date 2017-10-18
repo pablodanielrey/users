@@ -30,7 +30,7 @@ class UsersModel:
         resp = requests.get(url)
         if resp.status_code != 200:
             ''' pruebo obtener una imagen por defecto '''
-            with open('templates/user.jpg', 'rb') as f:
+            with open('users/model/templates/avatar.png', 'rb') as f:
                 avatar = {
                     'name': 'default',
                     'data': base64.b64encode(f.read()).decode('utf-8'),
