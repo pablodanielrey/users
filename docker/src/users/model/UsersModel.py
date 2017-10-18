@@ -179,7 +179,7 @@ class UsersModel:
         correo.fecha_confirmado = datetime.datetime.now()
 
     @classmethod
-    def enviar_confirmar_correo(cls, session, cid, datos):
+    def enviar_confirmar_correo(cls, session, cid):
         correo = session.query(Mail).filter(Mail.id == cid).one()
         if not correo.hash:
             correo.hash=str(uuid.uuid4())[:5]

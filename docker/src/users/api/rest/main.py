@@ -262,10 +262,9 @@ def eliminar_correo(uid=None, cid=None):
 @app.route('/users/api/v1.0/usuarios/<uid>/correos/<cid>/enviar_confirmar', methods=['GET'])
 @jsonapi
 def enviar_confirmar_correo(uid, cid):
-    datos = json.loads(request.data)
     session = Session()
     try:
-        UsersModel.enviar_confirmar_correo(session, cid, datos)
+        UsersModel.enviar_confirmar_correo(session, cid)
         session.commit()
     finally:
         session.close()
