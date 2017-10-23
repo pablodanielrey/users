@@ -74,8 +74,6 @@ class UsersModel:
             por lo que no queda historial ni eliminación lógica de la clave!!!!
             cuando todos los sistemas estén usando el nuevo esquema se cambia este método para registrar el historial de claves.
         '''
-        import pdb; pdb.set_trace();
-
         assert uid is not None
 
         if not clave or len(clave) < 8:

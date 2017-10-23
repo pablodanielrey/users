@@ -155,8 +155,9 @@ def crear_clave(uid):
 
     session = Session()
     try:
-        return UsersModel.cambiar_clave(session, uid, data['clave'])
+        r = UsersModel.cambiar_clave(session, uid, data['clave'])
         session.commit()
+        return r
     finally:
         session.close()
 
