@@ -4,7 +4,7 @@ import datetime
 import base64
 import requests
 
-from sqlalchemy import or_
+from sqlalchemy import or_, and_
 from sqlalchemy.orm import joinedload, contains_eager
 
 from . import Session, obtener_template, enviar_correo
@@ -91,6 +91,7 @@ class UsersModel:
         uclave = session.query(UsuarioClave).filter(UsuarioClave.usuario_id == uid).one_or_none()
         if uclave:
             uclave.clave = clave
+            uclave.actualizado = datetime.datetime.now()
         else:
             uuclave = UsuarioClave(usuario_id=uid, nombre_de_usuario=dni, clave=clave)
             session.add(uuclave)
@@ -120,24 +121,41 @@ class UsersModel:
         q = q.options(joinedload('mails'), joinedload('telefonos'))
         return q.one()
 
-    @classmethod
-    def usuarios(cls, session, search=None, retornarClave=False, offset=None, limit=None, fecha=None):
-        if search is None and fecha is None:
-            return []
 
+    @classmethod
+    def encontrarUsuariosModificadosDesde(cls, session, fecha, offset=None, limit=None):
+        q = session.query(Usuario)
+        q = q.options(joinedload('telefonos'))
+        q = q.join(Mail).filter(Mail.eliminado == None).options(contains_eager(Usuario.mails))
+        q = q.join(UsuarioClave).filter(and_(UsuarioClave.eliminada == None, or_(Usuario.actualizado >= fecha, Usuario.creado >= fecha, UsuarioClave.actualizado >= fecha, UsuarioClave.creado >= fecha))).options(contains_eager(Usuario.claves))
+        q = cls._aplicar_filtros_comunes(q, offset, limit)
+        return q.all()
+
+    @classmethod
+    def encontrarUsuariosPorSearch(cls, session, search, retornarClave=False, offset=None, limit=None):
         q = session.query(Usuario)
         q = q.filter(or_(\
             Usuario.dni.op('~*')(search),\
             Usuario.nombre.op('~*')(search),\
             Usuario.apellido.op('~*')(search)\
         )) if search else q
-        q = q.filter(or_(Usuario.actualizado >= fecha, Usuario.creado >= fecha)) if fecha else q
-        q = q.options(joinedload('telefonos'))
+
         if retornarClave:
             q = q.join(UsuarioClave).filter(UsuarioClave.eliminada == None).options(contains_eager(Usuario.claves))
+
+        q = q.options(joinedload('telefonos'))
         q = q.join(Mail).filter(Mail.eliminado == None).options(contains_eager(Usuario.mails))
         q = cls._aplicar_filtros_comunes(q, offset, limit)
         return q.all()
+
+    @classmethod
+    def usuarios(cls, session, search=None, retornarClave=False, offset=None, limit=None, fecha=None):
+        if fecha:
+            return cls.encontrarUsuariosModificadosDesde(session, fecha, offset=offset, limit=limit)
+        if search:
+            return cls.encontrarUsuariosPorSearch(session, search, retornarClave=retornarClave, offset=offset, limit=limit)
+        return []
+
 
     @classmethod
     def existe(cls, session, usuario):
