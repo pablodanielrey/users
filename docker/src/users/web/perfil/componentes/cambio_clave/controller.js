@@ -24,8 +24,8 @@ app.controller("CambioClaveCtrl", ["$scope", "$resource", "$timeout", '$state', 
     $state.go('perfil.editar_perfil');
   }
 
-  $scope.volver = function() {
-    $state.go('pefil.editar_perfil');
+  $scope.editarPerfil = function() {
+    $state.go('perfil.editar_perfil', {'uid':$scope.config.usuario.sub});
   }
 
   $scope.setearError = function(err) {

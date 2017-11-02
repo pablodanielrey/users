@@ -43,9 +43,9 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
   })
   .state('perfil.editar_perfil', {
     url:'/editar_perfil/:uid',
-    // params: {
-    //   uid: ''
-    // },
+    params: {
+       uid: ''
+    },
     templateUrl: 'componentes/perfil/templates/editar_perfil.html'
   })
   .state('perfil.cargando', {

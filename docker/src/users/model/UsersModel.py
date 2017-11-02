@@ -76,7 +76,10 @@ class UsersModel:
         '''
         assert uid is not None
 
-        if not clave or len(clave) < 8:
+        if not clave:
+            raise FormatoDeClaveIncorrectoError()
+
+        if len(clave) < 8:
             raise FormatoDeClaveIncorrectoError()
 
         """
