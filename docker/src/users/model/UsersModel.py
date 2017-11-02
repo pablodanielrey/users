@@ -114,8 +114,14 @@ class UsersModel:
         usuario.apellido = apellido
 
     @classmethod
-    def usuario(cls, session, uid, retornarClave=False):
-        q = session.query(Usuario).filter(Usuario.id == uid)
+    def usuario(cls, session, uid=None, dni=None, retornarClave=False):
+        q = session.query(Usuario)
+        if uid:
+            q = q.filter(Usuario.id == uid)
+
+        if dni:
+            q = q.filter(Usuario.dni == dni)
+
         if retornarClave:
             q = q.join(UsuarioClave).filter(UsuarioClave.eliminada == None).options(contains_eager(Usuario.claves))
         q = q.options(joinedload('mails'), joinedload('telefonos'))

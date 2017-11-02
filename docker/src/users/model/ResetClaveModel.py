@@ -5,6 +5,8 @@ import os
 import logging
 logging.getLogger().setLevel(logging.DEBUG)
 
+from sqlalchemy import or_, and_
+
 from . import Session, UsersModel, obtener_template, enviar_correo
 from .exceptions import *
 from .JWTModel import JWTModel
@@ -12,11 +14,12 @@ from .entities import *
 
 class ResetClaveModel:
 
+
     DECODERS = [
-        JWTModel(os.environ['JWT_CLAVE1']),
-        JWTModel(os.environ['JWT_CLAVE2']),
-        JWTModel(os.environ['JWT_CLAVE3'], 60 * 5),                 # ingresar el código enviado al correo
-        JWTModel(os.environ['JWT_CLAVE4'])
+        JWTModel(str(uuid.uuid4()) + str(uuid.uuid4())),
+        JWTModel(str(uuid.uuid4()) + str(uuid.uuid4())),
+        JWTModel(str(uuid.uuid4()) + str(uuid.uuid4()), 60 * 5),                 # ingresar el código enviado al correo
+        JWTModel(str(uuid.uuid4()) + str(uuid.uuid4()), 60)
     ]
 
     @staticmethod
@@ -43,7 +46,7 @@ class ResetClaveModel:
         session = Session()
         try:
             q = session.query(ResetClaveCodigo)
-            q = q.filter(ResetClaveCodigo.verificado == None) if solo_pendientes else q
+            q = q.filter(ResetClaveCodigo.verificado == None, ResetClaveCodigo.expira >= datetime.datetime.now()) if solo_pendientes else q
             q = q.limit(limit) if limit else q
             q = q.offset(offset) if offset else q
             q = q.order_by(ResetClaveCodigo.creado.desc(), ResetClaveCodigo.actualizado.desc())
@@ -70,6 +73,12 @@ class ResetClaveModel:
             cls.DECODERS[0].decode_auth_token(token)
         except Exception as e:
             raise TokenExpiradoError()
+
+        ''' 5 veces como máximo intentos de recuperación por día '''
+        ayer = (datetime.datetime.now() - datetime.timedelta(hours=24)).replace(hour=0,second=0,minute=0)
+        intentos = session.query(ResetClave).filter(and_(ResetClave.dni == dni, ResetClave.creado >= ayer)).count()
+        if intentos > 5:
+            raise LimiteDeVerificacionError()
 
         rc = ResetClave(dni=dni)
         session.add(rc)
@@ -110,31 +119,40 @@ class ResetClaveModel:
         try:
             dni = datos['dni']
             correo = datos['correo']['email']
+
             ahora = datetime.datetime.now()
-            rc = session.query(ResetClaveCodigo).filter(ResetClaveCodigo.dni == dni, ResetClaveCodigo.correo == correo, ResetClaveCodigo.expira >= ahora).one_or_none()
-            if not rc:
+            esperaEnvio = ahora - datetime.timedelta(hours=5)
+
+            rcs = session.query(ResetClaveCodigo).filter(ResetClaveCodigo.dni == dni, ResetClaveCodigo.correo == correo).order_by(ResetClaveCodigo.expira.desc()).all()
+            rc = None
+            for r in rcs:
+                if r.expira < ahora:
+                    continue
+
+                if r.verificado:
+                    continue
+
+                ''' tengo el primer codigo que no ha expirado '''
+                r.expira = ahora + datetime.timedelta(days=1)
+
+                rc = r
+                break
+            else:
                 rc = ResetClaveCodigo(nombre = datos['nombre'] + ' ' + datos['apellido'],
                                       dni = datos['dni'],
                                       codigo = str(uuid.uuid4())[:5],
                                       correo = datos['correo']['email'],
                                       expira = ahora + datetime.timedelta(days=1))
                 session.add(rc)
-            else:
-                rc.expira = rc.expira + datetime.timedelta(days=1)
             session.commit()
 
-            '''
-                ///////////////////////////////////////////////////
-                //////////////////////////
-                TODO: aca falta chequear la cantidad de envíos realizados para un correo en especial. Debe ser por dni!!!
-
-                LimiteDeEnvioError
-            '''
-
-            temp = obtener_template('reset_clave.html', rc.nombre, rc.codigo)
-            r = enviar_correo('pablo.rey@econo.unlp.edu.ar', rc.correo, 'Código de confirmación de cambio de contraseña', temp)
-            if not r.ok:
-                raise EnvioCodigoError()
+            if not rc.enviado or rc.enviado <= esperaEnvio:
+                temp = obtener_template('reset_clave.html', rc.nombre, rc.codigo)
+                r = enviar_correo('sistemas@econo.unlp.edu.ar', rc.correo, 'Código de confirmación de cambio de contraseña', temp)
+                if not r.ok:
+                    raise EnvioCodigoError()
+                rc.enviado = ahora
+                session.commit()
 
             nuevo_token = cls.DECODERS[2].encode_auth_token(datos=rc.id)
             return { 'estado':'ok', 'token': nuevo_token }
@@ -161,13 +179,18 @@ class ResetClaveModel:
             if not rc:
                 raise TokenExpiradoError()
 
-            if rc.codigo != codigo:
-                raise CodigoIncorrectoError()
+            if rc.verificado:
+                raise TokenExpiradoError()
 
-            '''
-                TODO: falta agregar el chequeo de intentos de verificaciónes. para chequear veces que se haya ingresado el codigo.
-                raise LimiteDeVerificacionError
-            '''
+            if rc.intentos > 10:
+                rc.expira = ahora
+                session.commit()
+                raise LimiteDeVerificacionError()
+
+            if rc.codigo != codigo:
+                rc.intentos = rc.intentos + 1
+                session.commit()
+                raise CodigoIncorrectoError()
 
             rc.verificado = ahora
             rc.expira = ahora
@@ -187,14 +210,17 @@ class ResetClaveModel:
         try:
             dni = cls.DECODERS[3].decode_auth_token(token)
         except Exception as e:
+            logging.debug(e)
             raise TokenExpiradoError()
 
         try:
-            usuario = UsersModel.usuarios(session, dni=dni)[0]
+            usuario = UsersModel.usuario(session, dni=dni)
             UsersModel.cambiar_clave(session, usuario.id, clave)
         except UsersError as e1:
+            logging.debug(e1)
             raise e1
         except Exception as e:
+            logging.debug(e)
             raise ClaveError()
 
         return { 'estado': 'ok', 'mensaje': 'contraseña cambiada con éxito', 'codigo': 0 }

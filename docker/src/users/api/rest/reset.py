@@ -63,7 +63,7 @@ def registrarApiReseteoClave(app):
     @app.route('/users/api/v1.0/reset/verificaciones', methods=['GET'])
     @jsonapi
     def reset_obtener_verificaciones_de_codigo():
-        solo_pendientes = request.args.get('p', True, bool)
+        solo_pendientes = request.args.get('p', False, bool)
         limit = request.args.get('limit', None, int)
         offset = request.args.get('offset', None, int)
         return ResetClaveModel.verificaciones(solo_pendientes=solo_pendientes, limit=limit, offset=offset)

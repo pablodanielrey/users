@@ -14,4 +14,6 @@ class ResetClaveCodigo(Base):
     codigo = Column(String)
     correo = Column(String)
     expira = Column(DateTime)
+    enviado = Column(DateTime)
     verificado = Column(DateTime)
+    intentos = Column(Integer, default=0)

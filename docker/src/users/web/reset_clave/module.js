@@ -24,13 +24,13 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     url:'/ingrese_dni',
     templateUrl: '/reset_clave/componentes/reset_clave/templates/ingrese_dni.html'
   })
-  .state('reset_clave.aviso_de_envio', {
-    url:'/aviso_de_envio',
-    templateUrl: 'componentes/reset_clave/templates/aviso_de_envio.html'
-  })
   .state('reset_clave.ingrese_codigo', {
     url:'/ingrese_codigo',
     templateUrl: 'componentes/reset_clave/templates/ingrese_codigo.html'
+  })
+  .state('reset_clave.enviando_codigo', {
+    url:'/enviando_codigo',
+    templateUrl: 'componentes/reset_clave/templates/enviando_codigo.html'
   })
   .state('reset_clave.ingrese_clave', {
     url:'/ingrese_clave',

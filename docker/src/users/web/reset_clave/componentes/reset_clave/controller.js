@@ -107,6 +107,16 @@ app.controller("ResetClaveCtrl", ["$scope", "$location", "$resource", "$timeout"
     $scope.view.tipo = $scope.view.tipos[$scope.view.indice];
   }
 
+  $scope.obtenerCorreo = function() {
+    var c = $scope.view.usuario.correo.email;
+    var domain = c.indexOf('@');
+    if (domain <= 2) {
+      return '**' + c.substring(domain);
+    } else {
+      return c.substring(0,2) + '*'.repeat(domain - 2) + c.substring(domain);
+    }
+  }
+
 
   $scope.iniciarProceso = function() {
     Reset.obtener_token(function(resp) {
@@ -123,26 +133,33 @@ app.controller("ResetClaveCtrl", ["$scope", "$location", "$resource", "$timeout"
     if ($scope.view.dni == '') {
       return;
     }
-    Reset.obtener_usuario({dni:$scope.view.dni}, function(resp) {
-      $scope.token = resp.token;
-      $scope.view.usuario = resp.usuario;
-      $state.go('reset_clave.aviso_de_envio');
-
-    }, function(e) {
-      console.log(e);
-      $scope.setearError(e.data);
+    Reset.obtener_usuario({dni:$scope.view.dni},
+      function(resp) {
+        $scope.token = resp.token;
+        $scope.view.usuario = resp.usuario;
+        $state.go('reset_clave.enviando_codigo');
+        $scope.enviarCodigo();
+      },
+      function(e) {
+        console.log(e);
+        $scope.setearError(e.data);
     })
   }
 
-  $scope.enviarCodigo = function() {
-    Reset.enviar_codigo(function(resp) {
-      $scope.token = resp.token;
-      $state.go('reset_clave.ingresar_codigo');
+  $scope.ingrese_codigo = function() {
+    $state.go('reset_clave.ingrese_codigo');
+  }
 
-    }, function(e) {
-      console.log(e);
-      $scope.setearError(e.data);
-    })
+  $scope.enviarCodigo = function() {
+    Reset.enviar_codigo(
+      function(resp) {
+          $scope.token = resp.token;
+          $scope.ingrese_codigo();
+      },
+      function(e) {
+          console.log(e);
+          $scope.setearError(e.data);
+      });
 
   }
 
@@ -175,5 +192,7 @@ app.controller("ResetClaveCtrl", ["$scope", "$location", "$resource", "$timeout"
     })
   }
 
-
+  $scope.finalizar = function() {
+    
+  }
 }]);
