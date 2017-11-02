@@ -22,7 +22,7 @@ app.controller("PreloadCtrl", ["$scope", "$http", '$timeout', '$state', function
 
         $scope.view.progreso = 80;
         if (!d.data.correos.tiene_alternativo) {
-          $state.go('config_correo_alternativo');
+          $state.go('config_correo_alternativo', {'uid':$scope.config.usuario.sub});
           return;
         }
 
