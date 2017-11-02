@@ -170,12 +170,16 @@ app.controller("ResetClaveCtrl", ["$scope", "$location", "$resource", "$timeout"
     var r = new Reset({codigo:$scope.view.codigo})
     r.$verificar_codigo(function(resp) {
       $scope.token = resp.token;
-      $state.go('reset_clave.ingrese_clave');
+      $scope.ingreseClave();
 
     }, function(e) {
       console.log(e);
       $scope.setearError(e.data);
     })
+  }
+
+  $scope.ingreseClave = function() {
+    $state.go('reset_clave.ingrese_clave');
   }
 
   $scope.cambiarClave = function() {
@@ -193,6 +197,6 @@ app.controller("ResetClaveCtrl", ["$scope", "$location", "$resource", "$timeout"
   }
 
   $scope.finalizar = function() {
-    
+
   }
 }]);

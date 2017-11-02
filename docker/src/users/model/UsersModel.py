@@ -137,6 +137,7 @@ class UsersModel:
         q = cls._aplicar_filtros_comunes(q, offset, limit)
         return q.all()
 
+
     @classmethod
     def encontrarUsuariosPorSearch(cls, session, search, retornarClave=False, offset=None, limit=None):
         q = session.query(Usuario)
