@@ -25,6 +25,14 @@ class Usuario(Base):
     telefonos = relationship('Telefono', back_populates='usuario')
     claves = relationship('UsuarioClave', back_populates='usuario')
 
+    def mails_alternativos(self, dominio):
+        for m in self.mails:
+            if m.eliminado:
+                continue
+            if m.fecha_confirmado and dominio not in m.email:
+                return m
+        return None
+
     """
 
 

@@ -14,6 +14,7 @@ from .entities import *
 
 class ResetClaveModel:
 
+    INTENTOS_POR_DIA = 50
 
     DECODERS = [
         JWTModel(str(uuid.uuid4()) + str(uuid.uuid4())),
@@ -74,21 +75,22 @@ class ResetClaveModel:
         except Exception as e:
             raise TokenExpiradoError()
 
-        ''' 5 veces como máximo intentos de recuperación por día '''
+        ''' intentos de recuperación por día '''
         ayer = (datetime.datetime.now() - datetime.timedelta(hours=24)).replace(hour=0,second=0,minute=0)
         intentos = session.query(ResetClave).filter(and_(ResetClave.dni == dni, ResetClave.creado >= ayer)).count()
-        if intentos > 5:
+        if intentos > cls.INTENTOS_POR_DIA:
             raise LimiteDeVerificacionError()
 
         rc = ResetClave(dni=dni)
         session.add(rc)
         session.commit()
 
-        usuario = session.query(Usuario).filter(Usuario.dni == dni).one_or_none()
+        usuario = UsersModel.usuario(session, dni=dni)
+        #usuario = session.query(Usuario).filter(Usuario.dni == dni).one_or_none()
         if not usuario:
             raise UsuarioNoEncontradoError()
 
-        correo = cls._obtener_correo_alternativo(usuario)
+        correo = usuario.mails_alternativos('econo.unlp.edu.ar')
         if not correo:
             raise NoTieneCuentaAlternativaError()
 
@@ -97,7 +99,7 @@ class ResetClaveModel:
             'apellido': usuario.apellido,
             'dni': usuario.dni,
             'correo': {
-                    'email': correo.email,
+                    'email': correo.email
                 }
         }
         nuevo_token = cls.DECODERS[1].encode_auth_token(datos=rusuario)
