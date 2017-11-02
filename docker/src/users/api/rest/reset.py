@@ -131,7 +131,8 @@ def registrarApiReseteoClave(app):
 
         session = Session()
         try:
-            return ResetClaveModel.cambiar_clave(session, token, datos['clave'])
+            r = ResetClaveModel.cambiar_clave(session, token, datos['clave'])
             session.commit()
+            return r
         finally:
             session.close()

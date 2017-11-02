@@ -214,8 +214,11 @@ class ResetClaveModel:
             raise TokenExpiradoError()
 
         try:
+            logging.debug('buscando usuario : {}'.format(dni))
             usuario = UsersModel.usuario(session, dni=dni)
+            logging.debug(usuario)
             UsersModel.cambiar_clave(session, usuario.id, clave)
+            logging.debug('cambio de clave exitoso')
         except UsersError as e1:
             logging.debug(e1)
             raise e1
