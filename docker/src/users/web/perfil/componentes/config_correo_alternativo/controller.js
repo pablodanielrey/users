@@ -1,12 +1,80 @@
 
-app.controller("ConfigCorreoAlternativoCtrl", ["$scope", "$resource", "$timeout", '$stateParams', function ($scope, $resource, $timeout, $stateParams) {
+app.controller("ConfigCorreoAlternativoCtrl", ["$scope", "$resource", "$timeout", '$state', '$stateParams', function ($scope, $resource, $timeout, $state, $stateParams) {
+
+  $scope.uid = $stateParams['uid'];
+  $scope.res = {
+    Correo: null
+  };
+
+  $scope.iniciarProceso = function() {
+    $state.go('config_correo_alternativo.terminos_y_condiciones');
+  }
+
+  $scope.aceptarTerminosYCondiciones = function() {
+    $scope.ingresarCorreoAlternativo();
+  }
+
+  $scope.ingresarCorreoAlternativo = function() {
+    $state.go('config_correo_alternativo.ingresar_correo');
+  }
+
+  $scope.agregarCorreo = function() {
+    if ($scope.view.correo == null || $scope.view.correo.indexOf('@') == -1) {
+      return;
+    }
+    var correo = new $scope.res.Correo({
+        email: $scope.view.correo,
+        confirmado: false
+    });
+    correo.$save({uid:$scope.uid}, function(c, headers) {
+      $scope.res.Correo.query({uid:$scope.uid}, function(cc) {
+        $scope.correoPendiente = $scope._buscarCorreoPendiente($scope.view.correo, cc);
+        if ($scope.correoPendiente == null) {
+          console.log('no existen correos pendientes con ese email - redirigiendo /perfil');
+          return;
+        }
+        $scope._enviarConfirmarCorreo($scope.correoPendiente);
+      });
+    });
+  }
+
+  $scope.ingresarCodigo = function() {
+    $state.go('config_correo_alternativo.ingresar_codigo');
+  }
+
+  $scope.correoVerificado = function() {
+    $state.go('config_correo_alternativo.verificado_correctamente');
+  }
+
+  $scope.cargarPerfil = function() {
+    $state.go('preload');
+  }
 
 
-  // var Correo = $resource('http://127.0.0.1:7001/users/api/v1.0/correos/:id', {id:null},
-  //                               {
-  //                                   'enviar_confirmar': { method:'POST', url: 'http://127.0.0.1:7001/users/api/v1.0/enviar_confirmar_correo/:id' },
-  //                                   'confirmar': { method:'POST', url: 'http://127.0.0.1:7001/users/api/v1.0/confirmar_correo/:id/:code' }
-  //                               });
+
+
+  $scope.crearRecursos = function() {
+    // defino los recursos a usar
+    $scope.res = {
+      Correo: $resource($scope.$parent.config.users_api_url + '/usuarios/:uid/correos/:cid',
+        {
+         uid:$stateParams['uid'],
+         cid:null
+        },
+        {
+         'enviar_confirmar': {method:'GET', url: $scope.config.users_api_url + '/usuarios/:uid/correos/:cid/enviar_confirmar'},
+         'confirmar': {method:'POST', url: $scope.config.users_api_url + '/usuarios/:uid/correos/:cid/confirmar'}
+        }
+     )
+   };
+
+   /*
+   $scope.res.Correo.query({uid:$stateParams['uid']}, function(ms) {
+      console.log(ms);
+      $scope.model.correos = ms;
+   });
+   */
+  }
 
   $scope.correoPendiente = null;
   $scope.view = {
@@ -66,48 +134,43 @@ app.controller("ConfigCorreoAlternativoCtrl", ["$scope", "$resource", "$timeout"
   }
 
 
-  $scope.agregarCorreo = function() {
-    if ($scope.view.correo == null || $scope.view.correo.indexOf('@') == -1) {
-      return;
-    }
-    var correo = new Correo({
-        email: $scope.view.correo,
-        confirmado: false
-    });
-    correo.$save({uid:$scope.uid}, function(c, headers) {
-      Correo.query({uid:$scope.uid}, function(cc) {
-        $scope.correoPendiente = $scope._buscarCorreoPendiente($scope.view.correo, cc);
-        if ($scope.correoPendiente == null) {
-          alert('no existen correos pendientes con ese email - redirigiendo /perfil');
-          return;
-        }
-        $scope._enviarConfirmarCorreo($scope.correoPendiente);
-      });
-    });
-  }
+
 
   $scope._enviarConfirmarCorreo = function(correo) {
-    correo.$enviar_confirmar({id:correo.id}, function() {
-      Correo.query({uid:$scope.uid}, function(cc) {
+    correo.$enviar_confirmar({cid:correo.id}, function() {
+      $scope.res.Correo.query({uid:$scope.uid}, function(cc) {
           // se carga nuevamente el correo porque ahora trae el hash para verificar.
           $scope.correoPendiente = $scope._buscarCorreoPorId($scope.correoPendiente.id, cc);
-          $scope.pasoSiguiente();
+          $scope.ingresarCodigo();
       });
     });
   }
 
 
   $scope.verificarCorreo = function() {
-    $scope.correoPendiente.$confirmar({id:$scope.correoPendiente.id, code:$scope.view.codigo}, function() {
-      Correo.query({uid:$scope.uid}, function(cc) {
-        $scope.correoPendiente = $scope._buscarCorreoPorId($scope.correoPendiente.id, cc);
-        if ($scope.correoPendiente.confirmado) {
-          $scope.pasoSiguiente();
-        } else {
-          alert('no pudo ser verificado');
-        }
+    $scope.correoPendiente.codigo = $scope.view.codigo;
+    $scope.correoPendiente.$confirmar(
+        {
+          uid:$scope.correoPendiente.usuario_id,
+          cid:$scope.correoPendiente.id,
+          codigo:$scope.correoPendiente.codigo
+        },
+      function() {
+        $scope.res.Correo.query({uid:$scope.uid}, function(cc) {
+          $scope.correoPendiente = $scope._buscarCorreoPorId($scope.correoPendiente.id, cc);
+          if ($scope.correoPendiente.confirmado) {
+            $scope.correoVerificado();
+          } else {
+            alert('no pudo ser verificado');
+          }
+        });
       });
-    });
   }
+
+
+
+
+  $scope.crearRecursos();
+  $scope.iniciarProceso();
 
 }]);
