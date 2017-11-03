@@ -168,6 +168,9 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
               $scope.res.Correo.query({uid:$scope.model.usuario.id}, function(cs) {
                 $scope.model.correos = cs;
                 $scope.recargar();
+                $timeout(function() {
+                  $scope.enviarConfirmarCorreo(correo);
+                });
               });
             },
             function(err) {
