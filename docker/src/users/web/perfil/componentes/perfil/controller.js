@@ -125,9 +125,12 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
 
         $scope.enviarConfirmarTodosLosCorreos = function() {
           for (var i = 0; i < $scope.model.correos.length; i++) {
-            $timeout(function() {
-              $scope.enviarConfirmarCorreo($scope.model.correos[i]);
-            });
+            var m = $scope.model.correos[i];
+            if (!esInstitucional(m) && !seEnvioCodigo(m) && !estaConfirmado(m)) {
+              $timeout(function() {
+                $scope.enviarConfirmarCorreo($scope.model.correos[i]);
+              },5);
+            }
           }
         }
 
@@ -175,7 +178,7 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
               $scope.model.emailAAgregar = '';
               $scope.res.Correo.query({uid:$scope.model.usuario.id}, function(cs) {
                 $scope.model.correos = cs;
-                $scope.recargar();
+                //$scope.recargar();
                 $timeout(function() {
                   $scope.enviarConfirmarTodosLosCorreos();
                 });
