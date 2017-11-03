@@ -123,6 +123,14 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
             });
         };
 
+        $scope.enviarConfirmarTodosLosCorreos = function() {
+          for (var i = 0; i < $scope.model.correos.length; i++) {
+            $timeout(function() {
+              $scope.enviarConfirmarCorreo($scope.model.correos[i]);
+            });
+          }
+        }
+
         $scope.enviarConfirmarCorreo = function(correo) {
           $scope.cargando();
           correo.$enviar_confirmar({cid:correo.id, uid:correo.usuario_id},
@@ -169,7 +177,7 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
                 $scope.model.correos = cs;
                 $scope.recargar();
                 $timeout(function() {
-                  $scope.enviarConfirmarCorreo(correo);
+                  $scope.enviarConfirmarTodosLosCorreos();
                 });
               });
             },
