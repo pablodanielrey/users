@@ -7,7 +7,8 @@ app.controller("ConfigCorreoAlternativoCtrl", ["$scope", "$resource", "$timeout"
   };
 
   $scope.iniciarProceso = function() {
-    $state.go('config_correo_alternativo.terminos_y_condiciones');
+    //$state.go('config_correo_alternativo.terminos_y_condiciones');
+    $scope.ingresarCorreoAlternativo();
   }
 
   $scope.aceptarTerminosYCondiciones = function() {
