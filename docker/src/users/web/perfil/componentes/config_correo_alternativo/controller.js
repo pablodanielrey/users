@@ -135,8 +135,6 @@ app.controller("ConfigCorreoAlternativoCtrl", ["$scope", "$resource", "$timeout"
   }
 
 
-
-
   $scope._enviarConfirmarCorreo = function(correo) {
     correo.$enviar_confirmar({cid:correo.id}, function() {
       $scope.res.Correo.query({uid:$scope.uid}, function(cc) {

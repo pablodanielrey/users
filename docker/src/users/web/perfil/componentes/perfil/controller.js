@@ -126,7 +126,7 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
         $scope.enviarConfirmarTodosLosCorreos = function() {
           for (var i = 0; i < $scope.model.correos.length; i++) {
             var m = $scope.model.correos[i];
-            if (!esInstitucional(m) && !seEnvioCodigo(m) && !estaConfirmado(m)) {
+            if (!$scope.esInstitucional(m) && !$scope.seEnvioCodigo(m) && !$scope.estaConfirmado(m)) {
               $timeout(function() {
                 $scope.enviarConfirmarCorreo($scope.model.correos[i]);
               },5);
