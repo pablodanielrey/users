@@ -22,7 +22,7 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
         }
 
         $scope.cargando = function() {
-          $state.go('perfil.cargando');
+          //$state.go('perfil.cargando');
         }
 
         $scope.recargar = function() {
