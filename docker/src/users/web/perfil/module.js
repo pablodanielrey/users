@@ -49,32 +49,32 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     templateUrl: 'componentes/perfil/templates/editar_perfil.html'
   })
   .state('perfil.cargando', {
-    url:'/cargando',
+    // url:'/cargando',
     templateUrl: 'componentes/perfil/templates/cargando.html'
   })
 
   .state('perfil.errorActualizandoUsuario', {
-    url:'/error_actualizando_usuario',
+    // url:'/error_actualizando_usuario',
     templateUrl: 'componentes/perfil/templates/error_actualizando_usuario.html'
   })
   .state('perfil.ErrorEnviandoConfirmacion', {
-    url:'/error_enviar_codigo',
+    // url:'/error_enviar_codigo',
     templateUrl: 'componentes/perfil/templates/error_enviar_codigo.html'
   })
   .state('perfil.Errorservidor', {
-    url:'/error_servidor',
+    // url:'/error_servidor',
     templateUrl: 'componentes/perfil/templates/error_servidor.html'
   })
   .state('perfil.UsuarioBloqueado', {
-    url:'/error_usuario_bloqueado',
+    // url:'/error_usuario_bloqueado',
     templateUrl: 'componentes/perfil/templates/error_usuario_bloqueado.html'
   })
   .state('perfil.Mensaje_guardado_con_exito', {
-    url:'/mensaje_guardado_con_exito',
+    // url:'/mensaje_guardado_con_exito',
     templateUrl: 'componentes/perfil/templates/mensaje_guardado_con_exito.html'
   })
   .state('perfil.FormatoIncorrecto', {
-    url:'/prueba2',
+    // url:'/prueba2',
     templateUrl: 'componentes/perfil/templates/error_servidor.html'
   })
 
@@ -146,41 +146,41 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     controller:'ConfigCorreoAlternativoCtrl'
   })
   .state('config_correo_alternativo.terminos_y_condiciones_alumnos', {
-    url:'/terminos_y_condiciones_alumnos',
+    // url:'/terminos_y_condiciones_alumnos',
     templateUrl: 'componentes/config_correo_alternativo/templates/terminos_y_condiciones_alumnos.html'
   })
   .state('config_correo_alternativo.terminos_y_condiciones', {
-    url:'/terminos_y_condiciones',
+    // url:'/terminos_y_condiciones',
     templateUrl: 'componentes/config_correo_alternativo/templates/terminos_y_condiciones.html'
   })
   .state('config_correo_alternativo.ingresar_correo', {
-    url:'/ingresar_correo',
+    // url:'/ingresar_correo',
     templateUrl: 'componentes/config_correo_alternativo/templates/ingresar_correo_alternativo.html'
   })
   .state('config_correo_alternativo.ingresar_codigo', {
-    url:'/ingresar_codigo',
+    // url:'/ingresar_codigo',
     templateUrl: 'componentes/config_correo_alternativo/templates/ingresar_codigo.html'
   })
   .state('config_correo_alternativo.verificado_correctamente', {
-    url:'/verificado_correctamente',
+    // url:'/verificado_correctamente',
     templateUrl: 'componentes/config_correo_alternativo/templates/verificado_correctamente.html'
   })
 
 
   .state('config_correo_alternativo.EnvioCodigoError', {
-    url:'/error_envio_codigo',
+    // url:'/error_envio_codigo',
     templateUrl: 'componentes/config_correo_alternativo/templates/error_envio_codigo.html'
   })
   .state('config_correo_alternativo.CodigoIncorrectoError', {
-    url:'/error_codigo_incorrecto',
+    // url:'/error_codigo_incorrecto',
     templateUrl: 'componentes/config_correo_alternativo/templates/error_codigo_incorrecto.html'
   })
   .state('config_correo_alternativo.CorreoBloqueadoError', {
-    url:'/error_correo_bloqueado',
+    // url:'/error_correo_bloqueado',
     templateUrl: 'componentes/config_correo_alternativo/templates/error_correo_bloqueado.html'
   })
   .state('config_correo_alternativo.SistemaError', {
-    url:'/error',
+    // url:'/error',
     templateUrl: 'componentes/config_correo_alternativo/templates/error.html'
   })
 
