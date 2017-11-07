@@ -240,8 +240,11 @@ def agregar_correo(uid):
     print(datos)
     session = Session()
     try:
-        UsersModel.agregar_correo(session=session, uid=uid, datos=datos)
+        cid = UsersModel.agregar_correo(session=session, uid=uid, datos=datos)
         session.commit()
+        UsersModel.enviar_confirmar_correo(session, cid)
+        session.commit()
+        
     except Exception as e:
         logging.exception(e)
         raise e

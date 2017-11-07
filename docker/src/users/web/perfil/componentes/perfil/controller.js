@@ -123,6 +123,7 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
             });
         };
 
+        /*
         $scope.enviarConfirmarTodosLosCorreos = function() {
           for (var i = 0; i < $scope.model.correos.length; i++) {
             var m = $scope.model.correos[i];
@@ -133,6 +134,7 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
             }
           }
         }
+        */
 
         $scope.enviarConfirmarCorreo = function(correo) {
           $scope.cargando();
@@ -164,7 +166,7 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
 
 
         $scope.agregarCorreo = function() {
-          if ($scope.model.emailAAgregar == null) {
+          if ($scope.model.emailAAgregar == null || $scope.model.emailAAgregar.indexOf('econo.unlp.edu.ar') != -1) {
             return;
           }
 
@@ -176,13 +178,7 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
           correo.$save({uid:$scope.model.usuario.id},
             function(c) {
               $scope.model.emailAAgregar = '';
-              $scope.res.Correo.query({uid:$scope.model.usuario.id}, function(cs) {
-                $scope.model.correos = cs;
-                //$scope.recargar();
-                $timeout(function() {
-                  $scope.enviarConfirmarTodosLosCorreos();
-                });
-              });
+              $scope.obtener_correos_usuario();
             },
             function(err) {
               console.log(err);
@@ -251,14 +247,18 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
            $scope.model.usuario = u;
          });
 
+         $scope.obtener_correos_usuario();
 
+        $scope._cargar_url_avatar();
+        $state.go('perfil.editar_perfil', {uid:$stateParams['uid']});
+      }
+
+
+      $scope.obtener_correos_usuario = function() {
         $scope.res.Correo.query({uid:$stateParams['uid']}, function(ms) {
            console.log(ms);
            $scope.model.correos = ms;
         });
-
-        $scope._cargar_url_avatar();
-        $state.go('perfil.editar_perfil', {uid:$stateParams['uid']});
       }
 
       $scope._inicializar();

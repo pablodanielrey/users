@@ -191,7 +191,9 @@ class UsersModel:
             return
         usuario = session.query(Usuario).filter(Usuario.id == uid).one()
         mail = Mail(email=datos['email'].lower())
+        mail.id = str(uuid.uuid4())
         usuario.mails.append(mail)
+        return mail.id
 
     @classmethod
     def eliminar_correo(cls, session, cid):
