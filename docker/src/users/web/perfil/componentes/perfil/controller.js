@@ -128,7 +128,7 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
             var m = $scope.model.correos[i];
             if (!$scope.esInstitucional(m) && !$scope.seEnvioCodigo(m) && !$scope.estaConfirmado(m)) {
               $timeout(function() {
-                $scope.enviarConfirmarCorreo($scope.model.correos[i]);
+                $scope.enviarConfirmarCorreo(m);
               },5);
             }
           }
