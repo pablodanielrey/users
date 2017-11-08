@@ -16,7 +16,7 @@ app.controller("PreloadCtrl", ["$scope", "$http", '$timeout', '$state', function
     .then(function(d) {
         $scope.view.progreso = 60;
         if (d.data.clave.debe_cambiarla) {
-          $state.go('cambio_clave_temporal');
+          $state.go('cambio_clave_temporal', {'uid':$scope.config.usuario.sub});
           return;
         }
 
