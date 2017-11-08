@@ -95,8 +95,10 @@ class UsersModel:
         if uclave:
             uclave.clave = clave
             uclave.actualizado = datetime.datetime.now()
+            uclave.debe_cambiarla = False
         else:
             uuclave = UsuarioClave(usuario_id=uid, nombre_de_usuario=dni, clave=clave)
+            uuclave.debe_cambiarla = False
             session.add(uuclave)
 
     @classmethod

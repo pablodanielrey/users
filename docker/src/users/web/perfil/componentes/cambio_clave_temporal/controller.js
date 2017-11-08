@@ -47,7 +47,7 @@ app.controller("CambioClaveTempCtrl", ["$scope", "$resource", "$timeout", '$stat
       $scope.config = c.data;
       var api = $scope.config.users_api_url;
       $scope.res.Clave = $resource(api + '/usuarios/:uid/claves/', {uid:$scope.config.usuario.sub});
-      //$state.go('cambio_clave_temporal.ingresar_clave');
+      $state.go('cambio_clave_temporal.ingresar_clave');
     },
     function(err) {
       console.log(err);
