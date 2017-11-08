@@ -188,9 +188,11 @@ class UsersModel:
     def agregar_correo(cls, session, uid, datos):
         assert 'email' in datos
         assert len(datos['email'].strip()) > 0
-        if (session.query(Mail).filter(Mail.usuario_id == uid, Mail.email == datos['email'], Mail.eliminado == None).count() >= 1):
+
+        mails = session.query(Mail).filter(Mail.usuario_id == uid, Mail.email == datos['email'], Mail.eliminado == None).order_by(Mail.creado.desc()).all()
+        for m in mails:
             ''' ya existe, no lo agrego pero no tiro error '''
-            return
+            return m.id
         usuario = session.query(Usuario).filter(Usuario.id == uid).one()
         mail = Mail(email=datos['email'].lower())
         mail.id = str(uuid.uuid4())

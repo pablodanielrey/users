@@ -32,6 +32,7 @@ app.controller("ConfigCorreoAlternativoCtrl", ["$scope", "$resource", "$timeout"
         $scope.correoPendiente = $scope._buscarCorreoPendiente($scope.view.correo, cc);
         if ($scope.correoPendiente == null) {
           console.log('no existen correos pendientes con ese email - redirigiendo /perfil');
+          $scope.go('preload');
           return;
         }
         $scope._enviarConfirmarCorreo($scope.correoPendiente);
