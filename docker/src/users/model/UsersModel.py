@@ -102,6 +102,23 @@ class UsersModel:
             session.add(uuclave)
 
     @classmethod
+    def generar_clave(cls, session, uid):
+        assert uid is not None
+        clave=str(uuid.uuid4()).replace('-','')[0:8]
+        uclave = session.query(UsuarioClave).filter(UsuarioClave.usuario_id == uid).one_or_none()
+        if uclave:
+            uclave.clave = clave
+            uclave.actualizado = datetime.datetime.now()
+            uclave.debe_cambiarla = True
+        else:
+            if session.query(Usuario).filter(Usuario.id == uid).count() <= 0:
+                raise UsersError(status_code=404)
+            uuclave = UsuarioClave(usuario_id=uid, nombre_de_usuario=dni, clave=clave)
+            uuclave.debe_cambiarla = True
+            session.add(uuclave)
+        return clave
+
+    @classmethod
     def actualizar_usuario(cls, session, uid, datos):
         import re
         g = re.match('((\w)*\s*)*', datos['nombre'])

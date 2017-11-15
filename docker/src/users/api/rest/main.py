@@ -161,6 +161,17 @@ def crear_clave(uid):
     finally:
         session.close()
 
+@app.route('/users/api/v1.0/generar_clave/<uid>', methods=['PUT','POST'])
+@jsonapi
+def generar_clave(uid):
+    session = Session()
+    try:
+        r = UsersModel.generar_clave(session, uid)
+        session.commit()
+        return jsonify({'uid':uid,'clave:': r})
+    finally:
+        session.close()
+
 
 '''
     para los chequeos de precondiciones
@@ -244,7 +255,7 @@ def agregar_correo(uid):
         session.commit()
         UsersModel.enviar_confirmar_correo(session, cid)
         session.commit()
-        
+
     except Exception as e:
         logging.exception(e)
         raise e
