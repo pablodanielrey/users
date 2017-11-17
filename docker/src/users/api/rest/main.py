@@ -161,14 +161,14 @@ def crear_clave(uid):
     finally:
         session.close()
 
-@app.route('/users/api/v1.0/generar_clave/<uid>', methods=['PUT','POST'])
+@app.route('/users/api/v1.0/generar_clave/<uid>', methods=['GET'])
 @jsonapi
 def generar_clave(uid):
     session = Session()
     try:
         r = UsersModel.generar_clave(session, uid)
         session.commit()
-        return jsonify({'uid':uid,'clave:': r})
+        return {'uid':uid,'clave:': r}
     finally:
         session.close()
 
