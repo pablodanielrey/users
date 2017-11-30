@@ -7,7 +7,7 @@ logging.getLogger().setLevel(logging.DEBUG)
 
 from sqlalchemy import or_, and_
 
-from . import Session, UsersModel, obtener_template, enviar_correo
+from . import Session, UsersModel, obtener_template, enviar_correo, sincronizar_usuario
 from .exceptions import *
 from .JWTModel import JWTModel
 from .entities import *
@@ -215,11 +215,19 @@ class ResetClaveModel:
         try:
             usuario = UsersModel.usuario(session, dni=dni)
             UsersModel.cambiar_clave(session, usuario.id, clave)
+            session.commit()
         except UsersError as e1:
             logging.debug(e1)
             raise e1
         except Exception as e:
             logging.debug(e)
             raise ClaveError()
+
+        """
+        try:
+            sincronizar_usuario(usuario.id)
+        except Exception as e:
+            logging.debug(e)
+        """
 
         return { 'estado': 'ok', 'mensaje': 'contraseña cambiada con éxito', 'codigo': 0 }

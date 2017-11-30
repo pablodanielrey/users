@@ -9,7 +9,7 @@ from sqlalchemy.orm import sessionmaker
 from model_utils import Base
 from .entities import *
 
-
+GOOGLE_API = os.environ['GOOGLE_API_URL']
 EMAILS_API_URL = os.environ['EMAILS_API_URL']
 
 engine = create_engine('postgresql://{}:{}@{}:5432/{}'.format(
@@ -34,6 +34,13 @@ def enviar_correo(de, para, asunto, cuerpo):
     bcuerpo = base64.urlsafe_b64encode(cuerpo.encode('utf-8')).decode()
     r = requests.post(EMAILS_API_URL + '/correos/', json={'sistema':'users', 'de':de, 'para':para, 'asunto':asunto, 'cuerpo':bcuerpo})
     return r
+
+def sincronizar_usuario(uid):
+    r = requests.get('{}{}{}'.format(GOOGLE_API, '/actualizar_usuarios/', uid))
+    if r.status_code != 200:
+        raise Exception()
+
+
 
 def crear_tablas():
     #engine.execute(CreateSchema('users'))

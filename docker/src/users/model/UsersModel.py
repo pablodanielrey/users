@@ -7,7 +7,7 @@ import requests
 from sqlalchemy import or_, and_
 from sqlalchemy.orm import joinedload, contains_eager
 
-from . import Session, obtener_template, enviar_correo
+from . import Session, obtener_template, enviar_correo, sincronizar_usuario
 from .exceptions import *
 from .entities import *
 
@@ -100,6 +100,15 @@ class UsersModel:
             uuclave = UsuarioClave(usuario_id=uid, nombre_de_usuario=dni, clave=clave)
             uuclave.debe_cambiarla = False
             session.add(uuclave)
+
+        session.commit()
+
+        """
+        try:
+            sincronizar_usuario(uclave.usuario_id)
+        except Exception as e:
+            logging.debug(e)
+        """
 
     @classmethod
     def generar_clave(cls, session, uid):
