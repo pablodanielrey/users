@@ -1,6 +1,8 @@
 import os
 import base64
 import requests
+import logging
+import threading
 
 from sqlalchemy import create_engine
 from sqlalchemy.schema import CreateSchema
@@ -9,7 +11,7 @@ from sqlalchemy.orm import sessionmaker
 from model_utils import Base
 from .entities import *
 
-GOOGLE_API = os.environ['GOOGLE_API_URL']
+GOOGLE_API_URL = os.environ['GOOGLE_API_URL']
 EMAILS_API_URL = os.environ['EMAILS_API_URL']
 
 engine = create_engine('postgresql://{}:{}@{}:5432/{}'.format(
@@ -36,10 +38,25 @@ def enviar_correo(de, para, asunto, cuerpo):
     return r
 
 def sincronizar_usuario(uid):
-    r = requests.get('{}{}{}'.format(GOOGLE_API, '/actualizar_usuarios/', uid))
-    if r.status_code != 200:
-        raise Exception()
+    t = Sincronizador(uid)
+    t.start()
 
+def sincronizar_usuario_interno(uid):
+    url = '{}{}{}'.format(GOOGLE_API_URL, '/actualizar_usuarios/', uid)
+    logging.info('sincronizar google - {}'.format(url))
+    r = requests.get(url)
+    if r.status_code != 200:
+        logging.info(r)
+    logging.info(r.content)
+    logging.info('fin sincronizar google')
+
+class Sincronizador(threading.Thread):
+   def __init__(self, uid):
+      threading.Thread.__init__(self)
+      self.uid = uid
+
+   def run(self):
+       sincronizar_usuario_interno(self.uid)
 
 
 def crear_tablas():

@@ -3,6 +3,7 @@ import uuid
 import datetime
 import base64
 import requests
+import logging
 
 from sqlalchemy import or_, and_
 from sqlalchemy.orm import joinedload, contains_eager
@@ -103,12 +104,10 @@ class UsersModel:
 
         session.commit()
 
-        """
         try:
             sincronizar_usuario(uclave.usuario_id)
         except Exception as e:
             logging.debug(e)
-        """
 
     @classmethod
     def generar_clave(cls, session, uid):

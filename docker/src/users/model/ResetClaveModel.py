@@ -223,11 +223,9 @@ class ResetClaveModel:
             logging.debug(e)
             raise ClaveError()
 
-        """
         try:
             sincronizar_usuario(usuario.id)
         except Exception as e:
             logging.debug(e)
-        """
 
         return { 'estado': 'ok', 'mensaje': 'contraseña cambiada con éxito', 'codigo': 0 }
