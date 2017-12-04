@@ -42,7 +42,7 @@ def sincronizar_usuario(uid):
     t.start()
 
 def sincronizar_usuario_interno(uid):
-    url = '{}{}{}'.format(GOOGLE_API_URL, '/actualizar_usuarios/', uid)
+    url = '{}{}{}'.format(GOOGLE_API_URL, '/google_usuario/', uid)
     logging.info('sincronizar google - {}'.format(url))
     r = requests.get(url)
     if r.status_code != 200:
