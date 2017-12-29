@@ -11,12 +11,13 @@ with open('/tmp/client_secrets.json','w') as f:
     import json
     json.dump({"web": {
       "client_id":"users",
-      "client_secret":"consumer-secret",
-      "auth_uri": os.environ['LOGIN_OIDC_URL'] + "/authorization",
+      "client_secret":"users-secret",
+      "auth_uri": os.environ['LOGIN_OIDC_URL'] + "/auth",
       "token_uri": os.environ['LOGIN_OIDC_URL'] + "/token",
       "userinfo_uri": os.environ['LOGIN_OIDC_URL'] + "/userinfo",
       "issuer": os.environ['LOGIN_OIDC_ISSUER'],
-      "redirect_uris": os.environ['USERS_URL'] + "/oidc_callback"
+      #"redirect_uris": os.environ['USERS_URL'] + "/oauth2"
+      "redirect_uris": "https://usuarios.dominio/oauth2"
     }}, f)
 
 
@@ -40,7 +41,7 @@ app.config['OIDC_VALID_ISSUERS'] = [os.environ['LOGIN_OIDC_ISSUER']]
 app.config['OIDC_RESOURCE_CHECK_AUD'] = False
 app.config['OIDC_INTROSPECTION_AUTH_METHOD'] = 'client_secret_post'
 app.config['OIDC_ID_TOKEN_COOKIE_NAME'] = 'oidc'
-app.config['OIDC_ID_TOKEN_COOKIE_DOMAIN'] = '.econo.unlp.edu.ar'
+app.config['OIDC_ID_TOKEN_COOKIE_DOMAIN'] = 'dominio'
 app.config['OIDC_USER_INFO_ENABLED'] = True
 app.config['OIDC_SCOPES'] = ['openid','email','phone','profile','address','econo']
 
