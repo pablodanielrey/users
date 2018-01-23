@@ -1,0 +1,48 @@
+<div class="ingrese_clave fdc fac">
+  <div class="subContenedor fdc fac">
+      <div class="fdc fac">
+          <div>
+              <p>¿Haz olvidado tu contraseña?</p>
+              <h2>Recuperar contraseña</h2>
+          </div>
+      </div>
+      <div class="fdr fac">
+        <div class="linea colorActivo"></div>
+        <i class="material-icons colorActivo2">looks_one</i>
+        <div class="linea colorActivo"></div>
+        <i class="material-icons colorActivo2">looks_two</i>
+        <div class="linea colorActivo"></div>
+        <i class="material-icons colorActivo2">looks_3</i>
+        <div class="linea colorDesactivado"></div>
+        <i class="material-icons colorDesactivado2">looks_4</i>
+        <div class="linea colorDesactivado"></div>
+      </div>
+      <div class="formularioCodigo fdc fac">
+          <h4>Ingrese Contraseña</h4>
+          <div class="contenetInputClave fdr fac">
+              <input type='{{view.tipo}}' ng-model='view.clave1' class="inputClave">
+              <md-button class="md-icon-button md-primary" ng-click='cambiarTipo()'>
+                <i ng-if='view.tipo == "password"' class="material-icons">visibility</i>
+                <i ng-if='view.tipo == "text"' class="material-icons">visibility_off</i>
+              </md-button>
+          </div>
+          <div class="contenetInputClave fdr fac">
+              <input type='{{view.tipo}}' ng-model='view.clave2' class="inputClave">
+              <md-button class="md-icon-button md-primary" ng-click='cambiarTipo()'>
+                <i ng-if='view.tipo == "password"' class="material-icons">visibility</i>
+                <i ng-if='view.tipo == "text"' class="material-icons">visibility_off</i>
+              </md-button>
+          </div>
+          <div ng-if='view.clave1 != view.clave2' class='error'>Claves no son iguales</div>
+          <md-button class="md-raised md-primary btnSistema" ng-click='cambiarClave()'>Siguiente</md-button>
+      </div>
+      <div class="requisitosClave">
+          <b><i class="fa fa-info-circle" aria-hidden="true"></i></b> Requisitos de contraseña:<br>
+          <div class=requisitosContrasena>
+            <i class="fa fa-angle-right" aria-hidden="true"></i> Tener una longitud mínima de 8 caracteres.<br>
+            <i class="fa fa-angle-right" aria-hidden="true"></i> Estar compuesta de forma alfanumérica<br>
+            (letras y números)
+          </div>
+      </div>
+  </div>
+</div>

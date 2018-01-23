@@ -1,0 +1,14 @@
+.cambioDeClave {
+  height: 100%;
+}
+
+.cambioDeclave {
+}
+
+.cambioDeclave .form-group {
+ margin-bottom: 5px !important;
+}
+
+.cambioDeclave .contenedorErrorInterno {
+  color: #F44336;
+}

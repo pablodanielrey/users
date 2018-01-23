@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Usuarios FCE</title>
+  <meta name="viewport" content="width=device-width" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+  <!-- Angular JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-resource.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-aria.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.js"></script>
+  <!-- Angular Material -->
+  <script src="https://gitcdn.link/repo/angular/bower-material/master/angular-material.js"></script>
+  <link rel="stylesheet" href="https://gitcdn.link/repo/angular/bower-material/master/angular-material.css"/>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Bootstrap -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <!-- Awesome Iconos -->
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <!-- Fuentes Google -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+
+  <!-- Modulos Basicos -->
+  <script src='module.js'></script>
+  <script src="index.js"></script>
+  <link rel="stylesheet" type="text/css" href="index.css">
+  <script src='componentes/header/controller.js'></script>
+  <link rel="stylesheet" type="text/css" href="componentes/header/style.css">
+  <script src='componentes/footer/controller.js'></script>
+  <link rel="stylesheet" type="text/css" href="componentes/footer/style.css">
+  <script src='componentes/preload/controller.js'></script>
+  <link rel="stylesheet" type="text/css" href="componentes/preload/style.css">
+  <link rel="stylesheet" type="text/css" href="css/fce.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+
+  <!-- Componentes del Sistema -->
+
+  <script src='componentes/perfil/controller.js'></script>
+  <link rel="stylesheet" type="text/css" href="componentes/perfil/style.css">
+
+  <script src='https://unpkg.com/node-forge@0.7.0/dist/forge.min.js'></script>
+  <script src="libs/ng-img-crop.js"></script>
+  <script src="libs/ng-file-upload-all.js"></script>
+
+  <script src='componentes/config_correo_alternativo/controller.js'></script>
+  <link rel="stylesheet" type="text/css" href="componentes/config_correo_alternativo/style.css">
+
+  <script src='componentes/cambio_clave_temporal/controller.js'></script>
+  <link rel="stylesheet" type="text/css" href="componentes/cambio_clave_temporal/style.css">
+
+  <script src='componentes/cambio_clave/controller.js'></script>
+  <link rel="stylesheet" type="text/css" href="componentes/cambio_clave/style.css">
+
+
+</head>
+
+<body ng-app="MainApp" ng-controller="IndexCtrl">
+  <div class='sistema'>
+    <header class='cabecera' ng-include="'componentes/header/index.html'" ng-controller="HeaderCtrl"></header>
+    <main class='contenido' ui-view></main>
+    <footer class='pie fdr fac' ng-include="'componentes/footer/index.html'" ng-controller="FooterCtrl"></header>
+  </div>
+
+</body>
+</html>
