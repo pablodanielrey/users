@@ -1,4 +1,0 @@
-https://github.com/intelie/python-openidconnect
-
-este me gusto:
-https://github.com/SUNET/pyop
