@@ -1,21 +1,5 @@
 app = angular.module('MainApp', ['ui.router', 'ngResource','ngFileUpload', 'ngImgCrop' ,'ngMaterial', 'ui.bootstrap'])
 
-app.run(['$rootScope', '$injector', function($rootScope, $injector) {
-    $injector.get("$http").defaults.transformRequest = function(data, headersGetter, status) {
-      console.log('logueando requerimiento http');
-      console.log(data);
-      return data;
-      /*
-      if (sessionService.isLogged()) {
-        headersGetter()['Authorization'] = "Bearer " + sessionService.getAccessToken();
-      }
-      if (data) {
-        return angular.toJson(data);
-      };
-      */
-    };
-}]);
-
 app.config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('blue')
@@ -206,3 +190,46 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 app.config(['$resourceProvider', function($resourceProvider) {
   $resourceProvider.defaults.stripTrailingSlashes = false;
 }]);
+
+
+/*
+  https://jeremymarc.github.io/2014/08/14/oauth2-with-angular-the-right-way
+
+  parche para manejar el tema de autentificación en angular1.
+  algo simple pero que resuelve el problema.
+*/
+
+app.run(['$rootScope', '$injector', function($rootScope, $injector) {
+    $injector.get("$http").defaults.transformRequest = function(data, headersGetter, status) {
+      if (sessionService.isLogged()) {
+        headersGetter()['Authorization'] = "Bearer " + sessionService.getAccessToken();
+      }
+      if (data) {
+        return angular.toJson(data);
+      };
+    };
+}]);
+
+app.factory('authHttpResponseInterceptor', function($q, $location, sessionService, $http) {
+  return {
+    response: function(response) {
+      return response || $q.when(response);
+    },
+    responseError: function(rejection) {
+      if (rejection.status === 401) {
+        var token = $rootScope.refresh_token;
+
+        authFactory.save({
+          client_id: 'client_id',
+          grant_type: 'refresh_token',
+          // refresh_token: token, sent with the encrypted cookie
+        }, function(obj) {
+          //update access_token
+        }, function() {
+          //redirect to login page
+         });
+      }
+      return $q.reject(rejection);
+     }
+  }
+});
