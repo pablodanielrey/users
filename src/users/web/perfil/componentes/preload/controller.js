@@ -12,7 +12,8 @@ app.controller("PreloadCtrl", ["$scope", "$http", '$timeout', '$state', function
 
     // chequeo la clave
     $scope.view.progreso = 30;
-    $http.get(api + '/usuarios/' + $scope.config.usuario.sub + '/precondiciones')
+    //$http.get(api + '/usuarios/' + $scope.config.usuario.sub + '/precondiciones')
+    $http.get(api + '/usuarios/sdfdsfs/precondiciones')
     .then(function(d) {
         $scope.view.progreso = 60;
         if (d.data.clave.debe_cambiarla) {

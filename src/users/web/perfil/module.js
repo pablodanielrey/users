@@ -1,5 +1,21 @@
 app = angular.module('MainApp', ['ui.router', 'ngResource','ngFileUpload', 'ngImgCrop' ,'ngMaterial', 'ui.bootstrap'])
 
+app.run(['$rootScope', '$injector', function($rootScope, $injector) {
+    $injector.get("$http").defaults.transformRequest = function(data, headersGetter, status) {
+      console.log('logueando requerimiento http');
+      console.log(data);
+      return data;
+      /*
+      if (sessionService.isLogged()) {
+        headersGetter()['Authorization'] = "Bearer " + sessionService.getAccessToken();
+      }
+      if (data) {
+        return angular.toJson(data);
+      };
+      */
+    };
+}]);
+
 app.config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('blue')

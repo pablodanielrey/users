@@ -11,7 +11,7 @@
 
 from setuptools import setup, find_packages
 
-setup(name='users',
+setup(name='users-ui',
           version='1.0.1.alpha0',
           description='Proyecto que maneja el equema de usuarios de los sistemas',
           url='https://github.com/pablodanielrey/users',
