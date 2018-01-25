@@ -13,18 +13,6 @@ app.controller("IndexCtrl", ["$scope", "$http", '$location', 'sessionService', f
     $scope.$broadcast('config', null);
   });
 
-
-  var data = $location.hash();
-  if (data.includes('access_token')) {
-    sessionService.config(data);
-  }
-  /*var data = {
-    acces_token: $stateParams['acces_token'],
-    expires_in: $stateParams['expires_in'],
-    state: $stateParams['state'],
-    token_type: $stateParams['token_type'],
-    scope: $stateParams['scope']
-  };*/
-  sessionService.redirect();
+  sessionService.init();
 
 }]);
