@@ -1,6 +1,6 @@
 
 //Controlador Indice
-app.controller("IndexCtrl", ["$scope", "$http", function ($scope, $http) {
+app.controller("IndexCtrl", ["$scope", "$http", '$location', 'sessionService', function ($scope, $http, $location, sessionService) {
 
   $scope.config = {};
 
@@ -12,5 +12,19 @@ app.controller("IndexCtrl", ["$scope", "$http", function ($scope, $http) {
     $scope.config = c.data;
     $scope.$broadcast('config', null);
   });
+
+
+  var data = $location.hash();
+  if (data.includes('access_token')) {
+    sessionService.config(data);
+  }
+  /*var data = {
+    acces_token: $stateParams['acces_token'],
+    expires_in: $stateParams['expires_in'],
+    state: $stateParams['state'],
+    token_type: $stateParams['token_type'],
+    scope: $stateParams['scope']
+  };*/
+  sessionService.redirect();
 
 }]);

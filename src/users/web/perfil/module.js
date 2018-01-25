@@ -199,17 +199,54 @@ app.config(['$resourceProvider', function($resourceProvider) {
   algo simple pero que resuelve el problema.
 */
 
-app.run(['$rootScope', '$injector', function($rootScope, $injector) {
-    $injector.get("$http").defaults.transformRequest = function(data, headersGetter, status) {
-      if (sessionService.isLogged()) {
-        headersGetter()['Authorization'] = "Bearer " + sessionService.getAccessToken();
-      }
-      if (data) {
-        return angular.toJson(data);
-      };
-    };
+
+app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+
+  $stateProvider
+  .state('oauth', {
+    url:'/oauth',
+    controller:'OAuthCtrl'
+  })
+
 }]);
 
+
+app.factory('sessionService', ['$state', function($state) {
+  var service = {
+    data: {
+      access_token: '',
+      expires_in: 0,
+      state: '',
+      token_type: '',
+      scope: ''
+    },
+    config: function(config) {
+      var params = {};
+      var t = config.split('&');
+      for (var i = 0; i < t.length; i++) {
+         var param  = t[i].split('=');
+         var key    = param[0];
+         var value  = param[1];
+         params[key] = value;
+       }
+      service.data = params;
+    },
+    redirect: function() {
+      if (!service.isLogged()) {
+        window.location = 'https://oidp.econo.unlp.edu.ar/oauth2/auth?client_id=users-ui&response_type=token&state=algodeestado';
+      }
+    },
+    isLogged: function() {
+      return service.data.access_token != undefined && service.data.access_token != '';
+    },
+    getAccessToken: function() {
+      return service.data.access_token;
+    }
+  }
+  return service;
+}]);
+
+/*
 app.factory('authHttpResponseInterceptor', function($q, $location, sessionService, $http) {
   return {
     response: function(response) {
@@ -233,3 +270,52 @@ app.factory('authHttpResponseInterceptor', function($q, $location, sessionServic
      }
   }
 });
+*/
+
+app.factory('OauthHttpInterceptor', ['sessionService', function(sessionService) {
+  return {
+    'request': function(config) {
+      if (sessionService.isLogged()) {
+        config.headers['Authorization'] = "Bearer " + sessionService.getAccessToken();
+      } else {
+        sessionService.redirect();
+      }
+      return config;
+    }
+  };
+}]);
+
+
+app.config(['$httpProvider', function($httpProvider) {
+    $httpProvider.interceptors.push('OauthHttpInterceptor');
+}]);
+
+app.controller("OAuthCtrl", ["sessionService", '$state', '$stateParams', function (sessionService, $state, $stateParams) {
+
+  var data = {
+    acces_token: $stateParams['acces_token'],
+    expires_in: $stateParams['expires_in'],
+    state: $stateParams['state'],
+    token_type: $stateParams['token_type'],
+    scope: $stateParams['scope']
+  };
+  sessionService.config(data);
+  //sessionService.redirect();
+
+}]);
+
+
+
+/*
+app.run(['$rootScope', '$injector', 'sessionService', function($rootScope, $injector, sessionService) {
+    $injector.get("$http").defaults.transformRequest = function(data, headersGetter, status) {
+      if (sessionService.isLogged()) {
+        headersGetter()['x-algo'] = 'algo agregado';
+        headersGetter()['Authorization'] = "Bearer " + sessionService.getAccessToken();
+      }
+      if (data) {
+        return angular.toJson(data);
+      };
+    };
+}]);
+*/
