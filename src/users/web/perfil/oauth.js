@@ -42,7 +42,9 @@ app.factory('sessionService', ['$location', function($location) {
       }
     },
     logout: function() {
-      $http.get('https://consent.econo.unlp.edu.ar/logout');
+      $http.get('https://consent.econo.unlp.edu.ar/logout').then(function(d) {
+        console.log(d);
+      });
     },
     isLogged: function() {
       return service.data.access_token != undefined && service.data.access_token != '';
