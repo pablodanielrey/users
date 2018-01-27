@@ -15,10 +15,12 @@ app.factory('sessionService', ['$location', function($location) {
       token_type: '',
       scope: ''
     },
+
     init: function() {
       service.processUrl();
       service.redirect();
     },
+
     config: function(config) {
       var params = {};
       var t = config.split('&');
@@ -30,27 +32,54 @@ app.factory('sessionService', ['$location', function($location) {
        }
       service.data = params;
     },
+
     processUrl: function() {
       var data = $location.hash();
       if (data.includes('access_token')) {
         service.config(data);
       }
     },
+
     redirect: function() {
       if (!service.isLogged()) {
-        window.location = 'https://oidp.econo.unlp.edu.ar/oauth2/auth?client_id=users-ui&response_type=token&state=algodeestado';
+        window.location = service.getAuthOIDCUrl();
       }
     },
+
     logout: function() {
       $http.get('https://consent.econo.unlp.edu.ar/logout').then(function(d) {
         console.log(d);
       });
     },
+
     isLogged: function() {
       return service.data.access_token != undefined && service.data.access_token != '';
     },
+
     getAccessToken: function() {
       return service.data.access_token;
+    },
+
+    getAuthOauthUrl: function() {
+      return 'https://oidp.econo.unlp.edu.ar/oauth2/auth?client_id=users-ui&response_type=token&state=algodeestado';
+    },
+
+    getAuthOIDCUrl: function() {
+      var params = {
+        'client_id': 'users-ui',
+        'response_type': 'id_token token',
+        'redirect_uri': 'https://usuarios.econo.unlp.edu.ar',
+        'scope': 'openid profile email',
+        'state': 'openidstatealgorandom',
+        'nonce': 'algorandomageneraryguardarenelservice'
+      };
+      var p = '';
+      for (var k in params) {
+        p = p + k + '=' + params[k] + '&';
+      };
+      console.log(p);
+      //return 'https://oidp.econo.unlp.edu.ar/oauth2/auth?' + 'client_id=users-ui&response_type=id_token token&redirect_uri=https://usuarios.econo.unlp.edu.ar&scope=openid profile email&state=sdfdsfdsdfssalgo&nonce=23f3f323f3algo2';
+      return 'https://oidp.econo.unlp.edu.ar/oauth2/auth?' + p;
     }
   }
   return service;
