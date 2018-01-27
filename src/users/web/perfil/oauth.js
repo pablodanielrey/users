@@ -31,6 +31,10 @@ app.factory('sessionService', ['$location', function($location) {
          params[key] = value;
        }
       service.data = params;
+      if (params.id_token != undefined) {
+        var token = params.id_token.split('.');
+        service.id_token_decoded = atob(token[1]);
+      }
     },
 
     processUrl: function() {
