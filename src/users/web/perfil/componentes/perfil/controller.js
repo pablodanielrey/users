@@ -1,5 +1,5 @@
-app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$window", "Upload", "$state", '$stateParams',
-   function ($scope, $location, $resource, $timeout, $window, Upload, $state, $stateParams) {
+app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$window", "Upload", "$state", '$stateParams', 'sessionService',
+   function ($scope, $location, $resource, $timeout, $window, Upload, $state, $stateParams, sessionService) {
 
         $scope.res = {
           Usuario: null,
@@ -196,29 +196,9 @@ app.controller("PerfilCtrl", ["$scope", "$location", "$resource", "$timeout", "$
 
           $scope.cargando();
 
-          // chequeo si tengo cargada la config del sistema.
-          if ($scope.config.usuario == undefined) {
-            $scope.$parent.obtener_config().then(
-              function(c) {
-                console.log(c.data.usuario);
-                $scope.config = c.data;
-
-                $scope.inicializando = false;
-                $state.go('perfil', {uid: $scope.config.usuario.sub}, {reload: true});
-              },
-              function(err) {
-                console.log(err);
-                $scope.inicializando = false;
-                $scope.setearError(err.data);
-              }
-            );
-            return;
-          }
-
-          // el estado debe tener el uid como parámetro
-          if ($stateParams.uid == '') {
-            $state.go('perfil', {uid: $scope.config.usuario.sub}, {reload: true});
-            return;
+          if ($stateParams.uid == undefined) {
+            $scope.inicializando = false;
+            $state.go('perfil', {uid: sessionService.getConfig().id_token_decoded.sub}, {reload: true});
           }
 
           // defino los recursos a usar
