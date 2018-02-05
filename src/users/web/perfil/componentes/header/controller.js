@@ -11,7 +11,7 @@ app.controller("HeaderCtrl", ["$scope", "$location", "$resource", "$timeout", "$
   }
 
   $scope.salir = function() {
-    $window.location.href = '/logout';
+    $window.location.href = 'https://consent.econo.unlp.edu.ar/logout';
   }
 
   $scope.$on('config', function(c) {
