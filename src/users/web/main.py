@@ -4,13 +4,16 @@ logging.basicConfig(level=logging.DEBUG)
 import os
 import flask
 from flask import Flask, request, send_from_directory, jsonify, redirect, url_for
+from werkzeug.contrib.fixers import ProxyFix
 from flask_jsontools import jsonapi
 
 # set the project root directory as the static folder, you can set others.
 app = Flask(__name__, static_url_path='/src/users/web')
+app.wsgi_app = ProxyFix(app.wsgi_app)
 app.debug = True
 app.config['SECRET_KEY'] = 'algo-secreto'
 app.config['SESSION_COOKIE_NAME'] = 'users_session'
+
 
 @app.route('/config.json', methods=['GET'])
 @jsonapi

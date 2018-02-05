@@ -1,5 +1,5 @@
 
-app.controller("HeaderCtrl", ["$scope", "$location", "$resource", "$timeout", "$window", "$state", function ($scope, $location, $resource, $tiemout, $window, $state) {
+app.controller("HeaderCtrl", ["$scope", "$location", "$resource", "$timeout", "$window", "$state", "sessionService", function ($scope, $location, $resource, $tiemout, $window, $state, sessionService) {
 
   $scope.view = {
     logo: '/img/usersico.gif',
@@ -7,7 +7,8 @@ app.controller("HeaderCtrl", ["$scope", "$location", "$resource", "$timeout", "$
   };
 
   $scope.cambiarClave = function() {
-    $state.go('cambio_clave',{uid:$scope.view.usuario.sub});
+    console.log(sessionService.getConfig());
+    $state.go('cambio_clave',{uid:sessionService.getConfig().id_token_decoded.sub});
   }
 
   $scope.salir = function() {

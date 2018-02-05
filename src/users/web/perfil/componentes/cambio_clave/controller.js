@@ -1,5 +1,5 @@
 
-app.controller("CambioClaveCtrl", ["$scope", "$resource", "$timeout", '$state', '$stateParams', function ($scope, $resource, $timeout, $state, $stateParams) {
+app.controller("CambioClaveCtrl", ["$scope", "$resource", "$timeout", '$state', '$stateParams', "sessionService", function ($scope, $resource, $timeout, $state, $stateParams, sessionService) {
 
   $scope.res = { };
   $scope.view = {
@@ -25,7 +25,7 @@ app.controller("CambioClaveCtrl", ["$scope", "$resource", "$timeout", '$state', 
   }
 
   $scope.editarPerfil = function() {
-    $state.go('perfil.editar_perfil', {'uid':$scope.config.usuario.sub});
+    $state.go('perfil.editar_perfil', {'uid':sessionService.getConfig().id_token_decoded.sub});
   }
 
   $scope.setearError = function(err) {
@@ -39,7 +39,7 @@ app.controller("CambioClaveCtrl", ["$scope", "$resource", "$timeout", '$state', 
       return;
     }
     var c = new $scope.res.Clave({clave:$scope.view.clave1});
-    c.$save({uid:$scope.config.usuario.sub}, function(c2) {
+    c.$save({uid:sessionService.getConfig().id_token_decoded.sub}, function(c2) {
       $scope.view.clave1 = '';
       $scope.view.clave2 = '';
       $state.go('cambio_clave.cambio_exitoso');
@@ -50,19 +50,10 @@ app.controller("CambioClaveCtrl", ["$scope", "$resource", "$timeout", '$state', 
   }
 
   // inicializar
-  $scope.$parent.obtener_config().then(
-    function(c) {
-      $scope.config = c.data;
-      $scope.view.usuario = c.data.usuario;
-      var api = $scope.config.users_api_url;
-      $scope.res.Clave = $resource(api + '/usuarios/:uid/claves/', {uid:$scope.config.usuario.sub});
-      $state.go('cambio_clave.ingresar_clave');
-    },
-    function(err) {
-      console.log(err);
-      $scope.setearError(err.data);
-    }
-  );
+  $scope.view.usuario = sessionService.getConfig().id_token_decoded;
+  var api = $scope.config.users_api_url;
+  $scope.res.Clave = $resource(api + '/usuarios/:uid/claves/', {uid:sessionService.getConfig().id_token_decoded.sub});
+  $state.go('cambio_clave.ingresar_clave');
 
 
 }]);
